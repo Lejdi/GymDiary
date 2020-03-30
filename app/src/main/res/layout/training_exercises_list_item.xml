@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/exercise_listitem_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        tools:text="Exercise name" />
+
+    <ImageView
+        android:id="@+id/exercise_listitem_weight_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exercise_listitem_name"
+        android:layout_marginStart="40dp"
+        android:src="@android:drawable/gallery_thumb"/>
+
+    <TextView
+        android:id="@+id/exercise_listitem_weight_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@id/exercise_listitem_weight_img"
+        app:layout_constraintTop_toBottomOf="@id/exercise_listitem_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        tools:text="0 kg" />
+
+    <ImageView
+        android:id="@+id/exercise_listitem_repetitions_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@id/exercise_listitem_weight_text"
+        app:layout_constraintTop_toBottomOf="@id/exercise_listitem_name"
+        android:layout_marginStart="40dp"
+        android:src="@android:drawable/gallery_thumb"/>
+
+    <TextView
+        android:id="@+id/exercise_listitem_repetitions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@id/exercise_listitem_repetitions_img"
+        app:layout_constraintTop_toBottomOf="@id/exercise_listitem_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        tools:text="0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
