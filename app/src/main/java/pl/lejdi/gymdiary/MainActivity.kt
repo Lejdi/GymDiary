@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.new_exercise -> {
-                Toast.makeText(this,"Item Clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Item Clicked",Toast.LENGTH_SHORT).show()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
