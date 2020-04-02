@@ -15,7 +15,7 @@ class SetListAdapter constructor(private var mValues: List<Set>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.training_exercises_list_item, parent, false))
+                .inflate(R.layout.set_list_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
