@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "sets")
-class Set(@PrimaryKey(autoGenerate = true) val id : Int,
+class Set(@ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id : Int,
           @ColumnInfo(name = "trainingid") val trainingID : Int,
           @ColumnInfo(name = "exerciseid") val exerciseID : Int,
           @ColumnInfo(name = "repetitions") val repetitions : Int,

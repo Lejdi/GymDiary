@@ -10,7 +10,7 @@ interface TrainingDAO {
     fun insertTraining(vararg training : Training)
 
     @Delete
-    fun deleteTraining(id : Int)
+    fun deleteTraining(training : Training)
 
     @Update
     fun updateTraining(training: Training)

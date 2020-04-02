@@ -1,18 +1,16 @@
 package pl.lejdi.gymdiary.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import pl.lejdi.gymdiary.database.model.Set
 
+@Dao
 interface SetDAO {
     @Insert
     fun insertSet(vararg set : Set)
 
     @Delete
-    fun deleteSet(id: Int)
+    fun deleteSet(set : Set)
 
     @Update
     fun updateSet(set: Set)

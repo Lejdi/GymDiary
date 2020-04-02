@@ -1,17 +1,20 @@
-package pl.lejdi.gymdiary
+package pl.lejdi.gymdiary.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import pl.lejdi.gymdiary.R
+import pl.lejdi.gymdiary.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val vm = MainViewModel(this)
+        vm.toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -40,19 +40,19 @@ class GymRepository internal constructor(context: Context){
         return database?.getSetDAO()?.getSet(id)
     }
 
-    fun deleteExercise(id : Int)
+    fun deleteExercise(exercise: Exercise)
     {
-        database?.getExerciseDAO()?.deleteExercise(id)
+        database?.getExerciseDAO()?.deleteExercise(exercise)
     }
 
-    fun deleteTraining(id : Int)
+    fun deleteTraining(training : Training)
     {
-        database?.getTrainingDAO()?.deleteTraining(id)
+        database?.getTrainingDAO()?.deleteTraining(training)
     }
 
-    fun deleteSet(id : Int)
+    fun deleteSet(set: Set)
     {
-        database?.getSetDAO()?.deleteSet(id)
+        database?.getSetDAO()?.deleteSet(set)
     }
 
     fun insertExercise(exercise: Exercise)
