@@ -11,8 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    AndroidSupportInjectionModule::class,
-    AppModule::class
+    AndroidSupportInjectionModule::class
 ])
 
 interface AppComponent : AndroidInjector<GymDiaryApplication>{
@@ -25,5 +24,6 @@ interface AppComponent : AndroidInjector<GymDiaryApplication>{
         fun build() : AppComponent
     }
 
-    fun inject(mainViewModel: MainViewModel)
+    fun viewModelComponent(viewModelModule : ViewModelModule) : ViewModelComponent
+    fun repositoryComponent(repositoryModule : RepositoryModule) : RepositoryComponent
 }
