@@ -6,6 +6,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import pl.lejdi.gymdiary.GymDiaryApplication
+import pl.lejdi.gymdiary.viewmodel.MainViewModel
 import javax.inject.Singleton
 
 @Singleton
@@ -23,4 +24,6 @@ interface AppComponent : AndroidInjector<GymDiaryApplication>{
 
         fun build() : AppComponent
     }
+
+    fun inject(mainViewModel: MainViewModel)
 }

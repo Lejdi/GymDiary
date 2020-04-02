@@ -1,11 +1,14 @@
 package pl.lejdi.gymdiary.viewmodel
 
-import android.content.Context
+import pl.lejdi.gymdiary.GymDiaryApplication
 import pl.lejdi.gymdiary.database.repository.GymRepository
+import javax.inject.Inject
 
-class MainViewModel(context: Context) {
+class MainViewModel {
+    @Inject
+    lateinit var repo : GymRepository
     init {
-        val repo = GymRepository(context)
+        GymDiaryApplication.component.inject(this)
         repo.getAllExercises()
     }
 }

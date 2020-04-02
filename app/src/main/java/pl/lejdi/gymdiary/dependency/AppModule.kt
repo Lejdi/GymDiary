@@ -9,19 +9,11 @@ import pl.lejdi.gymdiary.ui.MainActivity
 import javax.inject.Singleton
 
 @Module
-abstract class AppModule {
-
-    @ContributesAndroidInjector
-    abstract fun contributeMainActivity() : MainActivity
-/*
-    companion object{
-        @Singleton
-        @Provides
-        fun provideRepository(application: Application) : GymRepository
-        {
-            return GymRepository(application)
-        }
+class AppModule {
+    @Singleton
+    @Provides
+    fun provideRepository(application: Application) : GymRepository
+    {
+        return GymRepository(application)
     }
-
- */
 }
