@@ -13,4 +13,12 @@ class AddTrainingViewModel : MainViewModel() {
         result.value = currentDate
         return result
     }
+
+    fun saveNewTraining(date : String, description : String) : Boolean
+    {
+        if(date.isEmpty() || description.isEmpty())
+            return false
+        TODO("SAVE TO DB")
+        return true
+    }
 }
