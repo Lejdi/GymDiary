@@ -2,16 +2,17 @@ package pl.lejdi.gymdiary.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import pl.lejdi.gymdiary.R
+import pl.lejdi.gymdiary.viewmodel.AddTrainingViewModel
 import pl.lejdi.gymdiary.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var viewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
