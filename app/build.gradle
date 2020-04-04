@@ -57,15 +57,15 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.0'
 
     //Room
-    implementation "androidx.room:room-runtime:2.2.3"
-    kapt "androidx.room:room-compiler:2.2.3"
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
 
     //Dagger
-    implementation "com.google.dagger:dagger:2.22"
-    kapt "com.google.dagger:dagger-compiler:2.22"
-    implementation "com.google.dagger:dagger-android:2.22"
-    implementation "com.google.dagger:dagger-android-support:2.22"
-    kapt "com.google.dagger:dagger-android-processor:2.22"
+    implementation "com.google.dagger:dagger:2.27"
+    kapt "com.google.dagger:dagger-compiler:2.27"
+    implementation "com.google.dagger:dagger-android:2.27"
+    implementation "com.google.dagger:dagger-android-support:2.27"
+    kapt "com.google.dagger:dagger-android-processor:2.27"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     //Coroutines
