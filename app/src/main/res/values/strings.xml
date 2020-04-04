@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GymDiary</string>
+    <string-array name="types">
+        <item>Strength</item>
+        <item>Hypertrophy</item>
+        <item>Endurance</item>
+    </string-array>
 </resources>
