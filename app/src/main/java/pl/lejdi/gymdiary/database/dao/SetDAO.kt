@@ -16,8 +16,8 @@ interface SetDAO {
     fun updateSet(set: Set)
 
     @Query("SELECT * FROM sets")
-    fun getAllSets() : LiveData<List<Set>>
+    fun getAllSets() : List<Set>
 
     @Query("SELECT * FROM sets WHERE id = :id")
-    fun getSet(id : Int) : LiveData<Set>
+    fun getSet(id : Int) : Set
 }

@@ -19,12 +19,12 @@ class GymRepository{
         GymDiaryApplication.component.repositoryComponent(RepositoryModule()).inject(this)
     }
 
-    fun getAllExercises() : LiveData<List<Exercise>>?
+    fun getAllExercises() : List<Exercise>
     {
         return database.getExerciseDAO().getAllExercises()
     }
 
-    fun getExerciseByID(id : Int) : LiveData<Exercise>?
+    fun getExerciseByID(id : Int) : Exercise
     {
         return database.getExerciseDAO().getExercise(id)
     }
@@ -39,12 +39,12 @@ class GymRepository{
         return database.getTrainingDAO().getTraining(id)
     }
 
-    fun getAllSets() : LiveData<List<Set>>?
+    fun getAllSets() : List<Set>
     {
         return database.getSetDAO().getAllSets()
     }
 
-    fun getSetByID(id : Int) : LiveData<Set>?
+    fun getSetByID(id : Int) : Set
     {
         return database.getSetDAO().getSet(id)
     }

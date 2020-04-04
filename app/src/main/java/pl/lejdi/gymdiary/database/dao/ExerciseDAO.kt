@@ -16,8 +16,8 @@ interface ExerciseDAO {
     fun updateExercise(exercise: Exercise)
 
     @Query("SELECT * FROM exercises")
-    fun getAllExercises() : LiveData<List<Exercise>>
+    fun getAllExercises() : List<Exercise>
 
     @Query("SELECT * FROM exercises WHERE id = :id")
-    fun getExercise(id : Int) : LiveData<Exercise>
+    fun getExercise(id : Int) : Exercise
 }
