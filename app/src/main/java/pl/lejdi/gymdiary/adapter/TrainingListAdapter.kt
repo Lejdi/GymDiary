@@ -1,17 +1,28 @@
 package pl.lejdi.gymdiary.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.database.model.Training
+import pl.lejdi.gymdiary.ui.TrainingListFragment
+import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
 
-class TrainingListAdapter constructor(private var mValues: List<Training>,
+class TrainingListAdapter constructor(private val viewModel: TrainingListViewModel,
                                       private val mListener: OnListFragmentInteractionListener)
     : RecyclerView.Adapter<TrainingListAdapter.ViewHolder>() {
+
+    val mValues = MutableLiveData<List<Training>>()
+
+    init{
+        viewModel.trainings.observe(mListener as TrainingListFragment, Observer {
+            mValues.value=it
+        } )
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
@@ -19,22 +30,24 @@ class TrainingListAdapter constructor(private var mValues: List<Training>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val item = mValues.value!![position]
         holder.mItem = item
-        holder.date.setText(item.date)
-        holder.description.setText(item.description)
+        holder.date.text = item.date
+        holder.description.text = item.description
         holder.mView.setOnClickListener {
             mListener.onListFragmentClickInteraction(holder.mItem!!, position)
         }
     }
 
     override fun getItemCount(): Int {
-        return mValues.size
+        if(mValues.value?.size == null)
+            return 0
+        return mValues.value?.size!!
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val date : EditText = mView.findViewById(R.id.training_listitem_date)
-        val description : EditText = mView.findViewById(R.id.training_listitem_description)
+        val date : TextView = mView.findViewById(R.id.training_listitem_date)
+        val description : TextView = mView.findViewById(R.id.training_listitem_description)
         var mItem: Training? = null
     }
 

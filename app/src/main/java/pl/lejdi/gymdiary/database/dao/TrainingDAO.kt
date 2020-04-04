@@ -16,8 +16,8 @@ interface TrainingDAO {
     fun updateTraining(training: Training)
 
     @Query("SELECT * FROM trainings")
-    fun getAllTrainings() : LiveData<List<Training>>
+    fun getAllTrainings() : List<Training>
 
     @Query("SELECT * FROM trainings WHERE id = :id")
-    fun getTraining(id : Int) : LiveData<Training>
+    fun getTraining(id : Int) : Training
 }

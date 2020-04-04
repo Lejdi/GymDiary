@@ -52,11 +52,11 @@ class AddTrainingFragment : Fragment() {
         saveButton.setOnClickListener {
             if(viewModel.saveNewTraining(dateField.text.toString(), descriptionField.text.toString())){
                 Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
-                TODO("NAVIGATE TO TRAININGS LIST")
+
             }
             else {
                 Toast.makeText(activity,"Enter date and description", Toast.LENGTH_SHORT).show()
-                TODO("DIALOG INSTEAD OF TOAST")
+
             }
         }
     }

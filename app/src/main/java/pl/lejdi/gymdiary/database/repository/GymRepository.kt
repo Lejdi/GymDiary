@@ -1,5 +1,6 @@
 package pl.lejdi.gymdiary.database.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import pl.lejdi.gymdiary.GymDiaryApplication
 import pl.lejdi.gymdiary.database.GymDatabase
@@ -28,12 +29,12 @@ class GymRepository{
         return database.getExerciseDAO().getExercise(id)
     }
 
-    fun getAllTrainings() : LiveData<List<Training>>?
+    fun getAllTrainings() : List<Training>
     {
         return database.getTrainingDAO().getAllTrainings()
     }
 
-    fun getTrainingByID(id : Int) : LiveData<Training>?
+    fun getTrainingByID(id : Int) : Training
     {
         return database.getTrainingDAO().getTraining(id)
     }
