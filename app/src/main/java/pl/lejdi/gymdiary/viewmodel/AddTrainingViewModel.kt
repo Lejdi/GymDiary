@@ -24,12 +24,10 @@ class AddTrainingViewModel : MainViewModel() {
         if(date.isEmpty() || description.isEmpty())
             return false
         viewModelScope.launch {
-            addTraining(date, description)
+            withContext(Dispatchers.Default) {
+                repo.insertTraining(Training(0, date, description))
+            }
         }
         return true
-    }
-
-    suspend fun addTraining(date : String, description : String) = withContext(Dispatchers.Default){
-        repo.insertTraining(Training(0, date, description))
     }
 }

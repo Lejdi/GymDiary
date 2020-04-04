@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
@@ -19,6 +19,6 @@ class EditExerciseFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProviders.of(this).get(EditExerciseViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(EditExerciseViewModel::class.java)
     }
 }

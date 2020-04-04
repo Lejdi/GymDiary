@@ -24,9 +24,9 @@ class GymRepository{
         return database.getExerciseDAO().getAllExercises()
     }
 
-    fun getExerciseByID(id : Int) : Exercise
+    fun getExerciseByName(name : String) : Exercise
     {
-        return database.getExerciseDAO().getExercise(id)
+        return database.getExerciseDAO().getExercise(name)
     }
 
     fun getAllTrainings() : List<Training>

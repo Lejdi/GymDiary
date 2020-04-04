@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,7 +33,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProviders.of(this).get(TrainingListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TrainingListViewModel::class.java)
     }
 
     override fun onStart() {

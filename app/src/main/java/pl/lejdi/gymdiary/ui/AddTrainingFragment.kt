@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.viewmodel.AddTrainingViewModel
@@ -31,7 +31,7 @@ class AddTrainingFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProviders.of(this).get(AddTrainingViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AddTrainingViewModel::class.java)
     }
 
     override fun onStart() {
