@@ -4,22 +4,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.database.model.Set
+import pl.lejdi.gymdiary.ui.TrainingDetailsFragment
+import pl.lejdi.gymdiary.viewmodel.TrainingDetailsViewModel
 
-class SetListAdapter constructor(private var mValues: List<Set>,
+class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel,
                                  private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<SetListAdapter.ViewHolder>() {
 
+    private val mValues = MutableLiveData<List<Set>>()
+
+    init{
+        viewModel.sets.observe(mListener as TrainingDetailsFragment, Observer {
+            mValues.value=it
+        } )
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
+        return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.set_list_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val item = mValues.value!![position]
         holder.mItem = item
         holder.exerciseName.text = item.exerciseName
         holder.weight.text = item.weight.toString()
@@ -30,7 +41,9 @@ class SetListAdapter constructor(private var mValues: List<Set>,
     }
 
     override fun getItemCount(): Int {
-        return mValues.size
+        if(mValues.value?.size == null)
+            return 0
+        return mValues.value?.size!!
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {

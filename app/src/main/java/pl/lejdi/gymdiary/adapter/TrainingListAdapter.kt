@@ -16,7 +16,7 @@ class TrainingListAdapter constructor(private val viewModel: TrainingListViewMod
                                       private val mListener: OnListFragmentInteractionListener)
     : RecyclerView.Adapter<TrainingListAdapter.ViewHolder>() {
 
-    val mValues = MutableLiveData<List<Training>>()
+    private val mValues = MutableLiveData<List<Training>>()
 
     init{
         viewModel.trainings.observe(mListener as TrainingListFragment, Observer {
