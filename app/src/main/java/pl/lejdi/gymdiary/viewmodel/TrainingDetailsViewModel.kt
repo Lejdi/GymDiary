@@ -11,12 +11,12 @@ class TrainingDetailsViewModel : MainViewModel() {
 
     val sets = MutableLiveData<List<Set>>()
 
-    fun retrieveSets(){
+    fun retrieveSets(trainingId : Int){
         sets.value = mutableListOf()
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO)
             {
-                repo.getAllSets()
+                repo.getAllSetsByTraining(trainingId)
             }
             sets.value = response
         }

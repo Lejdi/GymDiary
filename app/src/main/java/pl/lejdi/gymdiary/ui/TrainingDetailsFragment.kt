@@ -2,17 +2,19 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Slide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.SetListAdapter
+import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.database.model.Set
 import pl.lejdi.gymdiary.viewmodel.TrainingDetailsViewModel
 
@@ -22,6 +24,9 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter : SetListAdapter
     private lateinit var addButton: FloatingActionButton
+
+    var trainingId = 0
+    private lateinit var exercise : Exercise
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentView = inflater.inflate(R.layout.set_list_fragment, container, false)
@@ -37,16 +42,30 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
 
     override fun onStart() {
         super.onStart()
+        if (arguments!= null)
+        {
+            trainingId = arguments?.getInt("trainingID")!!
+        }
+        viewModel.retrieveSets(trainingId)
+
         setFabClickListener()
-        viewModel.retrieveSets()
         initRecyclerView()
     }
 
     private fun setFabClickListener()
     {
         addButton.setOnClickListener {
-            Toast.makeText(activity,"FAB Pressed", Toast.LENGTH_SHORT).show()
+            val addSetFragment = AddSetFragment()
+            addSetFragment.enterTransition= Slide(Gravity.START)
 
+            val bundle = Bundle()
+            bundle.putInt("trainingID", trainingId)
+            addSetFragment.arguments=bundle
+
+            activity?.supportFragmentManager!!.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container, addSetFragment)
+                .commit()
         }
     }
 
@@ -58,6 +77,16 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
     }
 
     override fun onListFragmentClickInteraction(set: Set, position: Int) {
-        Toast.makeText(activity,"Item $position Pressed", Toast.LENGTH_SHORT).show()
+        val editExerciseFragment = EditExerciseFragment()
+        editExerciseFragment.enterTransition= Slide(Gravity.START)
+
+        val bundle = Bundle()
+        bundle.putString("exerciseName", set.exerciseName)
+        editExerciseFragment.arguments=bundle
+
+        activity?.supportFragmentManager!!.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container, editExerciseFragment)
+            .commit()
     }
 }

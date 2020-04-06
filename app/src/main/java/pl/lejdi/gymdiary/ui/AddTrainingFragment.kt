@@ -2,6 +2,7 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Slide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.viewmodel.AddTrainingViewModel
@@ -51,13 +53,15 @@ class AddTrainingFragment : Fragment() {
     {
         saveButton.setOnClickListener {
             if(viewModel.saveNewTraining(dateField.text.toString(), descriptionField.text.toString())){
-                Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
+                val trainingListFragment = TrainingListFragment()
+                trainingListFragment.enterTransition= Slide(Gravity.START)
 
+                activity?.supportFragmentManager!!.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.container, trainingListFragment)
+                    .commit()
             }
-            else {
-                Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
-
-            }
+            else Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
         }
     }
 }

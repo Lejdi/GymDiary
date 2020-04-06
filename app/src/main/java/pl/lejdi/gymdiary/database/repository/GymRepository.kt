@@ -34,21 +34,6 @@ class GymRepository{
         return database.getTrainingDAO().getAllTrainings()
     }
 
-    fun getTrainingByID(id : Int) : Training
-    {
-        return database.getTrainingDAO().getTraining(id)
-    }
-
-    fun getAllSets() : List<Set>
-    {
-        return database.getSetDAO().getAllSets()
-    }
-
-    fun getSetByID(id : Int) : Set
-    {
-        return database.getSetDAO().getSet(id)
-    }
-
     fun deleteExercise(exercise: Exercise)
     {
         database.getExerciseDAO().deleteExercise(exercise)
@@ -84,18 +69,13 @@ class GymRepository{
         database.getExerciseDAO().updateExercise(exercise)
     }
 
-    fun updateTraining(training: Training)
-    {
-        database.getTrainingDAO().updateTraining(training)
-    }
-
-    fun updateSet(set: Set)
-    {
-        database.getSetDAO().updateSet(set)
-    }
-
     fun getSetsByExerciseName(name : String) : List<Set>
     {
         return database.getSetDAO().getAllSetsWithExerciseName(name)
+    }
+
+    fun getAllSetsByTraining(trainingId : Int) : List<Set>
+    {
+        return database.getSetDAO().getAllSetsWithTrainingID(trainingId)
     }
 }

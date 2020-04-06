@@ -23,4 +23,7 @@ interface SetDAO {
 
     @Query("SELECT * FROM sets WHERE exercisename = :name")
     fun getAllSetsWithExerciseName(name : String) : List<Set>
+
+    @Query("SELECT * FROM sets WHERE trainingid = :trainingId")
+    fun getAllSetsWithTrainingID(trainingId : Int) : List<Set>
 }

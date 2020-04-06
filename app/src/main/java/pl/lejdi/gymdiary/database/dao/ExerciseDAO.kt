@@ -6,7 +6,7 @@ import pl.lejdi.gymdiary.database.model.Exercise
 
 @Dao
 interface ExerciseDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertExercise(vararg exercise : Exercise)
 
     @Delete

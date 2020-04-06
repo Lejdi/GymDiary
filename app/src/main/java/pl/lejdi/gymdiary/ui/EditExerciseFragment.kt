@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
-import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
 class EditExerciseFragment : Fragment() {
@@ -48,13 +48,16 @@ class EditExerciseFragment : Fragment() {
 
         if(arguments != null)
         {
-            val exercise : Exercise = arguments?.getParcelable("exerciseData")!!
-            exerciseNameExists.visibility = View.VISIBLE
-            exerciseNameNotExists.visibility = View.GONE
-            exerciseNameExists.text = exercise.name
-            exerciseDescription.setText(exercise.description)
-            autoRMCheckbox.isChecked = exercise.isRMAuto == 1
-            RM.setText(exercise.RM.toString())
+            val exerciseName : String = arguments?.getString("exerciseName")!!
+            viewModel.retrieveExercise(exerciseName)
+            viewModel.exercise.observe(this, Observer {
+                exerciseNameExists.visibility = View.VISIBLE
+                exerciseNameNotExists.visibility = View.GONE
+                exerciseNameExists.text = it.name
+                exerciseDescription.setText(it.description)
+                autoRMCheckbox.isChecked =it.isRMAuto == 1
+                RM.setText(it.RM.toString())
+            })
         }
         else
         {

@@ -2,14 +2,15 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Slide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
@@ -46,8 +47,13 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private fun setFabClickListener()
     {
         addButton.setOnClickListener {
-            Toast.makeText(activity,"FAB Pressed", Toast.LENGTH_SHORT).show()
+            val addTrainingFragment = AddTrainingFragment()
+            addTrainingFragment.enterTransition= Slide(Gravity.START)
 
+            activity?.supportFragmentManager!!.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container, addTrainingFragment)
+                .commit()
         }
     }
 
@@ -59,7 +65,16 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     }
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
-        Toast.makeText(activity,"Item $position Pressed", Toast.LENGTH_SHORT).show()
+        val trainingDetailsFragment = TrainingDetailsFragment()
+        trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
+        val bundle = Bundle()
+        bundle.putInt("trainingID", training.id)
+        trainingDetailsFragment.arguments=bundle
+
+        activity?.supportFragmentManager!!.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container, trainingDetailsFragment)
+            .commit()
     }
 }

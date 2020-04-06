@@ -21,6 +21,7 @@ class TrainingListAdapter constructor(private val viewModel: TrainingListViewMod
     init{
         viewModel.trainings.observe(mListener as TrainingListFragment, Observer {
             mValues.value=it
+            notifyDataSetChanged()
         } )
     }
 

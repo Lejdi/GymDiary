@@ -2,9 +2,10 @@ package pl.lejdi.gymdiary.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +23,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.new_exercise -> {
-                Toast.makeText(this,"Item Clicked",Toast.LENGTH_SHORT).show()
+                val editExerciseFragment = EditExerciseFragment()
+                editExerciseFragment.enterTransition= Slide(Gravity.START)
+
+                supportFragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.container, editExerciseFragment)
+                    .commit()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

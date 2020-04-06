@@ -21,6 +21,7 @@ class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel
     init{
         viewModel.sets.observe(mListener as TrainingDetailsFragment, Observer {
             mValues.value=it
+            notifyDataSetChanged()
         } )
     }
 

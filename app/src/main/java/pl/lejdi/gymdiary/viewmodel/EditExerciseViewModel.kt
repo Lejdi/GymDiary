@@ -1,5 +1,6 @@
 package pl.lejdi.gymdiary.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -8,10 +9,14 @@ import pl.lejdi.gymdiary.database.model.Exercise
 
 
 class EditExerciseViewModel : MainViewModel() {
+
+    val exercise = MutableLiveData<Exercise>()
+
     fun saveExercise(name : String, description : String, isRMauto : Boolean, RM : String) : Boolean
     {
         if(name.isEmpty() || description.isEmpty() || RM.isEmpty())
             return false
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var isAuto=0
@@ -28,7 +33,7 @@ class EditExerciseViewModel : MainViewModel() {
         if(description.isEmpty() || RM.isEmpty())
             return false
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+           withContext(Dispatchers.IO) {
                 var isAuto=0
                 if(isRMauto)
                     isAuto=1
@@ -36,6 +41,16 @@ class EditExerciseViewModel : MainViewModel() {
             }
         }
         return true
+    }
+
+    fun retrieveExercise(name : String)
+    {
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                repo.getExerciseByName(name)
+            }
+            exercise.value=response
+        }
     }
 
 }
