@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.database.model.Exercise
-import pl.lejdi.gymdiary.database.model.Set
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
 class EditExerciseFragment : Fragment() {
@@ -78,7 +76,7 @@ class EditExerciseFragment : Fragment() {
                     Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    Toast.makeText(activity,"Failure", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
                 }
             }
             else{
@@ -87,10 +85,9 @@ class EditExerciseFragment : Fragment() {
                     Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    Toast.makeText(activity,"Failure", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
     }
 

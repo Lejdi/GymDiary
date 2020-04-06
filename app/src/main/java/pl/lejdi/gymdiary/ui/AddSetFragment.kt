@@ -26,6 +26,8 @@ class AddSetFragment : Fragment() {
     private lateinit var repetitionsField : EditText
     private lateinit var saveButton: FloatingActionButton
 
+    private var trainingID : Int = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentView = inflater.inflate(R.layout.add_set_fragment, container, false)
         exerciseNameField = fragmentView.findViewById(R.id.add_set_exercise_name)
@@ -44,6 +46,12 @@ class AddSetFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        if(arguments != null)
+        {
+            trainingID = arguments?.getInt("trainingID")!!
+        }
+
         setFabClickListener()
         getExercises()
         setSpinner()
@@ -116,7 +124,13 @@ class AddSetFragment : Fragment() {
     private fun setFabClickListener()
     {
         saveButton.setOnClickListener {
-                Toast.makeText(activity,"Clicked", Toast.LENGTH_SHORT).show()
+            if(viewModel.saveSet(trainingID,exerciseNameField.text.toString(),weightField.text.toString(),repetitionsField.text.toString(), chooseTypeField.selectedItem.toString()))
+            {
+                Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

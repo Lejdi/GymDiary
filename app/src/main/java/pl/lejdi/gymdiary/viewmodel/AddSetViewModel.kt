@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.lejdi.gymdiary.database.model.Exercise
+import pl.lejdi.gymdiary.database.model.Set
 
 class AddSetViewModel : MainViewModel() {
     val exercises = MutableLiveData<List<Exercise>>()
@@ -75,5 +76,23 @@ class AddSetViewModel : MainViewModel() {
                 0
             }
         }
+    }
+
+    fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String, type : String) : Boolean
+    {
+        if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
+            return false
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val typeInt = when(type) {
+                    "Strength" -> 1
+                    "Hypertrophy" -> 2
+                    "Endurance" -> 3
+                    else -> 0
+                }
+                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), typeInt))
+            }
+        }
+        return true
     }
 }

@@ -55,7 +55,7 @@ class AddTrainingFragment : Fragment() {
 
             }
             else {
-                Toast.makeText(activity,"Enter date and description", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
 
             }
         }
