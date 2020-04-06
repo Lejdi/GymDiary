@@ -93,4 +93,9 @@ class GymRepository{
     {
         database.getSetDAO().updateSet(set)
     }
+
+    fun getSetsByExerciseName(name : String) : List<Set>
+    {
+        return database.getSetDAO().getAllSetsWithExerciseName(name)
+    }
 }

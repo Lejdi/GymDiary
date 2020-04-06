@@ -2,6 +2,7 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,14 +56,24 @@ class AddSetFragment : Fragment() {
         setFabClickListener()
         getExercises()
         setSpinner()
-        calculateSuggestedWeights()
-        insertSuggestedReps()
+        viewModel.suggestedWeight.observe(this, Observer {
+            weightField.setText(it.toString())
+        })
+        viewModel.suggestedReps.observe(this, Observer {
+            repetitionsField.setText(it.toString())
+        })
     }
 
     private fun getExercises()
     {
         viewModel.retrieveExercises()
-        exerciseNameField.setOnItemClickListener { _, _, _, _ -> setDescription() }
+        exerciseNameField.setOnItemClickListener { _, _, _, _ ->
+            run {
+            setDescription()
+            calculateSuggestedWeights()
+            insertSuggestedReps()
+            }
+        }
         exerciseNameField.threshold=1
         viewModel.exercises.observe(this, Observer {
             val names = viewModel.getExercisesNames()
@@ -90,14 +101,14 @@ class AddSetFragment : Fragment() {
 
 
         val itemSelectedListener : OnItemSelectedListener = object: OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                calculateSuggestedWeights()
-                insertSuggestedReps()
-            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                calculateSuggestedWeights()
-                insertSuggestedReps()
+                if (exerciseNameField.text.isNotEmpty())
+                {
+                    calculateSuggestedWeights()
+                    insertSuggestedReps()
+                }
             }
 
         }
@@ -107,18 +118,13 @@ class AddSetFragment : Fragment() {
 
     private fun calculateSuggestedWeights()
     {
-        viewModel.calculateSuggestedWeight(chooseTypeField.selectedItem.toString()).toString()
-        viewModel.suggestedWeight.observe(this, Observer {
-            weightField.setText(it.toString())
-        })
+        viewModel.calculateSuggestedWeight(chooseTypeField.selectedItem.toString(), exerciseNameField.text.toString()).toString()
+
     }
 
     private fun insertSuggestedReps()
     {
         viewModel.suggestedReps(chooseTypeField.selectedItem.toString()).toString()
-        viewModel.suggestedReps.observe(this, Observer {
-            repetitionsField.setText(it.toString())
-        })
     }
 
     private fun setFabClickListener()

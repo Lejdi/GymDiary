@@ -44,16 +44,41 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
-    fun calculateSuggestedWeight(type : String) {
+    fun calculateSuggestedWeight(type : String, exerciseName: String) {
+        var RM = 0.0f
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO)
+            {
+                repo.getExerciseByName(exerciseName)
+            }
+
+            if(response.isRMAuto == 0)
+            {
+                RM = response.RM
+            }
+            else
+            {
+                val sets = withContext(Dispatchers.IO)
+                {
+                    repo.getSetsByExerciseName(exerciseName)
+                }
+                RM = 0.0f
+                sets.forEach {
+                    val tmp = calculateRM(it)
+                    if (tmp > RM)
+                        RM = tmp
+                }
+            }
+        }
         suggestedWeight.value = when(type) {
             "Strength" -> {
-                1.0f
+                0.35f*RM
             }
             "Hypertrophy" -> {
-                2.0f
+                0.7f*RM
             }
             "Endurance" -> {
-                3.0f
+                0.85f*RM
             }
             else -> {
                 0f
@@ -61,16 +86,21 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
+    private fun calculateRM(set: Set) : Float
+    {
+        return set.weight * (1+ (set.repetitions))
+    }
+
     fun suggestedReps(type : String) {
         suggestedReps.value = when(type) {
             "Strength" -> {
-                1
+                5
             }
             "Hypertrophy" -> {
-                2
+                12
             }
             "Endurance" -> {
-                3
+                18
             }
             else -> {
                 0
