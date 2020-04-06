@@ -24,7 +24,7 @@ class AddTrainingViewModel : MainViewModel() {
         if(date.isEmpty() || description.isEmpty())
             return false
         viewModelScope.launch {
-            withContext(Dispatchers.Default) {
+            withContext(Dispatchers.IO) {
                 repo.insertTraining(Training(0, date, description))
             }
         }
