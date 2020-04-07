@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -104,7 +105,17 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            viewModel.deleteSet(viewModel.sets.value?.get(viewHolder.adapterPosition)!!)
+            val builder = AlertDialog.Builder(activity!!)
+            builder.setTitle("Are you sure?")
+            builder.setMessage("You will lose the data forever...")
+
+            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+                viewModel.deleteSet(viewModel.sets.value?.get(viewHolder.adapterPosition)!!)
+            }
+
+            builder.setNegativeButton(android.R.string.no) { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
+
+            builder.show()
         }
 
     }
