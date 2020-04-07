@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
@@ -60,7 +62,9 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private fun initRecyclerView()
     {
         adapter = TrainingListAdapter( viewModel, this)
+        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
     }
 
@@ -76,5 +80,20 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
             .addToBackStack(null)
             .replace(R.id.container, trainingDetailsFragment)
             .commit()
+    }
+
+    private val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            viewModel.deleteTraining(viewModel.trainings.value?.get(viewHolder.adapterPosition)!!)
+        }
+
     }
 }

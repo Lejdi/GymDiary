@@ -76,7 +76,7 @@ class EditExerciseFragment : Fragment() {
             {
                 if(viewModel.updateExercise(exerciseNameExists.text.toString(), exerciseDescription.text.toString(), autoRMCheckbox.isChecked, RM.text.toString() ))
                 {
-                    Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
+                    activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
                     Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
@@ -85,7 +85,7 @@ class EditExerciseFragment : Fragment() {
             else{
                 if(viewModel.saveExercise(exerciseNameNotExists.text.toString(), exerciseDescription.text.toString(), autoRMCheckbox.isChecked, RM.text.toString() ))
                 {
-                    Toast.makeText(activity,"Success", Toast.LENGTH_SHORT).show()
+                    activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
                     Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()

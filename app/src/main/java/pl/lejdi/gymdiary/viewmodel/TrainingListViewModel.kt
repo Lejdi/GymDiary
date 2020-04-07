@@ -21,4 +21,15 @@ class TrainingListViewModel : MainViewModel() {
             trainings.value = response
         }
     }
+
+    fun deleteTraining(training: Training)
+    {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO)
+            {
+                repo.deleteTraining(training)
+            }
+        }
+        retrieveTrainings()
+    }
 }

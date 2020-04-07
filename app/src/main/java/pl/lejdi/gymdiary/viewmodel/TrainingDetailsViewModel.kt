@@ -21,4 +21,15 @@ class TrainingDetailsViewModel : MainViewModel() {
             sets.value = response
         }
     }
+
+    fun deleteSet(set: Set)
+    {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO)
+            {
+                repo.deleteSet(set)
+            }
+        }
+        retrieveSets(set.trainingID)
+    }
 }

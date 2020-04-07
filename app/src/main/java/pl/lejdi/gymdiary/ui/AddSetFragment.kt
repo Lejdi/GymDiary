@@ -140,10 +140,7 @@ class AddSetFragment : Fragment() {
                 bundle.putInt("trainingID", trainingID)
                 trainingDetailsFragment.arguments=bundle
 
-                activity?.supportFragmentManager!!.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.container, trainingDetailsFragment)
-                    .commit()
+                activity?.supportFragmentManager!!.popBackStack()
             }
             else{
                 Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
