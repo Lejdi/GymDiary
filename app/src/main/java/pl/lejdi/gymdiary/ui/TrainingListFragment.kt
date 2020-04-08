@@ -66,7 +66,10 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
         recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        recyclerView.layoutManager = layoutManager
     }
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
