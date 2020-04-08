@@ -2,5 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/new_exercise"
-        android:title="Dodaj ćwiczenie" />
+        android:title="Add exercise" />
 </menu>
