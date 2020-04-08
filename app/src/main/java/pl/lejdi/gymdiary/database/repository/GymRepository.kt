@@ -1,7 +1,5 @@
 package pl.lejdi.gymdiary.database.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import pl.lejdi.gymdiary.GymDiaryApplication
 import pl.lejdi.gymdiary.database.GymDatabase
 import pl.lejdi.gymdiary.database.model.Exercise
@@ -32,11 +30,6 @@ class GymRepository{
     fun getAllTrainings() : List<Training>
     {
         return database.getTrainingDAO().getAllTrainings()
-    }
-
-    fun deleteExercise(exercise: Exercise)
-    {
-        database.getExerciseDAO().deleteExercise(exercise)
     }
 
     fun deleteTraining(training : Training)

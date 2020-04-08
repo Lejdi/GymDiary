@@ -2,6 +2,8 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -74,6 +76,16 @@ class AddSetFragment : Fragment() {
             calculateSuggestedWeights()
             insertSuggestedReps()
             }
+        exerciseNameField.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                exerciseDescriptionField.text = ""
+            }
+
+        })
         }
         exerciseNameField.threshold=1
         viewModel.exercises.observe(this, Observer {
@@ -105,7 +117,7 @@ class AddSetFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (exerciseNameField.text.isNotEmpty())
+                if (exerciseDescriptionField.text.isNotEmpty())
                 {
                     calculateSuggestedWeights()
                     insertSuggestedReps()
@@ -131,19 +143,23 @@ class AddSetFragment : Fragment() {
     private fun setFabClickListener()
     {
         saveButton.setOnClickListener {
-            if(viewModel.saveSet(trainingID,exerciseNameField.text.toString(),weightField.text.toString(),repetitionsField.text.toString(), chooseTypeField.selectedItem.toString()))
-            {
-                val trainingDetailsFragment = TrainingDetailsFragment()
-                trainingDetailsFragment.enterTransition= Slide(Gravity.START)
-
-                val bundle = Bundle()
-                bundle.putInt("trainingID", trainingID)
-                trainingDetailsFragment.arguments=bundle
-
-                activity?.supportFragmentManager!!.popBackStack()
-            }
-            else{
+            if(exerciseDescriptionField.text.isEmpty())
                 Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+            else{
+                if(viewModel.saveSet(trainingID,exerciseNameField.text.toString(),weightField.text.toString(),repetitionsField.text.toString(), chooseTypeField.selectedItem.toString()))
+                {
+                    val trainingDetailsFragment = TrainingDetailsFragment()
+                    trainingDetailsFragment.enterTransition= Slide(Gravity.START)
+
+                    val bundle = Bundle()
+                    bundle.putInt("trainingID", trainingID)
+                    trainingDetailsFragment.arguments=bundle
+
+                    activity?.supportFragmentManager!!.popBackStack()
+                }
+                else{
+                    Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

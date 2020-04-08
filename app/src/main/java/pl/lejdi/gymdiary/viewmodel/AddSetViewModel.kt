@@ -1,5 +1,6 @@
 package pl.lejdi.gymdiary.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -51,23 +52,28 @@ class AddSetViewModel : MainViewModel() {
             {
                 repo.getExerciseByName(exerciseName)
             }
-
-            if(response.isRMAuto == 0)
-            {
-                RM = response.RM
-            }
-            else
-            {
-                val sets = withContext(Dispatchers.IO)
+            try{
+                if(response.isRMAuto == 0)
                 {
-                    repo.getSetsByExerciseName(exerciseName)
+                    RM = response.RM
                 }
+                else
+                {
+                    val sets = withContext(Dispatchers.IO)
+                    {
+                        repo.getSetsByExerciseName(exerciseName)
+                    }
+                    RM = 0.0f
+                    sets.forEach {
+                        val tmp = calculateRM(it)
+                        if (tmp > RM)
+                            RM = tmp
+                    }
+                }
+            }
+            catch(e: Exception){
                 RM = 0.0f
-                sets.forEach {
-                    val tmp = calculateRM(it)
-                    if (tmp > RM)
-                        RM = tmp
-                }
+                description.value=""
             }
         }
         suggestedWeight.value = when(type) {
@@ -112,6 +118,7 @@ class AddSetViewModel : MainViewModel() {
     {
         if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
             return false
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val typeInt = when(type) {

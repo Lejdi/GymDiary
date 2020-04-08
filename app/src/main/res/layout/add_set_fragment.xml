@@ -15,13 +15,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:hint="Enter exercise name"
-        android:inputType="textAutoComplete"/>
+        android:inputType="textAutoComplete"
+        android:imeOptions="flagNoExtractUi"/>
 
     <TextView
         android:id="@+id/add_set_exercise_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exercise description"
         android:lines="10"
         android:layout_marginTop="32dp"
         android:layout_marginStart="32dp"
@@ -60,7 +60,8 @@
         app:layout_constraintStart_toEndOf="@id/add_set_weight_pic"
         app:layout_constraintEnd_toStartOf="@id/add_set_repetitions_pic"
         app:layout_constraintTop_toBottomOf="@id/add_set_exercise_type"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal"
+        android:imeOptions="flagNoExtractUi"/>
 
     <ImageView
         android:id="@+id/add_set_repetitions_pic"
@@ -82,7 +83,8 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/add_set_repetitions_pic"
-        app:layout_constraintTop_toBottomOf="@id/add_set_exercise_type" />
+        app:layout_constraintTop_toBottomOf="@id/add_set_exercise_type"
+        android:imeOptions="flagNoExtractUi"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_set_fab"

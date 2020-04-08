@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="Exercise name"/>
+        android:hint="Exercise name"
+        android:imeOptions="flagNoExtractUi"/>
 
     <TextView
         android:id="@+id/exercise_details_name_exists"
@@ -37,7 +38,8 @@
         android:layout_marginTop="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:imeOptions="flagNoExtractUi"/>
 
     <CheckBox
         android:id="@+id/RM_checkbox"
@@ -57,7 +59,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="32dp"
         android:layout_marginLeft="32dp"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:imeOptions="flagNoExtractUi"/>
 
     <ImageButton
         android:id="@+id/what_is_RM"
