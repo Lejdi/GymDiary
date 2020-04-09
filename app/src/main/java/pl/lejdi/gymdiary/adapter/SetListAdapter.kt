@@ -35,7 +35,7 @@ class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel
         holder.mItem = item
         holder.exerciseName.text = item.exerciseName
         holder.weight.text = item.weight.toString()
-        holder.repetitions.text = item.weight.toString()
+        holder.repetitions.text = item.repetitions.toString()
         holder.mView.setOnClickListener {
             mListener?.onListFragmentClickInteraction(holder.mItem!!, position)
         }
