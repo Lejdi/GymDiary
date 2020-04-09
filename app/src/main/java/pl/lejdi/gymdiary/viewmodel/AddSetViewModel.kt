@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.database.model.Set
+import kotlin.math.round
 
 class AddSetViewModel : MainViewModel() {
     val exercises = MutableLiveData<List<Exercise>>()
@@ -69,31 +70,31 @@ class AddSetViewModel : MainViewModel() {
                             RM = tmp
                     }
                 }
+                suggestedWeight.value = when(type) {
+                    "Strength" -> {
+                        round(0.35f*RM)
+                    }
+                    "Hypertrophy" -> {
+                        round(0.7f*RM)
+                    }
+                    "Endurance" -> {
+                        round(0.85f*RM)
+                    }
+                    else -> {
+                        0f
+                    }
+                }
             }
             catch(e: Exception){
                 RM = 0.0f
                 description.value=""
             }
         }
-        suggestedWeight.value = when(type) {
-            "Strength" -> {
-                0.35f*RM
-            }
-            "Hypertrophy" -> {
-                0.7f*RM
-            }
-            "Endurance" -> {
-                0.85f*RM
-            }
-            else -> {
-                0f
-            }
-        }
     }
 
     private fun calculateRM(set: Set) : Float
     {
-        return set.weight * (1+ (set.repetitions))
+        return set.weight * (1+ (set.repetitions/30.0f))
     }
 
     fun suggestedReps(type : String) {
