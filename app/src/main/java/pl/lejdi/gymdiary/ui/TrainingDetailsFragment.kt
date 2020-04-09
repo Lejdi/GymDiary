@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,7 +75,6 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
     {
         adapter = SetListAdapter( viewModel, this)
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
     }

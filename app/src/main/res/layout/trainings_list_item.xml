@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    style="@style/ListItemStyle">
 
     <TextView
         android:id="@+id/training_listitem_date"
@@ -15,7 +16,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
-        tools:text="Date" />
+        tools:text="Date"
+        android:textColor="@color/black"
+        android:background="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/training_listitem_description"
@@ -26,6 +29,8 @@
         app:layout_constraintTop_toBottomOf="@+id/training_listitem_date"
         android:layout_marginTop="10dp"
         android:lines="3"
-        tools:text="Description" />
+        tools:text="Description"
+        android:textColor="@color/black"
+        android:background="@color/colorPrimary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

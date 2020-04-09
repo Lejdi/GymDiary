@@ -91,7 +91,7 @@ class AddSetFragment : Fragment() {
         viewModel.exercises.observe(this, Observer {
             val names = viewModel.getExercisesNames()
             val adapter = ArrayAdapter(requireContext(),
-                android.R.layout.simple_list_item_1, names)
+                R.layout.dropdown_item, names)
             exerciseNameField.setAdapter(adapter)
         })
     }
@@ -109,7 +109,7 @@ class AddSetFragment : Fragment() {
         val types = arrayOf("Strength", "Hypertrophy", "Endurance")
         val adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item, types)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.dropdown_item)
         chooseTypeField.adapter = adapter
 
 

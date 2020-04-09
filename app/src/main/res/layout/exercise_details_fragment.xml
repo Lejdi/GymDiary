@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/exercise_details_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/FragmentStyle">
 
     <EditText
         android:id="@+id/exercise_details_name_notexists"
@@ -40,12 +41,16 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textMultiLine"
+        android:gravity="top"
         android:imeOptions="flagNoExtractUi"/>
 
     <CheckBox
         android:id="@+id/RM_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:buttonTint="@color/white"
         android:text="Calculate 1RM based on trainings"
         app:layout_constraintTop_toBottomOf="@id/exercise_details_description"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,14 +75,16 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@id/RM_edittext"
         app:layout_constraintTop_toBottomOf="@id/RM_checkbox"
-        android:src="@android:drawable/ic_dialog_info"/>
+        android:src="@drawable/ic_info_outline_black_24dp"
+        android:backgroundTint="@color/fragmentsBackground"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/exercise_details_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:srcCompat="@android:drawable/checkbox_on_background"
+        app:srcCompat="@drawable/ic_save_black_24dp"
+        android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -63,7 +63,6 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private fun initRecyclerView()
     {
         adapter = TrainingListAdapter( viewModel, this)
-        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView)
         val layoutManager = LinearLayoutManager(activity)

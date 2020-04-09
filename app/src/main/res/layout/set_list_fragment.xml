@@ -30,5 +30,6 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/set_recyclerview"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        android:backgroundTint="@color/colorPrimaryDark" />
 </androidx.constraintlayout.widget.ConstraintLayout>
