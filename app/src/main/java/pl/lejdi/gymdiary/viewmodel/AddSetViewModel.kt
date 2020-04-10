@@ -72,13 +72,13 @@ class AddSetViewModel : MainViewModel() {
                 }
                 suggestedWeight.value = when(type) {
                     "Strength" -> {
-                        round(0.35f*RM)
+                        round(0.85f*RM)
                     }
                     "Hypertrophy" -> {
                         round(0.7f*RM)
                     }
                     "Endurance" -> {
-                        round(0.85f*RM)
+                        round(0.35f*RM)
                     }
                     else -> {
                         0f
