@@ -1,5 +1,6 @@
 package pl.lejdi.gymdiary.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -7,6 +8,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.database.model.Set
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import kotlin.math.floor
 import kotlin.math.round
 
 class AddSetViewModel : MainViewModel() {
@@ -26,8 +30,7 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
-    fun getExercisesNames() : List<String>
-    {
+    fun getExercisesNames() : List<String> {
         val names = mutableListOf<String>()
         exercises.value?.forEach { exerciseObject ->
             names.add(exerciseObject.name)
@@ -56,13 +59,13 @@ class AddSetViewModel : MainViewModel() {
                 RM = response.RM
                 suggestedWeight.value = when(type) {
                     "Strength" -> {
-                        round(0.85f*RM)
+                        roundWeight(0.85f*RM)
                     }
                     "Hypertrophy" -> {
-                        round(0.7f*RM)
+                        roundWeight(0.7f*RM)
                     }
                     "Endurance" -> {
-                        round(0.35f*RM)
+                        roundWeight(0.35f*RM)
                     }
                     else -> {
                         0f
@@ -74,6 +77,21 @@ class AddSetViewModel : MainViewModel() {
                 description.value=""
             }
         }
+    }
+
+    private fun roundWeight(input : Float) : Float{
+        val tmp = round(input*10)
+        val decimal = if(tmp%10 < 5){
+            if(tmp%10 == 0f){
+                0.0f
+            }
+            else{
+                0.5f
+            }
+        } else{
+            1.0f
+        }
+        return floor(input)+decimal
     }
 
     private fun updateRM(newRM : Float, exerciseName: String){
@@ -111,8 +129,7 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
-    fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String, type : String) : Boolean
-    {
+    fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String, type : String) : Boolean {
         if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
             return false
 
