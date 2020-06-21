@@ -56,10 +56,7 @@ class AddTrainingFragment : Fragment() {
                 val trainingListFragment = TrainingListFragment()
                 trainingListFragment.enterTransition= Slide(Gravity.START)
 
-                activity?.supportFragmentManager!!.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.container, trainingListFragment)
-                    .commit()
+                activity?.supportFragmentManager!!.popBackStack()
             }
             else Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
         }
