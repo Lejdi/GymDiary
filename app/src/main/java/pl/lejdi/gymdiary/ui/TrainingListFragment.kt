@@ -9,30 +9,26 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
 import pl.lejdi.gymdiary.database.model.Training
+import pl.lejdi.gymdiary.databinding.TrainingsListFragmentBinding
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
 
 class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInteractionListener {
     private lateinit var viewModel : TrainingListViewModel
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: TrainingsListFragmentBinding
     private lateinit var adapter : TrainingListAdapter
-    private lateinit var addButton: FloatingActionButton
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val fragmentView = inflater.inflate(R.layout.trainings_list_fragment, container, false)
-        recyclerView = fragmentView.findViewById(R.id.training_recyclerview)
-        addButton = fragmentView.findViewById(R.id.fab_add_training)
-        return fragmentView
+        binding = TrainingsListFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -49,7 +45,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     private fun setFabClickListener()
     {
-        addButton.setOnClickListener {
+        binding.fabAddTraining.setOnClickListener {
             val addTrainingFragment = AddTrainingFragment()
             addTrainingFragment.enterTransition= Slide(Gravity.START)
 
@@ -63,12 +59,12 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private fun initRecyclerView()
     {
         adapter = TrainingListAdapter( viewModel, this)
-        recyclerView.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView)
+        binding.trainingRecyclerview.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.trainingRecyclerview)
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.reverseLayout = true
         layoutManager.stackFromEnd = true
-        recyclerView.layoutManager = layoutManager
+        binding.trainingRecyclerview.layoutManager = layoutManager
     }
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
@@ -99,11 +95,11 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
             builder.setTitle("Are you sure?")
             builder.setMessage("You will lose the data forever...")
 
-            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+            builder.setPositiveButton("Yes") { _, _ ->
                 viewModel.deleteTraining(viewModel.trainings.value?.get(viewHolder.adapterPosition)!!)
             }
 
-            builder.setNegativeButton(android.R.string.no) { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
+            builder.setNegativeButton("No") { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
 
             builder.show()
         }

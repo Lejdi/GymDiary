@@ -7,12 +7,16 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
+import pl.lejdi.gymdiary.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -21,8 +25,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.new_exercise -> {
+        return when (item.itemId) {
+            R.id.exercise_list_menu_button -> {
                 val editExerciseFragment = EditExerciseFragment()
                 editExerciseFragment.enterTransition= Slide(Gravity.START)
 
@@ -30,9 +34,9 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .replace(R.id.container, editExerciseFragment)
                     .commit()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

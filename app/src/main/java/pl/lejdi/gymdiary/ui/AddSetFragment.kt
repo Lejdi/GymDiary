@@ -15,32 +15,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Slide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pl.lejdi.gymdiary.R
+import pl.lejdi.gymdiary.databinding.AddSetFragmentBinding
 import pl.lejdi.gymdiary.viewmodel.AddSetViewModel
 
 
 class AddSetFragment : Fragment() {
     private lateinit var viewModel : AddSetViewModel
 
-    private lateinit var exerciseNameField : AutoCompleteTextView
-    private lateinit var exerciseDescriptionField : TextView
-    private lateinit var chooseTypeField : Spinner
-    private lateinit var weightField : EditText
-    private lateinit var repetitionsField : EditText
-    private lateinit var saveButton: FloatingActionButton
+    private lateinit var binding: AddSetFragmentBinding
 
     private var trainingID : Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val fragmentView = inflater.inflate(R.layout.add_set_fragment, container, false)
-        exerciseNameField = fragmentView.findViewById(R.id.add_set_exercise_name)
-        exerciseDescriptionField = fragmentView.findViewById(R.id.add_set_exercise_description)
-        chooseTypeField = fragmentView.findViewById(R.id.add_set_exercise_type)
-        weightField = fragmentView.findViewById(R.id.add_set_weight)
-        repetitionsField = fragmentView.findViewById(R.id.add_set_repetitions)
-        saveButton = fragmentView.findViewById(R.id.add_set_fab)
-        return fragmentView
+        binding = AddSetFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -60,47 +49,47 @@ class AddSetFragment : Fragment() {
         getExercises()
         setSpinner()
         viewModel.suggestedWeight.observe(this, Observer {
-            weightField.setText(it.toString())
+            binding.addSetWeight.setText(it.toString())
         })
         viewModel.suggestedReps.observe(this, Observer {
-            repetitionsField.setText(it.toString())
+            binding.addSetRepetitions.setText(it.toString())
         })
     }
 
     private fun getExercises()
     {
         viewModel.retrieveExercises()
-        exerciseNameField.setOnItemClickListener { _, _, _, _ ->
+        binding.addSetExerciseName.setOnItemClickListener { _, _, _, _ ->
             run {
             setDescription()
             calculateSuggestedWeights()
             insertSuggestedReps()
             }
-        exerciseNameField.addTextChangedListener(object: TextWatcher {
+        binding.addSetExerciseName.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                exerciseDescriptionField.text = ""
+                binding.addSetExerciseDescription.text = ""
             }
 
         })
         }
-        exerciseNameField.threshold=1
+        binding.addSetExerciseName.threshold=1
         viewModel.exercises.observe(this, Observer {
             val names = viewModel.getExercisesNames()
             val adapter = ArrayAdapter(requireContext(),
                 R.layout.dropdown_item, names)
-            exerciseNameField.setAdapter(adapter)
+            binding.addSetExerciseName.setAdapter(adapter)
         })
     }
 
     private fun setDescription()
     {
-        viewModel.getExerciseDescription(exerciseNameField.text.toString())
+        viewModel.getExerciseDescription(binding.addSetExerciseName.text.toString())
         viewModel.description.observe(this, Observer {
-            exerciseDescriptionField.text = it
+            binding.addSetExerciseDescription.text = it
         })
     }
 
@@ -110,14 +99,14 @@ class AddSetFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item, types)
         adapter.setDropDownViewResource(R.layout.dropdown_item)
-        chooseTypeField.adapter = adapter
+        binding.addSetExerciseType.adapter = adapter
 
 
         val itemSelectedListener : OnItemSelectedListener = object: OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (exerciseDescriptionField.text.isNotEmpty())
+                if (binding.addSetExerciseDescription.text.isNotEmpty())
                 {
                     calculateSuggestedWeights()
                     insertSuggestedReps()
@@ -125,28 +114,32 @@ class AddSetFragment : Fragment() {
             }
 
         }
-        chooseTypeField.onItemSelectedListener = itemSelectedListener
+        binding.addSetExerciseType.onItemSelectedListener = itemSelectedListener
 
     }
 
     private fun calculateSuggestedWeights()
     {
-        viewModel.calculateSuggestedWeight(chooseTypeField.selectedItem.toString(), exerciseNameField.text.toString()).toString()
+        viewModel.calculateSuggestedWeight(binding.addSetExerciseType.selectedItem.toString(), binding.addSetExerciseName.text.toString()).toString()
 
     }
 
     private fun insertSuggestedReps()
     {
-        viewModel.suggestedReps(chooseTypeField.selectedItem.toString()).toString()
+        viewModel.suggestedReps(binding.addSetExerciseType.selectedItem.toString()).toString()
     }
 
     private fun setFabClickListener()
     {
-        saveButton.setOnClickListener {
-            if(exerciseDescriptionField.text.isEmpty())
+        binding.addSetFab.setOnClickListener {
+            if(binding.addSetExerciseDescription.text.isEmpty())
                 Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
             else{
-                if(viewModel.saveSet(trainingID,exerciseNameField.text.toString(),weightField.text.toString(),repetitionsField.text.toString(), chooseTypeField.selectedItem.toString()))
+                if(viewModel.saveSet(
+                        trainingID,binding.addSetExerciseName.text.toString(),
+                        binding.addSetWeight.text.toString(),
+                        binding.addSetRepetitions.text.toString(),
+                        binding.addSetExerciseType.selectedItem.toString()))
                 {
                     val trainingDetailsFragment = TrainingDetailsFragment()
                     trainingDetailsFragment.enterTransition= Slide(Gravity.START)

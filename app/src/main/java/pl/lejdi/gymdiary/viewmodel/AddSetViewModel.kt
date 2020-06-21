@@ -1,6 +1,5 @@
 package pl.lejdi.gymdiary.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -8,8 +7,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.database.model.Set
-import java.math.RoundingMode
-import java.text.DecimalFormat
 import kotlin.math.floor
 import kotlin.math.round
 
