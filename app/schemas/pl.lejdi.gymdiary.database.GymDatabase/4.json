@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "195b7c2bce79a17555439b559dc8da4e",
+    "identityHash": "e4b9ad5e8624d15749410e8a58aa8195",
     "entities": [
       {
         "tableName": "exercises",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "sets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trainingid` INTEGER NOT NULL, `exercisename` TEXT NOT NULL, `repetitions` INTEGER NOT NULL, `weight` REAL NOT NULL, `type` INTEGER NOT NULL, FOREIGN KEY(`trainingid`) REFERENCES `trainings`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trainingid` INTEGER NOT NULL, `exercisename` TEXT NOT NULL, `repetitions` INTEGER NOT NULL, `weight` REAL NOT NULL, `type` INTEGER NOT NULL, FOREIGN KEY(`trainingid`) REFERENCES `trainings`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`exercisename`) REFERENCES `exercises`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -101,6 +101,17 @@
             "referencedColumns": [
               "id"
             ]
+          },
+          {
+            "table": "exercises",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "exercisename"
+            ],
+            "referencedColumns": [
+              "name"
+            ]
           }
         ]
       },
@@ -140,7 +151,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '195b7c2bce79a17555439b559dc8da4e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e4b9ad5e8624d15749410e8a58aa8195')"
     ]
   }
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.database.model.Set
+import pl.lejdi.gymdiary.databinding.SetListItemBinding
 import pl.lejdi.gymdiary.ui.TrainingDetailsFragment
 import pl.lejdi.gymdiary.viewmodel.TrainingDetailsViewModel
 
@@ -18,6 +19,8 @@ class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel
 
     private val mValues = MutableLiveData<List<Set>>()
 
+    private lateinit var binding: SetListItemBinding
+
     init{
         viewModel.sets.observe(mListener as TrainingDetailsFragment, Observer {
             mValues.value=it
@@ -26,8 +29,8 @@ class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.set_list_item, parent, false))
+        binding = SetListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -36,7 +39,7 @@ class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel
         holder.exerciseName.text = item.exerciseName
         holder.weight.text = item.weight.toString()
         holder.repetitions.text = item.repetitions.toString()
-        holder.mView.setOnClickListener {
+        holder.binding.root.setOnClickListener {
             mListener?.onListFragmentClickInteraction(holder.mItem!!, position)
         }
     }
@@ -47,10 +50,10 @@ class SetListAdapter constructor(private val viewModel: TrainingDetailsViewModel
         return mValues.value?.size!!
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val exerciseName : TextView = mView.findViewById(R.id.exercise_listitem_name)
-        val weight : TextView = mView.findViewById(R.id.exercise_listitem_weight_text)
-        val repetitions : TextView = mView.findViewById(R.id.exercise_listitem_repetitions_text)
+    inner class ViewHolder(val binding: SetListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val exerciseName = this.binding.exerciseListitemName
+        val weight = this.binding.exerciseListitemWeightText
+        val repetitions = this.binding.exerciseListitemRepetitionsText
         var mItem: Set? = null
     }
 

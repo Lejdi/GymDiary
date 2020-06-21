@@ -27,6 +27,10 @@ class GymRepository{
         return database.getExerciseDAO().getExercise(name)
     }
 
+    fun deleteExercise(exercise: Exercise){
+        database.getExerciseDAO().deleteExercise(exercise)
+    }
+
     fun getAllTrainings() : List<Training>
     {
         return database.getTrainingDAO().getAllTrainings()

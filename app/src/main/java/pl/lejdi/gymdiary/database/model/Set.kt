@@ -9,7 +9,20 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "sets",
-    foreignKeys = [ForeignKey(entity = Training::class, parentColumns = ["id"], childColumns = ["trainingid"], onDelete = ForeignKey.CASCADE)])
+    foreignKeys = [
+        ForeignKey(
+            entity = Training::class,
+            parentColumns = ["id"],
+            childColumns = ["trainingid"],
+            onDelete = ForeignKey.CASCADE
+        ),
+    ForeignKey(
+        entity = Exercise::class,
+        parentColumns = ["name"],
+        childColumns = ["exercisename"],
+        onDelete = ForeignKey.CASCADE
+    )
+    ])
 class Set(@ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id : Int,
           @ColumnInfo(name = "trainingid") val trainingID : Int,
           @ColumnInfo(name = "exercisename") val exerciseName : String,

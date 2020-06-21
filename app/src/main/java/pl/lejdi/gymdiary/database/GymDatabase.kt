@@ -13,7 +13,7 @@ import pl.lejdi.gymdiary.database.model.Training
     Exercise::class,
     Set::class,
     Training::class],
-    version = 4)
+    version = 5)
 abstract class GymDatabase : RoomDatabase(){
     companion object{
         val DB_NAME = "gym_db"

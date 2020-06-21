@@ -14,70 +14,70 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
-import pl.lejdi.gymdiary.adapter.TrainingListAdapter
-import pl.lejdi.gymdiary.database.model.Training
-import pl.lejdi.gymdiary.databinding.TrainingsListFragmentBinding
-import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
+import pl.lejdi.gymdiary.adapter.ExerciseListAdapter
+import pl.lejdi.gymdiary.database.model.Exercise
+import pl.lejdi.gymdiary.databinding.ExerciseListFragmentBinding
+import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
 
-class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInteractionListener {
-    private lateinit var viewModel : TrainingListViewModel
+class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInteractionListener {
+    private lateinit var viewModel : ExerciseListViewModel
 
-    private lateinit var binding: TrainingsListFragmentBinding
-    private lateinit var adapter : TrainingListAdapter
+    private lateinit var binding: ExerciseListFragmentBinding
+    private lateinit var adapter : ExerciseListAdapter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = TrainingsListFragmentBinding.inflate(inflater, container, false)
+        binding = ExerciseListFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProvider(this).get(TrainingListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ExerciseListViewModel::class.java)
     }
 
     override fun onStart() {
         super.onStart()
         setFabClickListener()
-        viewModel.retrieveTrainings()
+        viewModel.retrieveExercises()
         initRecyclerView()
     }
 
     private fun setFabClickListener()
     {
-        binding.fabAddTraining.setOnClickListener {
-            val addTrainingFragment = AddTrainingFragment()
-            addTrainingFragment.enterTransition= Slide(Gravity.START)
+        binding.fabAddExercise.setOnClickListener {
+            val editExerciseFragment = EditExerciseFragment()
+            editExerciseFragment.enterTransition= Slide(Gravity.START)
 
             activity?.supportFragmentManager!!.beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.container, addTrainingFragment)
+                .replace(R.id.container, editExerciseFragment)
                 .commit()
         }
     }
 
     private fun initRecyclerView()
     {
-        adapter = TrainingListAdapter( viewModel, this)
-        binding.trainingRecyclerview.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.trainingRecyclerview)
+        adapter = ExerciseListAdapter( viewModel, this)
+        binding.exerciseRecyclerview.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.exerciseRecyclerview)
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.reverseLayout = true
         layoutManager.stackFromEnd = true
-        binding.trainingRecyclerview.layoutManager = layoutManager
+        binding.exerciseRecyclerview.layoutManager = layoutManager
     }
 
-    override fun onListFragmentClickInteraction(training: Training, position: Int) {
-        val trainingDetailsFragment = TrainingDetailsFragment()
-        trainingDetailsFragment.enterTransition= Slide(Gravity.START)
+    override fun onListFragmentClickInteraction(exercise: Exercise, position: Int) {
+        val editExerciseFragment = EditExerciseFragment()
+        editExerciseFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putInt("trainingID", training.id)
-        trainingDetailsFragment.arguments=bundle
+        bundle.putString("exerciseName", exercise.name)
+        editExerciseFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container, trainingDetailsFragment)
+            .replace(R.id.container, editExerciseFragment)
             .commit()
     }
 
@@ -96,7 +96,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
             builder.setMessage("You will lose the data forever...")
 
             builder.setPositiveButton("Yes") { _, _ ->
-                viewModel.deleteTraining(viewModel.trainings.value?.get(viewHolder.adapterPosition)!!)
+                viewModel.deleteExercise(viewModel.exercises.value?.get(viewHolder.adapterPosition)!!)
             }
 
             builder.setNegativeButton("No") { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}

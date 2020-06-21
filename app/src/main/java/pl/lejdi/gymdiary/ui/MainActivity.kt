@@ -27,12 +27,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.exercise_list_menu_button -> {
-                val editExerciseFragment = EditExerciseFragment()
-                editExerciseFragment.enterTransition= Slide(Gravity.START)
+                val exerciseListFragment = ExerciseListFragment()
+                exerciseListFragment.enterTransition= Slide(Gravity.START)
 
                 supportFragmentManager.beginTransaction()
                     .addToBackStack(null)
-                    .replace(R.id.container, editExerciseFragment)
+                    .replace(R.id.container, exerciseListFragment)
                     .commit()
                 true
             }
