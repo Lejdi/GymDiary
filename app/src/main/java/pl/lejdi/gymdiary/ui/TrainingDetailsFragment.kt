@@ -41,7 +41,7 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
         super.onStart()
         if (arguments!= null)
         {
-            trainingId = arguments?.getInt("trainingID")!!
+            trainingId = arguments?.getInt(getString(R.string.KEY_TRAINING_ID))!!
         }
         viewModel.retrieveSets(trainingId)
 
@@ -56,7 +56,7 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
             addSetFragment.enterTransition= Slide(Gravity.START)
 
             val bundle = Bundle()
-            bundle.putInt("trainingID", trainingId)
+            bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingId)
             addSetFragment.arguments=bundle
 
             activity?.supportFragmentManager!!.beginTransaction()
@@ -79,7 +79,7 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
         editExerciseFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putString("exerciseName", set.exerciseName)
+        bundle.putString(getString(R.string.KEY_EXERCISE_NAME), set.exerciseName)
         editExerciseFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()
@@ -99,14 +99,14 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val builder = AlertDialog.Builder(activity!!)
-            builder.setTitle("Are you sure?")
-            builder.setMessage("You will lose the data forever...")
+            builder.setTitle(getString(R.string.R_U_sure))
+            builder.setMessage(getString(R.string.U_will_lose_data))
 
-            builder.setPositiveButton("Yes") { _, _ ->
+            builder.setPositiveButton(getString(R.string.Yes)) { _, _ ->
                 viewModel.deleteSet(viewModel.sets.value?.get(viewHolder.adapterPosition)!!)
             }
 
-            builder.setNegativeButton("No") { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
+            builder.setNegativeButton(getString(R.string.No)) { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
 
             builder.show()
         }

@@ -5,4 +5,25 @@
         <item>Hypertrophy</item>
         <item>Endurance</item>
     </string-array>
+    <string name="KEY_TRAINING_ID">TrainingID</string>
+    <string name="KEY_EXERCISE_NAME">exerciseName</string>
+    <string name="Fill_all_fiels">
+        Please, fill all the required fields
+    </string>
+    <string name="RM_explanation">
+        1RM is the maximum weight that theoretically you can lift with this exercise in one set and one repetition. It can be calculated based on your repetitions or checked experimentally.
+    </string>
+    <string name="R_U_sure">
+        Are you sure?
+    </string>
+    <string name="U_will_lose_data">
+        You will lose the data forever…
+    </string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="enter_exercise_name">Enter exercise name</string>
+    <string name="calculate_1rm_based_on_trainings">Calculate 1RM based on trainings</string>
+    <string name="exercise_description">Exercise description</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="training_description">Training description</string>
 </resources>

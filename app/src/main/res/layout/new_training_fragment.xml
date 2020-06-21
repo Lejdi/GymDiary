@@ -31,7 +31,7 @@
         android:layout_marginHorizontal="32dp"
         android:inputType="textMultiLine"
         android:gravity="top"
-        android:hint="Training description"
+        android:hint="@string/training_description"
         android:imeOptions="flagNoExtractUi"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -72,7 +72,7 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         editExerciseFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putString("exerciseName", exercise.name)
+        bundle.putString(getString(R.string.KEY_EXERCISE_NAME), exercise.name)
         editExerciseFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()
@@ -92,14 +92,14 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val builder = AlertDialog.Builder(activity!!)
-            builder.setTitle("Are you sure?")
-            builder.setMessage("You will lose the data forever...")
+            builder.setTitle(getString(R.string.R_U_sure))
+            builder.setMessage(getString(R.string.U_will_lose_data))
 
-            builder.setPositiveButton("Yes") { _, _ ->
+            builder.setPositiveButton(getString(R.string.Yes)) { _, _ ->
                 viewModel.deleteExercise(viewModel.exercises.value?.get(viewHolder.adapterPosition)!!)
             }
 
-            builder.setNegativeButton("No") { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
+            builder.setNegativeButton(getString(R.string.No)) { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
 
             builder.show()
         }

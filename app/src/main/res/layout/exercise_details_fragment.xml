@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="Exercise name"
+        android:hint="@string/exercise_name"
         android:imeOptions="flagNoExtractUi"/>
 
     <TextView
@@ -35,7 +35,7 @@
         android:id="@+id/exercise_details_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Exercise description"
+        android:hint="@string/exercise_description"
         android:lines="10"
         android:layout_marginTop="100dp"
         android:layout_marginStart="32dp"
@@ -51,10 +51,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:buttonTint="@color/white"
-        android:text="Calculate 1RM based on trainings"
+        android:text="@string/calculate_1rm_based_on_trainings"
         app:layout_constraintTop_toBottomOf="@id/exercise_details_description"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"/>
 
     <EditText
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@id/RM_checkbox"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:inputType="numberDecimal"
         android:imeOptions="flagNoExtractUi"/>
 

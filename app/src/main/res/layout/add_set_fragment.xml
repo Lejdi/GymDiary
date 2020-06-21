@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        android:hint="Enter exercise name"
+        android:hint="@string/enter_exercise_name"
         android:inputType="textAutoComplete"
         android:imeOptions="flagNoExtractUi"
 

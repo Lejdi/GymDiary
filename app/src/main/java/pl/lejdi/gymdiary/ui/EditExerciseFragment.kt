@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.ExerciseDetailsFragmentBinding
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
@@ -33,7 +34,7 @@ class EditExerciseFragment : Fragment() {
 
         if(arguments != null)
         {
-            val exerciseName : String = arguments?.getString("exerciseName")!!
+            val exerciseName : String = arguments?.getString(getString(R.string.KEY_EXERCISE_NAME))!!
             viewModel.retrieveExercise(exerciseName)
             viewModel.exercise.observe(this, Observer {
                 binding.exerciseDetailsNameExists.visibility = View.VISIBLE
@@ -68,7 +69,7 @@ class EditExerciseFragment : Fragment() {
                     activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
-                    Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
                 }
             }
             else{
@@ -81,7 +82,7 @@ class EditExerciseFragment : Fragment() {
                     activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
-                    Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -90,7 +91,7 @@ class EditExerciseFragment : Fragment() {
     private fun setInfoButtonListener()
     {
         binding.whatIsRM.setOnClickListener {
-            Toast.makeText(activity,"1RM is the maximum weight that theoretically you can lift with this exercise in one set and one repetition. It can be calculated based on your repetitions or checked experimentally.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,getString(R.string.RM_explanation), Toast.LENGTH_SHORT).show()
         }
     }
 }

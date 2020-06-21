@@ -72,7 +72,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
         trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putInt("trainingID", training.id)
+        bundle.putInt(getString(R.string.KEY_TRAINING_ID), training.id)
         trainingDetailsFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()
@@ -92,14 +92,14 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val builder = AlertDialog.Builder(activity!!)
-            builder.setTitle("Are you sure?")
-            builder.setMessage("You will lose the data forever...")
+            builder.setTitle(getString(R.string.R_U_sure))
+            builder.setMessage(getString(R.string.U_will_lose_data))
 
-            builder.setPositiveButton("Yes") { _, _ ->
+            builder.setPositiveButton(getString(R.string.Yes)) { _, _ ->
                 viewModel.deleteTraining(viewModel.trainings.value?.get(viewHolder.adapterPosition)!!)
             }
 
-            builder.setNegativeButton("No") { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
+            builder.setNegativeButton(getString(R.string.No)) { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
 
             builder.show()
         }

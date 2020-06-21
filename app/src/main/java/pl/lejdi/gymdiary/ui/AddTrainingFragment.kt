@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Slide
+import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.NewTrainingFragmentBinding
 import pl.lejdi.gymdiary.viewmodel.AddTrainingViewModel
 
@@ -51,7 +52,7 @@ class AddTrainingFragment : Fragment() {
 
                 activity?.supportFragmentManager!!.popBackStack()
             }
-            else Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+            else Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
         }
     }
 }

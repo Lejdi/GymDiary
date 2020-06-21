@@ -42,7 +42,7 @@ class AddSetFragment : Fragment() {
 
         if(arguments != null)
         {
-            trainingID = arguments?.getInt("trainingID")!!
+            trainingID = arguments?.getInt(getString(R.string.KEY_TRAINING_ID))!!
         }
 
         setFabClickListener()
@@ -95,7 +95,10 @@ class AddSetFragment : Fragment() {
 
     private fun setSpinner()
     {
-        val types = arrayOf("Strength", "Hypertrophy", "Endurance")
+        val types = arrayOf(
+            resources.getStringArray(R.array.types)[0],
+            resources.getStringArray(R.array.types)[1],
+            resources.getStringArray(R.array.types)[2])
         val adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item, types)
         adapter.setDropDownViewResource(R.layout.dropdown_item)
@@ -133,7 +136,7 @@ class AddSetFragment : Fragment() {
     {
         binding.addSetFab.setOnClickListener {
             if(binding.addSetExerciseDescription.text.isEmpty())
-                Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
             else{
                 if(viewModel.saveSet(
                         trainingID,binding.addSetExerciseName.text.toString(),
@@ -145,13 +148,13 @@ class AddSetFragment : Fragment() {
                     trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
                     val bundle = Bundle()
-                    bundle.putInt("trainingID", trainingID)
+                    bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingID)
                     trainingDetailsFragment.arguments=bundle
 
                     activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
-                    Toast.makeText(activity,"Please, fill all the required fields", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
                 }
             }
         }
