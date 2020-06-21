@@ -60,7 +60,6 @@ class AddSetFragment : Fragment() {
         getExercises()
         setSpinner()
         viewModel.suggestedWeight.observe(this, Observer {
-            println(it)
             weightField.setText(it.toString())
         })
         viewModel.suggestedReps.observe(this, Observer {

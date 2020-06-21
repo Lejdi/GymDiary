@@ -46,30 +46,14 @@ class AddSetViewModel : MainViewModel() {
     }
 
     fun calculateSuggestedWeight(type : String, exerciseName: String) {
-        var RM = 0.0f
+        var RM : Float
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO)
             {
                 repo.getExerciseByName(exerciseName)
             }
             try{
-                if(response.isRMAuto == 0)
-                {
-                    RM = response.RM
-                }
-                else
-                {
-                    val sets = withContext(Dispatchers.IO)
-                    {
-                        repo.getSetsByExerciseName(exerciseName)
-                    }
-                    RM = 0.0f
-                    sets.forEach {
-                        val tmp = calculateRM(it)
-                        if (tmp > RM)
-                            RM = tmp
-                    }
-                }
+                RM = response.RM
                 suggestedWeight.value = when(type) {
                     "Strength" -> {
                         round(0.85f*RM)
@@ -92,8 +76,21 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
-    private fun calculateRM(set: Set) : Float
-    {
+    private fun updateRM(newRM : Float, exerciseName: String){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO)
+            {
+                val exercise = repo.getExerciseByName(exerciseName)
+                if (exercise.isRMAuto==1 && newRM > exercise.RM) {
+                    val updatedExercise =
+                        Exercise(exercise.name, exercise.description, newRM, exercise.isRMAuto)
+                    repo.updateExercise(updatedExercise)
+                }
+            }
+        }
+    }
+
+    private fun calculateRM(set: Set) : Float {
         return set.weight * (1+ (set.repetitions/30.0f))
     }
 
@@ -119,15 +116,20 @@ class AddSetViewModel : MainViewModel() {
         if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
             return false
 
+        val typeInt = when(type) {
+            "Strength" -> 1
+            "Hypertrophy" -> 2
+            "Endurance" -> 3
+            else -> 0
+        }
+
+        val newSet = Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), typeInt)
+        val newSetRM = calculateRM(newSet)
+        updateRM(newSetRM, exerciseName)
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val typeInt = when(type) {
-                    "Strength" -> 1
-                    "Hypertrophy" -> 2
-                    "Endurance" -> 3
-                    else -> 0
-                }
-                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), typeInt))
+                repo.insertSet(newSet)
             }
         }
         return true
