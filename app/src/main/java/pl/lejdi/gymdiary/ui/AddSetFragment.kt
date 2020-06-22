@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,30 @@ class AddSetFragment : Fragment() {
         })
         viewModel.suggestedReps.observe(this, Observer {
             binding.addSetRepetitions.setText(it.toString())
+        })
+        viewModel.repsIsEmpty.observe(this, Observer {
+            if(it){
+                binding.addSetRepetitions.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.addSetRepetitions.setBackgroundResource(R.drawable.text_background)
+            }
+        })
+        viewModel.weightIsEmpty.observe(this, Observer {
+            if(it){
+                binding.addSetWeight.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.addSetWeight.setBackgroundResource(R.drawable.text_background)
+            }
+        })
+        viewModel.exerciseNameIsEmpty.observe(this, Observer {
+            if(it){
+                binding.addSetExerciseName.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.addSetExerciseName.setBackgroundResource(R.drawable.text_background)
+            }
         })
     }
 
@@ -135,8 +160,10 @@ class AddSetFragment : Fragment() {
     private fun setFabClickListener()
     {
         binding.addSetFab.setOnClickListener {
-            if(binding.addSetExerciseDescription.text.isEmpty())
+            if(binding.addSetExerciseDescription.text.isEmpty()){
                 Toast.makeText(activity, getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
+                viewModel.exerciseNameIsEmpty.value = true
+            }
             else{
                 if(viewModel.saveSet(
                         trainingID,binding.addSetExerciseName.text.toString(),

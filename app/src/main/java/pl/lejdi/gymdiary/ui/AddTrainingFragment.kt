@@ -41,6 +41,22 @@ class AddTrainingFragment : Fragment() {
         viewModel.getCurrentDate().observe(this, Observer {
             binding.newTrainingDate.setText(it)
         })
+        viewModel.descriptionIsEmpty.observe(this, Observer {
+            if(it){
+                binding.newTrainingDescription.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.newTrainingDescription.setBackgroundResource(R.drawable.text_background)
+            }
+        })
+        viewModel.dateIsEmpty.observe(this, Observer {
+            if(it){
+                binding.newTrainingDate.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.newTrainingDate.setBackgroundResource(R.drawable.text_background)
+            }
+        })
     }
 
     private fun setFabClickListener()

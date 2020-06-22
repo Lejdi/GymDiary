@@ -53,6 +53,31 @@ class EditExerciseFragment : Fragment() {
         }
         setInfoButtonListener()
         setFabClickListener()
+        viewModel.descriptionIsEmpty.observe(this, Observer {
+            if(it){
+                binding.exerciseDetailsDescription.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.exerciseDetailsDescription.setBackgroundResource(R.drawable.text_background)
+            }
+        })
+        viewModel.nameIsEmpty.observe(this, Observer {
+            if(it){
+                binding.exerciseDetailsNameExists.setBackgroundResource(R.drawable.text_background_warning)
+                binding.exerciseDetailsNameNotexists.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.exerciseDetailsNameNotexists.setBackgroundResource(R.drawable.text_background)
+            }
+        })
+        viewModel.RMisEmpty.observe(this, Observer {
+            if(it){
+                binding.RMEdittext.setBackgroundResource(R.drawable.text_background_warning)
+            }
+            else{
+                binding.RMEdittext.setBackgroundResource(R.drawable.text_background)
+            }
+        })
     }
 
     private fun setFabClickListener()

@@ -1,5 +1,6 @@
 package pl.lejdi.gymdiary.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +16,10 @@ class AddSetViewModel : MainViewModel() {
     val description = MutableLiveData<String>()
     val suggestedWeight = MutableLiveData<Float>()
     val suggestedReps = MutableLiveData<Int>()
+
+    val exerciseNameIsEmpty = MutableLiveData<Boolean>(false)
+    val weightIsEmpty = MutableLiveData<Boolean>(false)
+    val repsIsEmpty = MutableLiveData<Boolean>(false)
 
     fun retrieveExercises(){
         exercises.value = mutableListOf()
@@ -127,6 +132,9 @@ class AddSetViewModel : MainViewModel() {
     }
 
     fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String, type : String) : Boolean {
+        exerciseNameIsEmpty.value = exerciseName.isEmpty()
+        weightIsEmpty.value = weight.isEmpty()
+        repsIsEmpty.value = reps.isEmpty()
         if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
             return false
 

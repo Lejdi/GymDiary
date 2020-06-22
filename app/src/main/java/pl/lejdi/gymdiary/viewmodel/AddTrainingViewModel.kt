@@ -12,6 +12,9 @@ import java.util.*
 
 class AddTrainingViewModel : MainViewModel() {
 
+    val dateIsEmpty = MutableLiveData<Boolean>(false)
+    val descriptionIsEmpty = MutableLiveData<Boolean>(false)
+
     fun getCurrentDate() : LiveData<String>{
         val currentDate = SimpleDateFormat("dd/MM/yyyy hh:mm").format(Date())
         val result = MutableLiveData<String>()
@@ -21,8 +24,12 @@ class AddTrainingViewModel : MainViewModel() {
 
     fun saveNewTraining(date : String, description : String) : Boolean
     {
-        if(date.isEmpty() || description.isEmpty())
+        dateIsEmpty.value = date.isEmpty()
+        descriptionIsEmpty.value = description.isEmpty()
+        if(dateIsEmpty.value!! || descriptionIsEmpty.value!!){
             return false
+        }
+
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 repo.insertTraining(Training(0, date, description))

@@ -11,9 +11,15 @@ import pl.lejdi.gymdiary.database.model.Exercise
 class EditExerciseViewModel : MainViewModel() {
 
     val exercise = MutableLiveData<Exercise>()
+    val nameIsEmpty = MutableLiveData<Boolean>(false)
+    val descriptionIsEmpty = MutableLiveData<Boolean>(false)
+    val RMisEmpty = MutableLiveData<Boolean>(false)
 
     fun saveExercise(name : String, description : String, isRMauto : Boolean, RM : String) : Boolean
     {
+        nameIsEmpty.value = name.isEmpty()
+        descriptionIsEmpty.value = description.isEmpty()
+        RMisEmpty.value = RM.isEmpty()
         if(name.isEmpty() || description.isEmpty() || RM.isEmpty())
             return false
 
