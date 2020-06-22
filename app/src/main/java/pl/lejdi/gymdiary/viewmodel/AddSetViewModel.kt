@@ -110,8 +110,8 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
-    private fun calculateRM(set: Set) : Float {
-        return set.weight * (1+ (set.repetitions/30.0f))
+    private fun calculateRM(weight: Float, reps: Int) : Float {
+        return weight * (1+ (reps/30.0f))
     }
 
     fun suggestedReps(type : String) {
@@ -145,13 +145,13 @@ class AddSetViewModel : MainViewModel() {
             else -> 0
         }
 
-        val newSet = Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), typeInt)
-        val newSetRM = calculateRM(newSet)
+        val newSetRM = calculateRM(weight.toFloat(), reps.toInt())
         updateRM(newSetRM, exerciseName)
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                repo.insertSet(newSet)
+                val setsCount = repo.getSetsByTrainingCount(trainingID)
+                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), typeInt, setsCount))
             }
         }
         return true

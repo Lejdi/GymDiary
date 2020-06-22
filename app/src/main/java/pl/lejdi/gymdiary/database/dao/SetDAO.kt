@@ -1,6 +1,5 @@
 package pl.lejdi.gymdiary.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import pl.lejdi.gymdiary.database.model.Set
 
@@ -26,4 +25,7 @@ interface SetDAO {
 
     @Query("SELECT * FROM sets WHERE trainingid = :trainingId")
     fun getAllSetsWithTrainingID(trainingId : Int) : List<Set>
+
+    @Query("SELECT COUNT() FROM sets WHERE trainingid = :trainingId")
+    fun getSetByTrainingCount(trainingId: Int) : Int
 }

@@ -1,6 +1,5 @@
 package pl.lejdi.gymdiary.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import pl.lejdi.gymdiary.database.model.Exercise
 

@@ -23,10 +23,13 @@ import kotlinx.android.parcel.Parcelize
         onDelete = ForeignKey.CASCADE
     )
     ])
-class Set(@ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id : Int,
-          @ColumnInfo(name = "trainingid") val trainingID : Int,
-          @ColumnInfo(name = "exercisename") val exerciseName : String,
-          @ColumnInfo(name = "repetitions") val repetitions : Int,
-          @ColumnInfo(name = "weight") val weight : Float,
-          @ColumnInfo(name = "type") val type : Int)
-    : Parcelable
+data class Set(
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true) val id : Int,
+    @ColumnInfo(name = "trainingid") val trainingID : Int,
+    @ColumnInfo(name = "exercisename") val exerciseName : String,
+    @ColumnInfo(name = "repetitions") val repetitions : Int,
+    @ColumnInfo(name = "weight") val weight : Float,
+    @ColumnInfo(name = "type") val type : Int,
+    @ColumnInfo(name = "rv_position") val rvPosition : Int
+) : Parcelable

@@ -46,6 +46,10 @@ class GymRepository{
         database.getSetDAO().deleteSet(set)
     }
 
+    fun getSetsByTrainingCount(trainingId: Int) : Int{
+        return database.getSetDAO().getSetByTrainingCount(trainingId)
+    }
+
     fun insertExercise(exercise: Exercise)
     {
         database.getExerciseDAO().insertExercise(exercise)
@@ -66,9 +70,8 @@ class GymRepository{
         database.getExerciseDAO().updateExercise(exercise)
     }
 
-    fun getSetsByExerciseName(name : String) : List<Set>
-    {
-        return database.getSetDAO().getAllSetsWithExerciseName(name)
+    fun updateSet(set : Set){
+        return database.getSetDAO().updateSet(set)
     }
 
     fun getAllSetsByTraining(trainingId : Int) : List<Set>

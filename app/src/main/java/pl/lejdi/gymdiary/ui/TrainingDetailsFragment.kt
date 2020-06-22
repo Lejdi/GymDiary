@@ -2,6 +2,7 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import pl.lejdi.gymdiary.adapter.SetListAdapter
 import pl.lejdi.gymdiary.database.model.Set
 import pl.lejdi.gymdiary.databinding.SetListFragmentBinding
 import pl.lejdi.gymdiary.viewmodel.TrainingDetailsViewModel
+import java.util.*
+
 
 class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInteractionListener {
     private lateinit var viewModel : TrainingDetailsViewModel
@@ -49,8 +52,7 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
         initRecyclerView()
     }
 
-    private fun setFabClickListener()
-    {
+    private fun setFabClickListener() {
         binding.fabAddSet.setOnClickListener {
             val addSetFragment = AddSetFragment()
             addSetFragment.enterTransition= Slide(Gravity.START)
@@ -66,8 +68,7 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
         }
     }
 
-    private fun initRecyclerView()
-    {
+    private fun initRecyclerView() {
         adapter = SetListAdapter( viewModel, this)
         binding.setRecyclerview.adapter = adapter
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.setRecyclerview)
@@ -88,13 +89,18 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
             .commit()
     }
 
-    private val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+    private val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.DOWN or ItemTouchHelper.UP, ItemTouchHelper.RIGHT){
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            return false
+            adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+            Collections.swap(viewModel.sets.value, viewHolder.adapterPosition, target.adapterPosition)
+            viewModel.notifyOrderChanged()
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -110,6 +116,5 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
 
             builder.show()
         }
-
     }
 }

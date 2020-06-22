@@ -1,5 +1,6 @@
 package pl.lejdi.gymdiary.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -9,7 +10,7 @@ import pl.lejdi.gymdiary.database.model.Set
 
 class TrainingDetailsViewModel : MainViewModel() {
 
-    val sets = MutableLiveData<List<Set>>()
+    val sets = MutableLiveData<MutableList<Set>>()
 
     fun retrieveSets(trainingId : Int){
         sets.value = mutableListOf()
@@ -18,12 +19,14 @@ class TrainingDetailsViewModel : MainViewModel() {
             {
                 repo.getAllSetsByTraining(trainingId)
             }
-            sets.value = response
+            sets.value = response.toMutableList()
+            sets.value?.sortBy {
+                it.rvPosition
+            }
         }
     }
 
-    fun deleteSet(set: Set)
-    {
+    fun deleteSet(set: Set) {
         viewModelScope.launch {
             withContext(Dispatchers.IO)
             {
@@ -31,5 +34,16 @@ class TrainingDetailsViewModel : MainViewModel() {
             }
         }
         retrieveSets(set.trainingID)
+    }
+
+    fun notifyOrderChanged(){
+        var rvIdx = 0
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                sets.value?.forEach {
+                    repo.updateSet(Set(it.id, it.trainingID, it.exerciseName, it.repetitions, it.weight, it.type, rvIdx++))
+                }
+            }
+        }
     }
 }
