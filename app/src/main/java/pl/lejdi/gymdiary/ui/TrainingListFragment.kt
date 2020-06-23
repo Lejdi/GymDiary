@@ -2,12 +2,17 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +23,7 @@ import pl.lejdi.gymdiary.adapter.TrainingListAdapter
 import pl.lejdi.gymdiary.database.model.Training
 import pl.lejdi.gymdiary.databinding.TrainingsListFragmentBinding
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
+
 
 class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInteractionListener {
     private lateinit var viewModel : TrainingListViewModel
@@ -38,26 +44,75 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     override fun onStart() {
         super.onStart()
+        observeData()
         setFabClickListener()
         viewModel.retrieveTrainings()
         initRecyclerView()
     }
 
-    private fun setFabClickListener()
-    {
-        binding.fabAddTraining.setOnClickListener {
-            val addTrainingFragment = AddTrainingFragment()
-            addTrainingFragment.enterTransition= Slide(Gravity.START)
+    private fun observeData() {
+        viewModel.getCurrentDate().observe(this, Observer {
+            binding.addTrainingDate.setText(it)
+        })
+        viewModel.descriptionIsEmpty.observe(this, Observer {
+            if(it){
+                binding.addTrainingDescription.setBackgroundResource(R.drawable.training_text_background_warning)
+            }
+            else{
+                binding.addTrainingDescription.setBackgroundResource(R.drawable.training_text_background)
+            }
+        })
+        viewModel.dateIsEmpty.observe(this, Observer {
+            if(it){
+                binding.addTrainingDate.setBackgroundResource(R.drawable.training_text_background_warning)
+            }
+            else{
+                binding.addTrainingDate.setBackgroundResource(R.drawable.training_text_background)
+            }
+        })
+    }
 
-            activity?.supportFragmentManager!!.beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.container, addTrainingFragment)
-                .commit()
+    private var isAddViewShown = false
+
+    private fun setFabClickListener() {
+        binding.upperFABTrainingList.setOnClickListener {
+            if(isAddViewShown){
+                if(!viewModel.saveNewTraining(binding.addTrainingDate.text.toString(), binding.addTrainingDescription.text.toString())){
+                    Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    if(viewModel.trainings.value != null){
+                        binding.trainingRecyclerview.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
+                    }
+                    binding.addTrainingContainer.layoutParams =
+                        LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            0
+                        )
+                    isAddViewShown = false
+                }
+            }
+            else{
+                val params = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                val marginInDp = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 10f, resources
+                        .displayMetrics
+                ).toInt()
+                params.setMargins(marginInDp)
+                binding.addTrainingContainer.layoutParams = params
+                isAddViewShown = true
+            }
+
+        }
+        binding.lowerFABTrainingList.setOnClickListener {
+
         }
     }
 
-    private fun initRecyclerView()
-    {
+    private fun initRecyclerView() {
         adapter = TrainingListAdapter( viewModel, this)
         binding.trainingRecyclerview.adapter = adapter
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.trainingRecyclerview)
