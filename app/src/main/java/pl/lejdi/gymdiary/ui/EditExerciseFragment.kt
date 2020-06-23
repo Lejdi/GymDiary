@@ -10,17 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pl.lejdi.gymdiary.R
-import pl.lejdi.gymdiary.databinding.ExerciseDetailsFragmentBinding
+import pl.lejdi.gymdiary.databinding.FragmentExerciseEditBinding
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
 class EditExerciseFragment : Fragment() {
     private lateinit var viewModel : EditExerciseViewModel
-    private lateinit var binding: ExerciseDetailsFragmentBinding
+    private lateinit var binding: FragmentExerciseEditBinding
 
     private var exerciseExists : Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ExerciseDetailsFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentExerciseEditBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,59 +37,59 @@ class EditExerciseFragment : Fragment() {
             val exerciseName : String = arguments?.getString(getString(R.string.KEY_EXERCISE_NAME))!!
             viewModel.retrieveExercise(exerciseName)
             viewModel.exercise.observe(this, Observer {
-                binding.exerciseDetailsNameExists.visibility = View.VISIBLE
-                binding.exerciseDetailsNameNotexists.visibility = View.GONE
-                binding.exerciseDetailsNameExists.text = it.name
-                binding.exerciseDetailsDescription.setText(it.description)
-                binding.RMCheckbox.isChecked =it.isRMAuto == 1
-                binding.RMEdittext.setText(it.RM.toString())
+                binding.txtExercisedetailsName.visibility = View.VISIBLE
+                binding.txtExercisedetailsNameEmpty.visibility = View.GONE
+                binding.txtExercisedetailsName.text = it.name
+                binding.txtExercisedetailsDescription.setText(it.description)
+                binding.checkboxExercisedetailsRm.isChecked =it.isRMAuto == 1
+                binding.txtExercisedetailsRm.setText(it.RM.toString())
             })
         }
         else
         {
-            binding.exerciseDetailsNameExists.visibility = View.GONE
-            binding.exerciseDetailsNameNotexists.visibility = View.VISIBLE
+            binding.txtExercisedetailsName.visibility = View.GONE
+            binding.txtExercisedetailsNameEmpty.visibility = View.VISIBLE
             exerciseExists = false
         }
         setInfoButtonListener()
         setFabClickListener()
         viewModel.descriptionIsEmpty.observe(this, Observer {
             if(it){
-                binding.exerciseDetailsDescription.setBackgroundResource(R.drawable.text_background_warning)
+                binding.txtExercisedetailsDescription.setBackgroundResource(R.drawable.background_text_grey_warn)
             }
             else{
-                binding.exerciseDetailsDescription.setBackgroundResource(R.drawable.text_background)
+                binding.txtExercisedetailsDescription.setBackgroundResource(R.drawable.background_text_grey)
             }
         })
         viewModel.nameIsEmpty.observe(this, Observer {
             if(it){
-                binding.exerciseDetailsNameExists.setBackgroundResource(R.drawable.text_background_warning)
-                binding.exerciseDetailsNameNotexists.setBackgroundResource(R.drawable.text_background_warning)
+                binding.txtExercisedetailsName.setBackgroundResource(R.drawable.background_text_grey_warn)
+                binding.txtExercisedetailsNameEmpty.setBackgroundResource(R.drawable.background_text_grey_warn)
             }
             else{
-                binding.exerciseDetailsNameNotexists.setBackgroundResource(R.drawable.text_background)
+                binding.txtExercisedetailsNameEmpty.setBackgroundResource(R.drawable.background_text_grey)
             }
         })
         viewModel.RMisEmpty.observe(this, Observer {
             if(it){
-                binding.RMEdittext.setBackgroundResource(R.drawable.text_background_warning)
+                binding.txtExercisedetailsRm.setBackgroundResource(R.drawable.background_text_grey_warn)
             }
             else{
-                binding.RMEdittext.setBackgroundResource(R.drawable.text_background)
+                binding.txtExercisedetailsRm.setBackgroundResource(R.drawable.background_text_grey)
             }
         })
     }
 
     private fun setFabClickListener()
     {
-        binding.exerciseDetailsFab.setOnClickListener {
+        binding.btnExercisedetailsSave.setOnClickListener {
             if(exerciseExists)
             {
                 if(viewModel.updateExercise(
-                        binding.exerciseDetailsNameExists.text.toString(),
-                        binding.exerciseDetailsDescription.text.toString(),
-                        binding.RMCheckbox.isChecked,
-                        binding.RMEdittext.text.toString() ))
+                        binding.txtExercisedetailsName.text.toString(),
+                        binding.txtExercisedetailsDescription.text.toString(),
+                        binding.checkboxExercisedetailsRm.isChecked,
+                        binding.txtExercisedetailsRm.text.toString() ))
                 {
                     activity?.supportFragmentManager!!.popBackStack()
                 }
@@ -99,10 +99,10 @@ class EditExerciseFragment : Fragment() {
             }
             else{
                 if(viewModel.saveExercise(
-                        binding.exerciseDetailsNameNotexists.text.toString(),
-                        binding.exerciseDetailsDescription.text.toString(),
-                        binding.RMCheckbox.isChecked,
-                        binding.RMEdittext.text.toString() ))
+                        binding.txtExercisedetailsNameEmpty.text.toString(),
+                        binding.txtExercisedetailsDescription.text.toString(),
+                        binding.checkboxExercisedetailsRm.isChecked,
+                        binding.txtExercisedetailsRm.text.toString() ))
                 {
                     activity?.supportFragmentManager!!.popBackStack()
                 }
@@ -115,7 +115,7 @@ class EditExerciseFragment : Fragment() {
 
     private fun setInfoButtonListener()
     {
-        binding.whatIsRM.setOnClickListener {
+        binding.btnExercisedetailsRm.setOnClickListener {
             Toast.makeText(activity,getString(R.string.RM_explanation), Toast.LENGTH_SHORT).show()
         }
     }

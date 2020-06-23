@@ -21,19 +21,19 @@ import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
 import pl.lejdi.gymdiary.database.model.Training
-import pl.lejdi.gymdiary.databinding.TrainingsListFragmentBinding
+import pl.lejdi.gymdiary.databinding.FragmentTrainingsListBinding
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
 
 
 class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInteractionListener {
     private lateinit var viewModel : TrainingListViewModel
 
-    private lateinit var binding: TrainingsListFragmentBinding
+    private lateinit var binding: FragmentTrainingsListBinding
     private lateinit var adapter : TrainingListAdapter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = TrainingsListFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentTrainingsListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,22 +52,22 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     private fun observeData() {
         viewModel.getCurrentDate().observe(this, Observer {
-            binding.addTrainingDate.setText(it)
+            binding.txtAddtrainingDate.setText(it)
         })
         viewModel.descriptionIsEmpty.observe(this, Observer {
             if(it){
-                binding.addTrainingDescription.setBackgroundResource(R.drawable.training_text_background_warning)
+                binding.txtAddtrainingDescription.setBackgroundResource(R.drawable.background_text_yellow_warn)
             }
             else{
-                binding.addTrainingDescription.setBackgroundResource(R.drawable.training_text_background)
+                binding.txtAddtrainingDescription.setBackgroundResource(R.drawable.background_text_yellow)
             }
         })
         viewModel.dateIsEmpty.observe(this, Observer {
             if(it){
-                binding.addTrainingDate.setBackgroundResource(R.drawable.training_text_background_warning)
+                binding.txtAddtrainingDate.setBackgroundResource(R.drawable.background_text_yellow_warn)
             }
             else{
-                binding.addTrainingDate.setBackgroundResource(R.drawable.training_text_background)
+                binding.txtAddtrainingDate.setBackgroundResource(R.drawable.background_text_yellow)
             }
         })
     }
@@ -75,16 +75,16 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private var isAddViewShown = false
 
     private fun setFabClickListener() {
-        binding.upperFABTrainingList.setOnClickListener {
+        binding.btnTraininglistAddOrSave.setOnClickListener {
             if(isAddViewShown){
-                if(!viewModel.saveNewTraining(binding.addTrainingDate.text.toString(), binding.addTrainingDescription.text.toString())){
+                if(!viewModel.saveNewTraining(binding.txtAddtrainingDate.text.toString(), binding.txtAddtrainingDescription.text.toString())){
                     Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
                 }
                 else{
                     if(viewModel.trainings.value != null){
-                        binding.trainingRecyclerview.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
+                        binding.recyclerviewTraininglist.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
                     }
-                    binding.addTrainingContainer.layoutParams =
+                    binding.containerTrainingslistAddtraining.layoutParams =
                         LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             0
@@ -102,28 +102,28 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
                         .displayMetrics
                 ).toInt()
                 params.setMargins(marginInDp)
-                binding.addTrainingContainer.layoutParams = params
+                binding.containerTrainingslistAddtraining.layoutParams = params
                 isAddViewShown = true
             }
 
         }
-        binding.lowerFABTrainingList.setOnClickListener {
+        binding.btnTraininglistAddOrSave.setOnClickListener {
 
         }
     }
 
     private fun initRecyclerView() {
         adapter = TrainingListAdapter( viewModel, this)
-        binding.trainingRecyclerview.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.trainingRecyclerview)
+        binding.recyclerviewTraininglist.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewTraininglist)
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.reverseLayout = true
         layoutManager.stackFromEnd = true
-        binding.trainingRecyclerview.layoutManager = layoutManager
+        binding.recyclerviewTraininglist.layoutManager = layoutManager
     }
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
-        val trainingDetailsFragment = TrainingDetailsFragment()
+        val trainingDetailsFragment = SetListFragment()
         trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()

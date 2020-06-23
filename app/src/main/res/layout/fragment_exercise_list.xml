@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/exercise_recyclerview"
+        android:id="@+id/recyclerview_exerciselist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -19,18 +19,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="10"
-        tools:listitem="@layout/exercise_list_item" />
+        tools:listitem="@layout/view_exercise_list_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_exercise"
+        android:id="@+id/btn_exerciselist_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="36dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/exercise_recyclerview"
-        app:srcCompat="@drawable/ic_add_black_24dp"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview_exerciselist"
+        app:srcCompat="@drawable/vector_cross"
         android:backgroundTint="@color/colorPrimaryDark"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

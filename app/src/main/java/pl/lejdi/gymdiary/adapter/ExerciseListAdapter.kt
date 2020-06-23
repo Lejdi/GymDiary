@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import pl.lejdi.gymdiary.database.model.Exercise
-import pl.lejdi.gymdiary.databinding.ExerciseListItemBinding
+import pl.lejdi.gymdiary.databinding.ViewExerciseListItemBinding
 import pl.lejdi.gymdiary.ui.ExerciseListFragment
 import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
 
@@ -15,7 +15,7 @@ class ExerciseListAdapter constructor(private val viewModel: ExerciseListViewMod
     : RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>() {
 
     private val mValues = MutableLiveData<List<Exercise>>()
-    private lateinit var binding: ExerciseListItemBinding
+    private lateinit var binding: ViewExerciseListItemBinding
 
     init{
         viewModel.exercises.observe(mListener as ExerciseListFragment, Observer {
@@ -25,7 +25,7 @@ class ExerciseListAdapter constructor(private val viewModel: ExerciseListViewMod
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = ExerciseListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = ViewExerciseListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -45,9 +45,9 @@ class ExerciseListAdapter constructor(private val viewModel: ExerciseListViewMod
         return mValues.value?.size!!
     }
 
-    inner class ViewHolder(val binding: ExerciseListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val name = this.binding.exerciseListitemName
-        val description = this.binding.exerciseListitemDescription
+    inner class ViewHolder(val binding: ViewExerciseListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val name = this.binding.txtExerciselistitemName
+        val description = this.binding.txtExerciselistitemDescription
         var mItem: Exercise? = null
     }
 

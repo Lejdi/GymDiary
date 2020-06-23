@@ -16,18 +16,18 @@ import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.ExerciseListAdapter
 import pl.lejdi.gymdiary.database.model.Exercise
-import pl.lejdi.gymdiary.databinding.ExerciseListFragmentBinding
+import pl.lejdi.gymdiary.databinding.FragmentExerciseListBinding
 import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
 
 class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInteractionListener {
     private lateinit var viewModel : ExerciseListViewModel
 
-    private lateinit var binding: ExerciseListFragmentBinding
+    private lateinit var binding: FragmentExerciseListBinding
     private lateinit var adapter : ExerciseListAdapter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ExerciseListFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentExerciseListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,7 +45,7 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     private fun setFabClickListener()
     {
-        binding.fabAddExercise.setOnClickListener {
+        binding.btnExerciselistAdd.setOnClickListener {
             val editExerciseFragment = EditExerciseFragment()
             editExerciseFragment.enterTransition= Slide(Gravity.START)
 
@@ -59,12 +59,12 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
     private fun initRecyclerView()
     {
         adapter = ExerciseListAdapter( viewModel, this)
-        binding.exerciseRecyclerview.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.exerciseRecyclerview)
+        binding.recyclerviewExerciselist.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewExerciselist)
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.reverseLayout = true
         layoutManager.stackFromEnd = true
-        binding.exerciseRecyclerview.layoutManager = layoutManager
+        binding.recyclerviewExerciselist.layoutManager = layoutManager
     }
 
     override fun onListFragmentClickInteraction(exercise: Exercise, position: Int) {

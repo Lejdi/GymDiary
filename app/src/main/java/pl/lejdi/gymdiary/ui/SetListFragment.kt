@@ -2,7 +2,6 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,27 +16,27 @@ import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.SetListAdapter
 import pl.lejdi.gymdiary.database.model.Set
-import pl.lejdi.gymdiary.databinding.SetListFragmentBinding
-import pl.lejdi.gymdiary.viewmodel.TrainingDetailsViewModel
+import pl.lejdi.gymdiary.databinding.FragmentSetListBinding
+import pl.lejdi.gymdiary.viewmodel.SetListViewModel
 import java.util.*
 
 
-class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInteractionListener {
-    private lateinit var viewModel : TrainingDetailsViewModel
-    private lateinit var binding : SetListFragmentBinding
+class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionListener {
+    private lateinit var viewModel : SetListViewModel
+    private lateinit var binding : FragmentSetListBinding
 
     private lateinit var adapter : SetListAdapter
 
     var trainingId = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = SetListFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentSetListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProvider(this).get(TrainingDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SetListViewModel::class.java)
     }
 
     override fun onStart() {
@@ -53,7 +52,7 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
     }
 
     private fun setFabClickListener() {
-        binding.fabAddSet.setOnClickListener {
+        binding.btnSetlistAdd.setOnClickListener {
             val addSetFragment = AddSetFragment()
             addSetFragment.enterTransition= Slide(Gravity.START)
 
@@ -70,9 +69,9 @@ class TrainingDetailsFragment : Fragment(), SetListAdapter.OnListFragmentInterac
 
     private fun initRecyclerView() {
         adapter = SetListAdapter( viewModel, this)
-        binding.setRecyclerview.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.setRecyclerview)
-        binding.setRecyclerview.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerviewSetlist.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewSetlist)
+        binding.recyclerviewSetlist.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onListFragmentClickInteraction(set: Set, position: Int) {

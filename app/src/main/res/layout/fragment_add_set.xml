@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_set_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/FragmentStyle">
+
+    <AutoCompleteTextView
+        android:id="@+id/txt_addset_exercisename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+
+        android:hint="@string/enter_exercise_name"
+
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="textAutoComplete"
+        android:padding="10dp"
+
+        android:textColor="@color/white"
+        android:textColorHint="@color/fragmentsBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_addset_exercisedescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/background_text_grey"
+        android:lines="10"
+        app:layout_constraintTop_toBottomOf="@id/txt_addset_exercisename" />
+
+    <Spinner
+        android:id="@+id/spinner_addset_exercisetype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="64dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/background_text_grey"
+        android:padding="10dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_addset_exercisedescription" />
+
+    <ImageView
+        android:id="@+id/img_addset_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_weight"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/txt_addset_weight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
+
+    <EditText
+        android:id="@+id/txt_addset_weight"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@id/img_addset_reps"
+        app:layout_constraintStart_toEndOf="@id/img_addset_weight"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"/>
+
+    <ImageView
+        android:id="@+id/img_addset_reps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_counter"
+        app:layout_constraintEnd_toStartOf="@id/txt_addset_reps"
+        app:layout_constraintStart_toEndOf="@id/txt_addset_weight"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"/>
+
+    <EditText
+        android:id="@+id/txt_addset_reps"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_addset_reps"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_addset_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="221dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_addset_reps"
+        app:srcCompat="@drawable/vector_save" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/spinner_addset_exercisetype" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="36dp"
+        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

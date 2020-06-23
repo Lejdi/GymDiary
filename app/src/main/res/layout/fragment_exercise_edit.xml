@@ -8,7 +8,7 @@
     android:theme="@style/FragmentStyle">
 
     <EditText
-        android:id="@+id/exercise_details_name_notexists"
+        android:id="@+id/txt_exercisedetails_name_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -21,7 +21,7 @@
         android:imeOptions="flagNoExtractUi"/>
 
     <TextView
-        android:id="@+id/exercise_details_name_exists"
+        android:id="@+id/txt_exercisedetails_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/exercise_details_description"
+        android:id="@+id/txt_exercisedetails_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/exercise_description"
@@ -46,22 +46,22 @@
         android:imeOptions="flagNoExtractUi"/>
 
     <CheckBox
-        android:id="@+id/RM_checkbox"
+        android:id="@+id/checkbox_exercisedetails_rm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:buttonTint="@color/white"
         android:text="@string/calculate_1rm_based_on_trainings"
-        app:layout_constraintTop_toBottomOf="@id/exercise_details_description"
+        app:layout_constraintTop_toBottomOf="@id/txt_exercisedetails_description"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"/>
 
     <EditText
-        android:id="@+id/RM_edittext"
+        android:id="@+id/txt_exercisedetails_rm"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/RM_checkbox"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_exercisedetails_rm"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="32dp"
         android:layout_marginStart="32dp"
@@ -69,21 +69,21 @@
         android:imeOptions="flagNoExtractUi"/>
 
     <ImageButton
-        android:id="@+id/what_is_RM"
+        android:id="@+id/btn_exercisedetails_rm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        app:layout_constraintStart_toEndOf="@id/RM_edittext"
-        app:layout_constraintTop_toBottomOf="@id/RM_checkbox"
-        android:src="@drawable/ic_info_outline_black_24dp"
+        app:layout_constraintStart_toEndOf="@id/txt_exercisedetails_rm"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_exercisedetails_rm"
+        android:src="@drawable/vector_info"
         android:backgroundTint="@color/fragmentsBackground"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/exercise_details_fab"
+        android:id="@+id/btn_exercisedetails_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_save_black_24dp"
+        app:srcCompat="@drawable/vector_save"
         android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="32dp"

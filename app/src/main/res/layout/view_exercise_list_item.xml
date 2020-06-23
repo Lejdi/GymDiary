@@ -8,7 +8,7 @@
     style="@style/ListItemStyle">
 
     <TextView
-        android:id="@+id/exercise_listitem_name"
+        android:id="@+id/txt_exerciselistitem_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -21,13 +21,13 @@
         android:background="@color/colorPrimary"/>
 
     <TextView
-        android:id="@+id/exercise_listitem_description"
+        android:id="@+id/txt_exerciselistitem_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintStart_toStartOf="@+id/exercise_listitem_name"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_listitem_name"
+        app:layout_constraintStart_toStartOf="@+id/txt_exerciselistitem_name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exerciselistitem_name"
         android:layout_marginTop="10dp"
         android:lines="3"
         tools:text="DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription"

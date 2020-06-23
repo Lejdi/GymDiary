@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
             <corners android:radius="20dp"/>
             <stroke
                 android:width="5dp"
@@ -13,7 +13,7 @@
         android:bottom="1dp"
         android:left="1dp"
         android:right="1dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
             <corners android:radius="20dp"/>
             <stroke
                 android:width="5dp"
@@ -25,7 +25,7 @@
         android:bottom="2dp"
         android:left="2dp"
         android:right="2dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
             <corners android:radius="20dp"/>
             <stroke
                 android:width="5dp"
@@ -37,7 +37,7 @@
         android:bottom="4dp"
         android:left="4dp"
         android:right="4dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
             <corners android:radius="20dp"/>
             <stroke
                 android:width="5dp"
@@ -49,7 +49,7 @@
         android:bottom="6dp"
         android:left="6dp"
         android:right="6dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
             <corners android:radius="20dp"/>
             <stroke
                 android:width="5dp"
@@ -61,7 +61,7 @@
         android:bottom="9dp"
         android:left="9dp"
         android:right="9dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <shape>
             <solid android:color="@color/grey"/>
             <corners android:radius="20dp"/>
             <stroke

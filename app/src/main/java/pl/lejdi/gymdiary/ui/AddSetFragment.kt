@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,19 +16,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
-import pl.lejdi.gymdiary.databinding.AddSetFragmentBinding
+import pl.lejdi.gymdiary.databinding.FragmentAddSetBinding
 import pl.lejdi.gymdiary.viewmodel.AddSetViewModel
 
 
 class AddSetFragment : Fragment() {
     private lateinit var viewModel : AddSetViewModel
 
-    private lateinit var binding: AddSetFragmentBinding
+    private lateinit var binding: FragmentAddSetBinding
 
     private var trainingID : Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = AddSetFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentAddSetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -50,33 +49,33 @@ class AddSetFragment : Fragment() {
         getExercises()
         setSpinner()
         viewModel.suggestedWeight.observe(this, Observer {
-            binding.addSetWeight.setText(it.toString())
+            binding.txtAddsetWeight.setText(it.toString())
         })
         viewModel.suggestedReps.observe(this, Observer {
-            binding.addSetRepetitions.setText(it.toString())
+            binding.txtAddsetReps.setText(it.toString())
         })
         viewModel.repsIsEmpty.observe(this, Observer {
             if(it){
-                binding.addSetRepetitions.setBackgroundResource(R.drawable.text_background_warning)
+                binding.txtAddsetReps.setBackgroundResource(R.drawable.background_text_grey_warn)
             }
             else{
-                binding.addSetRepetitions.setBackgroundResource(R.drawable.text_background)
+                binding.txtAddsetReps.setBackgroundResource(R.drawable.background_text_grey)
             }
         })
         viewModel.weightIsEmpty.observe(this, Observer {
             if(it){
-                binding.addSetWeight.setBackgroundResource(R.drawable.text_background_warning)
+                binding.txtAddsetWeight.setBackgroundResource(R.drawable.background_text_grey_warn)
             }
             else{
-                binding.addSetWeight.setBackgroundResource(R.drawable.text_background)
+                binding.txtAddsetWeight.setBackgroundResource(R.drawable.background_text_grey)
             }
         })
         viewModel.exerciseNameIsEmpty.observe(this, Observer {
             if(it){
-                binding.addSetExerciseName.setBackgroundResource(R.drawable.text_background_warning)
+                binding.txtAddsetExercisename.setBackgroundResource(R.drawable.background_text_grey_warn)
             }
             else{
-                binding.addSetExerciseName.setBackgroundResource(R.drawable.text_background)
+                binding.txtAddsetExercisename.setBackgroundResource(R.drawable.background_text_grey)
             }
         })
     }
@@ -84,37 +83,37 @@ class AddSetFragment : Fragment() {
     private fun getExercises()
     {
         viewModel.retrieveExercises()
-        binding.addSetExerciseName.setOnItemClickListener { _, _, _, _ ->
+        binding.txtAddsetExercisename.setOnItemClickListener { _, _, _, _ ->
             run {
             setDescription()
             calculateSuggestedWeights()
             insertSuggestedReps()
             }
-        binding.addSetExerciseName.addTextChangedListener(object: TextWatcher {
+        binding.txtAddsetExercisename.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.addSetExerciseDescription.text = ""
+                binding.txtAddsetExercisedescription.text = ""
             }
 
         })
         }
-        binding.addSetExerciseName.threshold=1
+        binding.txtAddsetExercisename.threshold=1
         viewModel.exercises.observe(this, Observer {
             val names = viewModel.getExercisesNames()
             val adapter = ArrayAdapter(requireContext(),
-                R.layout.dropdown_item, names)
-            binding.addSetExerciseName.setAdapter(adapter)
+                R.layout.view_dropdown_item, names)
+            binding.txtAddsetExercisename.setAdapter(adapter)
         })
     }
 
     private fun setDescription()
     {
-        viewModel.getExerciseDescription(binding.addSetExerciseName.text.toString())
+        viewModel.getExerciseDescription(binding.txtAddsetExercisename.text.toString())
         viewModel.description.observe(this, Observer {
-            binding.addSetExerciseDescription.text = it
+            binding.txtAddsetExercisedescription.text = it
         })
     }
 
@@ -126,15 +125,15 @@ class AddSetFragment : Fragment() {
             resources.getStringArray(R.array.types)[2])
         val adapter = ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item, types)
-        adapter.setDropDownViewResource(R.layout.dropdown_item)
-        binding.addSetExerciseType.adapter = adapter
+        adapter.setDropDownViewResource(R.layout.view_dropdown_item)
+        binding.spinnerAddsetExercisetype.adapter = adapter
 
 
         val itemSelectedListener : OnItemSelectedListener = object: OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (binding.addSetExerciseDescription.text.isNotEmpty())
+                if (binding.txtAddsetExercisedescription.text.isNotEmpty())
                 {
                     calculateSuggestedWeights()
                     insertSuggestedReps()
@@ -142,36 +141,36 @@ class AddSetFragment : Fragment() {
             }
 
         }
-        binding.addSetExerciseType.onItemSelectedListener = itemSelectedListener
+        binding.spinnerAddsetExercisetype.onItemSelectedListener = itemSelectedListener
 
     }
 
     private fun calculateSuggestedWeights()
     {
-        viewModel.calculateSuggestedWeight(binding.addSetExerciseType.selectedItem.toString(), binding.addSetExerciseName.text.toString()).toString()
+        viewModel.calculateSuggestedWeight(binding.spinnerAddsetExercisetype.selectedItem.toString(), binding.txtAddsetExercisename.text.toString()).toString()
 
     }
 
     private fun insertSuggestedReps()
     {
-        viewModel.suggestedReps(binding.addSetExerciseType.selectedItem.toString()).toString()
+        viewModel.suggestedReps(binding.spinnerAddsetExercisetype.selectedItem.toString()).toString()
     }
 
     private fun setFabClickListener()
     {
-        binding.addSetFab.setOnClickListener {
-            if(binding.addSetExerciseDescription.text.isEmpty()){
+        binding.btnAddsetSave.setOnClickListener {
+            if(binding.txtAddsetExercisedescription.text.isEmpty()){
                 Toast.makeText(activity, getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
                 viewModel.exerciseNameIsEmpty.value = true
             }
             else{
                 if(viewModel.saveSet(
-                        trainingID,binding.addSetExerciseName.text.toString(),
-                        binding.addSetWeight.text.toString(),
-                        binding.addSetRepetitions.text.toString(),
-                        binding.addSetExerciseType.selectedItem.toString()))
+                        trainingID,binding.txtAddsetExercisename.text.toString(),
+                        binding.txtAddsetWeight.text.toString(),
+                        binding.txtAddsetWeight.text.toString(),
+                        binding.spinnerAddsetExercisetype.selectedItem.toString()))
                 {
-                    val trainingDetailsFragment = TrainingDetailsFragment()
+                    val trainingDetailsFragment = SetListFragment()
                     trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
                     val bundle = Bundle()

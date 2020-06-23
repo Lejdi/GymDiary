@@ -1,16 +1,12 @@
 package pl.lejdi.gymdiary.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.database.model.Training
-import pl.lejdi.gymdiary.databinding.TrainingsListItemBinding
+import pl.lejdi.gymdiary.databinding.ViewTrainingsListItemBinding
 import pl.lejdi.gymdiary.ui.TrainingListFragment
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
 
@@ -19,7 +15,7 @@ class TrainingListAdapter constructor(private val viewModel: TrainingListViewMod
     : RecyclerView.Adapter<TrainingListAdapter.ViewHolder>() {
 
     private val mValues = MutableLiveData<List<Training>>()
-    private lateinit var binding: TrainingsListItemBinding
+    private lateinit var binding: ViewTrainingsListItemBinding
 
     init{
         viewModel.trainings.observe(mListener as TrainingListFragment, Observer {
@@ -29,7 +25,7 @@ class TrainingListAdapter constructor(private val viewModel: TrainingListViewMod
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = TrainingsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = ViewTrainingsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -49,9 +45,9 @@ class TrainingListAdapter constructor(private val viewModel: TrainingListViewMod
         return mValues.value?.size!!
     }
 
-    inner class ViewHolder(val binding: TrainingsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val date = this.binding.trainingListitemDate
-        val description = this.binding.trainingListitemDescription
+    inner class ViewHolder(val binding: ViewTrainingsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val date = this.binding.txtTrainingslistDate
+        val description = this.binding.txtTrainingslistDescription
         var mItem: Training? = null
     }
 

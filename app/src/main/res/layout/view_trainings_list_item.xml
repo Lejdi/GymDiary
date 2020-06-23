@@ -8,7 +8,7 @@
     style="@style/ListItemStyle">
 
     <TextView
-        android:id="@+id/training_listitem_date"
+        android:id="@+id/txt_trainingslist_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -21,13 +21,13 @@
         android:background="@color/colorPrimary"/>
 
     <TextView
-        android:id="@+id/training_listitem_description"
+        android:id="@+id/txt_trainingslist_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintStart_toStartOf="@+id/training_listitem_date"
-        app:layout_constraintTop_toBottomOf="@+id/training_listitem_date"
+        app:layout_constraintStart_toStartOf="@+id/txt_trainingslist_date"
+        app:layout_constraintTop_toBottomOf="@+id/txt_trainingslist_date"
         android:layout_marginTop="10dp"
         android:lines="3"
         tools:text="Description"

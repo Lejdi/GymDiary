@@ -12,16 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/trainings_container">
+        android:id="@+id/container_trainingslist">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/add_training_container"
+            android:id="@+id/container_trainingslist_addtraining"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             style="@style/ListItemStyle">
 
             <EditText
-                android:id="@+id/add_training_date"
+                android:id="@+id/txt_addtraining_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -34,13 +34,13 @@
                 android:imeOptions="flagNoExtractUi" />
 
             <EditText
-                android:id="@+id/add_training_description"
+                android:id="@+id/txt_addtraining_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintStart_toStartOf="@+id/add_training_date"
-                app:layout_constraintTop_toBottomOf="@+id/add_training_date"
+                app:layout_constraintStart_toStartOf="@+id/txt_addtraining_date"
+                app:layout_constraintTop_toBottomOf="@+id/txt_addtraining_date"
                 android:layout_marginTop="10dp"
                 android:lines="3"
                 android:inputType="textMultiLine"
@@ -51,7 +51,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/training_recyclerview"
+            android:id="@+id/recyclerview_traininglist"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8"
@@ -61,14 +61,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_training_container"
+            app:layout_constraintTop_toBottomOf="@id/container_trainingslist_addtraining"
             tools:itemCount="10"
-            tools:listitem="@layout/trainings_list_item" />
+            tools:listitem="@layout/view_trainings_list_item" />
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/lowerFAB_training_list"
+        android:id="@+id/btn_traininglist_discard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -76,11 +76,11 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_black_24dp"
+        app:srcCompat="@drawable/vector_cross"
         android:backgroundTint="@color/colorPrimaryDark"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/upperFAB_training_list"
+        android:id="@+id/btn_traininglist_add_or_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -88,7 +88,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_black_24dp"
+        app:srcCompat="@drawable/vector_cross"
         android:backgroundTint="@color/colorPrimaryDark"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

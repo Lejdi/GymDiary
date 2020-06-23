@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.lejdi.gymdiary.database.model.Set
 
-class TrainingDetailsViewModel : MainViewModel() {
+class SetListViewModel : MainViewModel() {
 
     val sets = MutableLiveData<MutableList<Set>>()
 

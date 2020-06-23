@@ -22,7 +22,7 @@ class NavigationTest {
     @Test
     fun test_navigation_add_new_exercise()
     {
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
         //training list visible
         onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
 
@@ -32,56 +32,39 @@ class NavigationTest {
         onView(withId(R.id.exercise_details_layout)).check(matches(isDisplayed()))
 
         //fill exercise with data
-        onView(withId(R.id.exercise_details_name_notexists)).perform(typeText("espresso test"))
+        onView(withId(R.id.txt_exercisedetails_name_empty)).perform(typeText("espresso test"))
         closeSoftKeyboard()
-        onView(withId(R.id.exercise_details_description)).perform(typeText("espresso test"))
+        onView(withId(R.id.txt_exercisedetails_description)).perform(typeText("espresso test"))
         closeSoftKeyboard()
-        onView(withId(R.id.RM_edittext)).perform(typeText("0"))
+        onView(withId(R.id.txt_exercisedetails_rm)).perform(typeText("0"))
         closeSoftKeyboard()
 
         //save exercise
-        onView(withId(R.id.exercise_details_fab)).perform(click())
-        onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun test_navigation_add_new_training()
-    {
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.fab_add_training)).perform(click()).also { Thread.sleep(500) }
-
-        //check is add training is visible
-        onView(withId(R.id.new_training_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.new_training_description)).perform(typeText("espresso test"))
-        closeSoftKeyboard()
-        onView(withId(R.id.new_training_fab)).perform(click())
-
-        //training list should be visible
+        onView(withId(R.id.btn_exercisedetails_save)).perform(click())
         onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
     }
 
     @Test
     fun test_navigation_add_new_set()
     {
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
         //training list view visible
         onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.training_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.recyclerview_traininglist)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         //set list view visible
         onView(withId(R.id.set_list_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.fab_add_set)).perform(click()).also { Thread.sleep(500) }
+        onView(withId(R.id.btn_setlist_add)).perform(click()).also { Thread.sleep(500) }
 
         onView(withId(R.id.add_set_layout)).check(matches(isDisplayed()))
 
         //fill data
-        onView(withId(R.id.add_set_exercise_name)).perform(typeText("test1"))
+        onView(withId(R.id.txt_addset_exercisename)).perform(typeText("test1"))
         onData(equalTo("Test1")).inRoot(RootMatchers.isPlatformPopup()).perform(click())
         closeSoftKeyboard()
 
         //go back to set list
-        onView(withId(R.id.add_set_fab)).perform(click())
+        onView(withId(R.id.btn_addset_save)).perform(click())
         onView(withId(R.id.set_list_layout)).check(matches(isDisplayed()))
 
     }
@@ -89,14 +72,14 @@ class NavigationTest {
     @Test
     fun test_navigation_training_details_exercise_details_and_back()
     {
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
         //training list view visible
         onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.training_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.recyclerview_traininglist)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         //set list view visible
         onView(withId(R.id.set_list_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.set_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.recyclerview_setlist)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         //exercise details view visible
         onView(withId(R.id.exercise_details_layout)).check(matches(isDisplayed()))
