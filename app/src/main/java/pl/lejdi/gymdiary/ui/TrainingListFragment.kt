@@ -92,29 +92,30 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private var isAddViewShown = false
 
     private fun setFabClickListener() {
-        binding.btnTraininglistAddOrSave.setOnClickListener {
-            if(isAddViewShown){
-                if(!viewModel.saveNewTraining(binding.txtAddtrainingDate.text.toString(), binding.txtAddtrainingDescription.text.toString())){
-                    Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
+        binding.btnTraininglistAddDiscard.setOnClickListener {
+            isAddViewShown = if(isAddViewShown){
+                binding.motion.transitionToStart()
+                false
+            } else{
+                if(viewModel.trainings.value != null){
+                    binding.recyclerviewTraininglist.smoothScrollToPosition(viewModel.trainings.value?.size!! - 1)
+                    //wake up display so anim won't lag
+                    binding.recyclerviewTraininglist.scrollBy(1,0)
                 }
-                else{
-                    if(viewModel.trainings.value != null){
-                        binding.recyclerviewTraininglist.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
-                    }
-                    isAddViewShown = false
-                }
+                binding.motion.transitionToEnd()
+                true
+            }
+        }
+        binding.btnTraininglistSave.setOnClickListener {
+            if(!viewModel.saveNewTraining(binding.txtAddtrainingDate.text.toString(), binding.txtAddtrainingDescription.text.toString())){
+                Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
             }
             else{
-                binding.motion.visibility = View.VISIBLE.also{
-                    binding.motion.transitionToEnd()
+                if(viewModel.trainings.value != null){
+                    binding.recyclerviewTraininglist.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
                 }
-
-                isAddViewShown = true
+                isAddViewShown = false
             }
-
-        }
-        binding.btnTraininglistDiscard.setOnClickListener {
-
         }
     }
 

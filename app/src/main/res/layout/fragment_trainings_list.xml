@@ -18,16 +18,18 @@
             android:id="@+id/motion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
             app:applyMotionScene="true"
             app:currentState="@id/start"
             app:motionProgress="0"
-            style="@style/ListItemStyle"
-            android:visibility="gone"
             app:layoutDescription="@xml/fragment_trainings_list_xml_container_trainingslist_addtraining_scene">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/ListItemStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:visibility="gone"
                 android:id="@+id/container_trainingslist_addtraining"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginVertical="10dp"
                     android:gravity="top"
                     android:hint="@string/training_description"
                     android:imeOptions="flagNoExtractUi"
@@ -88,7 +90,19 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_traininglist_discard"
+        android:id="@+id/btn_traininglist_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="36dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/vector_save"
+        android:backgroundTint="@color/colorPrimaryDark"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_traininglist_add_discard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -99,16 +113,5 @@
         app:srcCompat="@drawable/vector_cross"
         android:backgroundTint="@color/colorPrimaryDark"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_traininglist_add_or_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="36dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/vector_cross"
-        android:backgroundTint="@color/colorPrimaryDark"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
