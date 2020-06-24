@@ -1,8 +1,10 @@
 package pl.lejdi.gymdiary.ui
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +12,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.setMargins
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
+import kotlinx.android.synthetic.main.fragment_trainings_list.*
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
 import pl.lejdi.gymdiary.database.model.Training
@@ -31,9 +35,22 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private lateinit var binding: FragmentTrainingsListBinding
     private lateinit var adapter : TrainingListAdapter
 
+    class MotionProgressListener(private val progressListener: (Float) -> Unit) :
+        MotionLayout.TransitionListener {
+        override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
+        override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {}
+        override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+            progressListener.invoke(progress)
+        }
+        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {}
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTrainingsListBinding.inflate(inflater, container, false)
+        binding.motion.setTransitionListener(MotionProgressListener { progress: Float ->
+            binding.txtAddtrainingDate.isVisible = (progress >= 0.4f)
+            binding.txtAddtrainingDescription.isVisible = (progress >= 0.8f)
+        })
         return binding.root
     }
 
@@ -84,30 +101,19 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
                     if(viewModel.trainings.value != null){
                         binding.recyclerviewTraininglist.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
                     }
-                    binding.containerTrainingslistAddtraining.layoutParams =
-                        LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            0
-                        )
                     isAddViewShown = false
                 }
             }
             else{
-                val params = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                val marginInDp = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 10f, resources
-                        .displayMetrics
-                ).toInt()
-                params.setMargins(marginInDp)
-                binding.containerTrainingslistAddtraining.layoutParams = params
+                binding.motion.visibility = View.VISIBLE.also{
+                    binding.motion.transitionToEnd()
+                }
+
                 isAddViewShown = true
             }
 
         }
-        binding.btnTraininglistAddOrSave.setOnClickListener {
+        binding.btnTraininglistDiscard.setOnClickListener {
 
         }
     }
