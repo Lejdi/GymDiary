@@ -1,18 +1,19 @@
 package pl.lejdi.gymdiary.ui
 
-import android.animation.ObjectAnimator
+import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,7 +22,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
-import kotlinx.android.synthetic.main.fragment_trainings_list.*
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
 import pl.lejdi.gymdiary.database.model.Training
@@ -35,7 +35,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private lateinit var binding: FragmentTrainingsListBinding
     private lateinit var adapter : TrainingListAdapter
 
-    class MotionProgressListener(private val progressListener: (Float) -> Unit) :
+    inner class MotionProgressListener(private val progressListener: (Float) -> Unit) :
         MotionLayout.TransitionListener {
         override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
         override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {}
@@ -47,7 +47,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTrainingsListBinding.inflate(inflater, container, false)
-        binding.motion.setTransitionListener(MotionProgressListener { progress: Float ->
+        binding.motionAddtrainingContainer.setTransitionListener(MotionProgressListener { progress: Float ->
             binding.txtAddtrainingDate.isVisible = (progress >= 0.4f)
             binding.txtAddtrainingDescription.isVisible = (progress >= 0.8f)
         })
@@ -91,10 +91,41 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     private var isAddViewShown = false
 
+    private fun animateFABColorChange(startColor : Int, endColor : Int){
+        val colorFrom = ContextCompat.getColor(
+            requireContext(),
+            startColor
+        )
+        val colorTo = ContextCompat.getColor(
+            requireContext(),
+            endColor
+        )
+        val colorAnimation =
+            ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+        colorAnimation.duration = 500 // milliseconds
+        colorAnimation.addUpdateListener {
+                animator ->
+            binding.btnTraininglistAddDiscard.backgroundTintList= ColorStateList.valueOf(
+                animator.animatedValue as Int)
+        }
+        colorAnimation.start()
+    }
+
     private fun setFabClickListener() {
+        binding.btnTraininglistAddDiscard.backgroundTintList= ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.colorPrimaryDark
+            )
+        )
         binding.btnTraininglistAddDiscard.setOnClickListener {
             isAddViewShown = if(isAddViewShown){
-                binding.motion.transitionToStart()
+                animateFABColorChange(R.color.red, R.color.colorPrimaryDark)
+                binding.motionAddtrainingContainer.setTransitionDuration(500)
+                binding.motionAddtrainingContainer.transitionToStart()
+                //when progress is 1 od 0 animation doesnt work wtf?
+                binding.motionAddtrainingAdddiscardbtn.progress = 0.99f
+                binding.motionAddtrainingAdddiscardbtn.transitionToStart()
                 false
             } else{
                 if(viewModel.trainings.value != null){
@@ -102,10 +133,14 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
                     //wake up display so anim won't lag
                     binding.recyclerviewTraininglist.scrollBy(1,0)
                 }
-                binding.motion.transitionToEnd()
+                animateFABColorChange(R.color.colorPrimaryDark, R.color.red)
+                binding.motionAddtrainingContainer.transitionToEnd()
+                binding.motionAddtrainingAdddiscardbtn.transitionToEnd()
                 true
             }
         }
+
+
         binding.btnTraininglistSave.setOnClickListener {
             if(!viewModel.saveNewTraining(binding.txtAddtrainingDate.text.toString(), binding.txtAddtrainingDescription.text.toString())){
                 Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
@@ -113,6 +148,13 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
             else{
                 if(viewModel.trainings.value != null){
                     binding.recyclerviewTraininglist.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
+                    animateFABColorChange(R.color.red, R.color.colorPrimaryDark)
+                    binding.motionAddtrainingAdddiscardbtn.progress = 0.99f
+                    binding.motionAddtrainingAdddiscardbtn.transitionToStart()
+                    binding.motionAddtrainingContainer.setTransitionDuration(1)
+                    binding.motionAddtrainingContainer.transitionToStart()
+
+                    binding.txtAddtrainingDescription.setText("")
                 }
                 isAddViewShown = false
             }

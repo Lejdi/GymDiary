@@ -6,17 +6,6 @@
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         motion:duration="500">
-        <KeyFrameSet>
-            <KeyAttribute
-                android:visibility="visible"
-                motion:motionTarget="@id/txt_addtraining_date"
-                motion:framePosition="40"/>
-
-            <KeyAttribute
-                android:visibility="visible"
-                motion:framePosition="80"
-                motion:motionTarget="@id/txt_addtraining_description"/>
-        </KeyFrameSet>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
