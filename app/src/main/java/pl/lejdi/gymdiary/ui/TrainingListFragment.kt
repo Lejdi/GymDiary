@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -129,11 +128,14 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
                 false
             } else{
                 if(viewModel.trainings.value != null){
-                    binding.recyclerviewTraininglist.smoothScrollToPosition(viewModel.trainings.value?.size!! - 1)
+                    if(viewModel.trainings.value?.size!! > 0){
+                        binding.recyclerviewTraininglist.smoothScrollToPosition(viewModel.trainings.value?.size!! - 1)
+                    }
                     //wake up display so anim won't lag
                     binding.recyclerviewTraininglist.scrollBy(1,0)
                 }
                 animateFABColorChange(R.color.colorPrimaryDark, R.color.red)
+                binding.motionAddtrainingContainer.setTransitionDuration(500)
                 binding.motionAddtrainingContainer.transitionToEnd()
                 binding.motionAddtrainingAdddiscardbtn.transitionToEnd()
                 true
