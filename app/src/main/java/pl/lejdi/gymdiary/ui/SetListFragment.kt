@@ -27,6 +27,8 @@ import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.SetListAdapter
 import pl.lejdi.gymdiary.database.model.Set
 import pl.lejdi.gymdiary.databinding.FragmentSetListBinding
+import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
+import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
 import pl.lejdi.gymdiary.viewmodel.SetListViewModel
 import java.util.*
 
@@ -38,16 +40,6 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
     private lateinit var adapter : SetListAdapter
 
     var trainingId = 0
-
-    inner class MotionProgressListener(private val progressListener: (Float) -> Unit) :
-        MotionLayout.TransitionListener {
-        override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
-        override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {}
-        override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
-            progressListener.invoke(progress)
-        }
-        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {}
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSetListBinding.inflate(inflater, container, false)
@@ -87,26 +79,6 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
         initRecyclerView()
     }
 
-    private fun animateFABColorChange(startColor : Int, endColor : Int){
-        val colorFrom = ContextCompat.getColor(
-            requireContext(),
-            startColor
-        )
-        val colorTo = ContextCompat.getColor(
-            requireContext(),
-            endColor
-        )
-        val colorAnimation =
-            ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-        colorAnimation.duration = 500 // milliseconds
-        colorAnimation.addUpdateListener {
-                animator ->
-            binding.btnSetlistAdd.backgroundTintList= ColorStateList.valueOf(
-                animator.animatedValue as Int)
-        }
-        colorAnimation.start()
-    }
-
     private fun setFabClickListener() {
         binding.btnSetlistAdd.backgroundTintList= ColorStateList.valueOf(
             ContextCompat.getColor(
@@ -126,7 +98,12 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
                     PorterDuff.Mode.CLEAR)
             }
 
-            animateFABColorChange( R.color.colorPrimaryDark, R.color.fragmentsBackground)
+            animateFABColorChange(
+                requireContext(),
+                binding.btnSetlistAdd,
+                R.color.colorPrimaryDark,
+                R.color.fragmentsBackground,
+                500L)
             binding.motionAddsetFab.transitionToEnd()
         }
     }

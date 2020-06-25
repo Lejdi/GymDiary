@@ -26,6 +26,8 @@ import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.ExerciseListAdapter
 import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.databinding.FragmentExerciseListBinding
+import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
+import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
 import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
 
 class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInteractionListener {
@@ -33,16 +35,6 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     private lateinit var binding: FragmentExerciseListBinding
     private lateinit var adapter : ExerciseListAdapter
-
-    inner class MotionProgressListener(private val progressListener: (Float) -> Unit) :
-        MotionLayout.TransitionListener {
-        override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
-        override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {}
-        override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
-            progressListener.invoke(progress)
-        }
-        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {}
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentExerciseListBinding.inflate(inflater, container, false)
@@ -72,26 +64,6 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         initRecyclerView()
     }
 
-    private fun animateFABColorChange(startColor : Int, endColor : Int){
-        val colorFrom = ContextCompat.getColor(
-            requireContext(),
-            startColor
-        )
-        val colorTo = ContextCompat.getColor(
-            requireContext(),
-            endColor
-        )
-        val colorAnimation =
-            ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-        colorAnimation.duration = 500 // milliseconds
-        colorAnimation.addUpdateListener {
-                animator ->
-            binding.btnExerciselistAdd.backgroundTintList= ColorStateList.valueOf(
-                animator.animatedValue as Int)
-        }
-        colorAnimation.start()
-    }
-
     private fun setFabClickListener()
     {
         binding.btnExerciselistAdd.backgroundTintList= ColorStateList.valueOf(
@@ -112,7 +84,12 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
                     PorterDuff.Mode.CLEAR)
             }
 
-            animateFABColorChange( R.color.colorPrimaryDark, R.color.fragmentsBackground)
+            animateFABColorChange(
+                requireContext(),
+                binding.btnExerciselistAdd,
+                R.color.colorPrimaryDark,
+                R.color.fragmentsBackground,
+            500L)
             binding.motionAddexerciseFab.transitionToEnd()
         }
     }
