@@ -21,15 +21,26 @@
         tools:itemCount="10"
         tools:listitem="@layout/view_set_list_item" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_setlist_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="36dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerview_setlist"
-        app:srcCompat="@drawable/vector_cross"
-        android:backgroundTint="@color/colorPrimaryDark" />
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_addset_fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:applyMotionScene="true"
+        app:currentState="@id/start"
+        app:motionProgress="0"
+        app:layoutDescription="@xml/scene_addset_button">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_setlist_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="36dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/vector_cross" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

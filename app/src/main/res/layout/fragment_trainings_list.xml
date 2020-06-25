@@ -23,7 +23,7 @@
             app:applyMotionScene="true"
             app:currentState="@id/start"
             app:motionProgress="0"
-            app:layoutDescription="@xml/fragment_trainings_list_xml_container_trainingslist_addtraining_scene">
+            app:layoutDescription="@xml/scene_addtraining_container">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/ListItemStyle"
@@ -96,7 +96,7 @@
         app:applyMotionScene="true"
         app:currentState="@id/start"
         app:motionProgress="0"
-        app:layoutDescription="@xml/fragment_trainings_list_xml_motion_addtraining_adddiscardbtn_scene"
+        app:layoutDescription="@xml/scene_addtraining_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

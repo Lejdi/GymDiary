@@ -52,4 +52,13 @@
         <item name="android:layout_margin">10dp</item>
         <item name="android:padding">10dp</item>
     </style>
+    
+    
+    <style name="Square_FAB" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+    </style>
 </resources>

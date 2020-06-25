@@ -167,7 +167,7 @@ class AddSetFragment : Fragment() {
                 if(viewModel.saveSet(
                         trainingID,binding.txtAddsetExercisename.text.toString(),
                         binding.txtAddsetWeight.text.toString(),
-                        binding.txtAddsetWeight.text.toString(),
+                        binding.txtAddsetReps.text.toString(),
                         binding.spinnerAddsetExercisetype.selectedItem.toString()))
                 {
                     val trainingDetailsFragment = SetListFragment()

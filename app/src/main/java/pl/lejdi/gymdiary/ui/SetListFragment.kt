@@ -1,12 +1,22 @@
 package pl.lejdi.gymdiary.ui
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -29,8 +39,39 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
 
     var trainingId = 0
 
+    inner class MotionProgressListener(private val progressListener: (Float) -> Unit) :
+        MotionLayout.TransitionListener {
+        override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
+        override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {}
+        override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+            progressListener.invoke(progress)
+        }
+        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {}
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSetListBinding.inflate(inflater, container, false)
+
+        var transactionSemaphore = false
+
+        binding.motionAddsetFab.setTransitionListener(MotionProgressListener { progress: Float ->
+            if(!transactionSemaphore){
+                if(progress == 1f){
+                    transactionSemaphore = true
+                    val addSetFragment = AddSetFragment()
+
+                    val bundle = Bundle()
+                    bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingId)
+                    addSetFragment.arguments=bundle
+
+                    activity?.supportFragmentManager!!.beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out)
+                        .addToBackStack(null)
+                        .replace(R.id.container, addSetFragment)
+                        .commit()
+                }
+            }
+        })
         return binding.root
     }
 
@@ -51,19 +92,47 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
         initRecyclerView()
     }
 
+    private fun animateFABColorChange(startColor : Int, endColor : Int){
+        val colorFrom = ContextCompat.getColor(
+            requireContext(),
+            startColor
+        )
+        val colorTo = ContextCompat.getColor(
+            requireContext(),
+            endColor
+        )
+        val colorAnimation =
+            ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+        colorAnimation.duration = 500 // milliseconds
+        colorAnimation.addUpdateListener {
+                animator ->
+            binding.btnSetlistAdd.backgroundTintList= ColorStateList.valueOf(
+                animator.animatedValue as Int)
+        }
+        colorAnimation.start()
+    }
+
     private fun setFabClickListener() {
+        binding.btnSetlistAdd.backgroundTintList= ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.colorPrimaryDark
+            )
+        )
         binding.btnSetlistAdd.setOnClickListener {
-            val addSetFragment = AddSetFragment()
-            addSetFragment.enterTransition= Slide(Gravity.START)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                binding.btnSetlistAdd.drawable.colorFilter =
+                    BlendModeColorFilter(
+                        ContextCompat.getColor(requireContext(), R.color.invisible),
+                        BlendMode.CLEAR)
+            } else {
+                binding.btnSetlistAdd.drawable.setColorFilter(
+                    ContextCompat.getColor(requireContext(), R.color.invisible),
+                    PorterDuff.Mode.CLEAR)
+            }
 
-            val bundle = Bundle()
-            bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingId)
-            addSetFragment.arguments=bundle
-
-            activity?.supportFragmentManager!!.beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.container, addSetFragment)
-                .commit()
+            animateFABColorChange( R.color.colorPrimaryDark, R.color.fragmentsBackground)
+            binding.motionAddsetFab.transitionToEnd()
         }
     }
 
