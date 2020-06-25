@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GymDiary</string>
+    <string-array name="types">
+        <item>Siła</item>
+        <item>Hipertrofia</item>
+        <item>Wytrzymałość</item>
+    </string-array>
+    <string name="Fill_all_fiels">
+        Wypełnij proszę wszystkie wymagane pola
+    </string>
+    <string name="RM_explanation">
+        1RM jest maksymalnym ciężarem, który możesz teoretycznie podnieść w tym ćwiczeniu w jednej serii i jednym powtórzeniu. Może być obliczony na podstawie twoich serii i powtórzeń lub sprawdzony eksperymentalnie.
+    </string>
+    <string name="R_U_sure">
+        Jesteś pewien?
+    </string>
+    <string name="U_will_lose_data">
+        Nieodwracalnie utracisz swoje dane…
+    </string>
+    <string name="Yes">Tak</string>
+    <string name="No">Nie</string>
+    <string name="enter_exercise_name">Wprowadź nazwę ćwiczenia</string>
+    <string name="calculate_1rm_based_on_trainings">Oblicz 1RM na podstawie treningów</string>
+    <string name="exercise_description">Opis ćwiczenia</string>
+    <string name="exercise_name">Nazwa ćwiczenia</string>
+    <string name="training_description">Opis treningu</string>
+</resources>
