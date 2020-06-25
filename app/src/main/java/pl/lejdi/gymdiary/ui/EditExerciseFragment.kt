@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.FragmentExerciseEditBinding
+import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
 class EditExerciseFragment : Fragment() {
@@ -34,7 +35,7 @@ class EditExerciseFragment : Fragment() {
 
         if(arguments != null)
         {
-            val exerciseName : String = arguments?.getString(getString(R.string.KEY_EXERCISE_NAME))!!
+            val exerciseName : String = arguments?.getString(Constants.KEY_EXERCISE_NAME)!!
             viewModel.retrieveExercise(exerciseName)
             viewModel.exercise.observe(this, Observer {
                 binding.txtExercisedetailsName.visibility = View.VISIBLE

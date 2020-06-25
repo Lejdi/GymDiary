@@ -28,6 +28,7 @@ import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.databinding.FragmentExerciseListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
+import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
 
 class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInteractionListener {
@@ -110,7 +111,7 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         editExerciseFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putString(getString(R.string.KEY_EXERCISE_NAME), exercise.name)
+        bundle.putString(Constants.KEY_EXERCISE_NAME, exercise.name)
         editExerciseFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()

@@ -27,6 +27,7 @@ import pl.lejdi.gymdiary.database.model.Training
 import pl.lejdi.gymdiary.databinding.FragmentTrainingsListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
+import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
 
 
@@ -168,7 +169,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
         trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putInt(getString(R.string.KEY_TRAINING_ID), training.id)
+        bundle.putInt(Constants.KEY_TRAINING_ID, training.id)
         trainingDetailsFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()

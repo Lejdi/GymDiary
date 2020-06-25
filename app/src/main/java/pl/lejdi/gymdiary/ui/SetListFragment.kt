@@ -29,6 +29,7 @@ import pl.lejdi.gymdiary.database.model.Set
 import pl.lejdi.gymdiary.databinding.FragmentSetListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
+import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.viewmodel.SetListViewModel
 import java.util.*
 
@@ -49,7 +50,7 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
                 val addSetFragment = AddSetFragment()
 
                 val bundle = Bundle()
-                bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingId)
+                bundle.putInt(Constants.KEY_TRAINING_ID, trainingId)
                 addSetFragment.arguments=bundle
 
                 activity?.supportFragmentManager!!.beginTransaction()
@@ -71,7 +72,7 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
         super.onStart()
         if (arguments!= null)
         {
-            trainingId = arguments?.getInt(getString(R.string.KEY_TRAINING_ID))!!
+            trainingId = arguments?.getInt(Constants.KEY_TRAINING_ID)!!
         }
         viewModel.retrieveSets(trainingId)
 
@@ -120,7 +121,7 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
         editExerciseFragment.enterTransition= Slide(Gravity.START)
 
         val bundle = Bundle()
-        bundle.putString(getString(R.string.KEY_EXERCISE_NAME), set.exerciseName)
+        bundle.putString(Constants.KEY_EXERCISE_NAME, set.exerciseName)
         editExerciseFragment.arguments=bundle
 
         activity?.supportFragmentManager!!.beginTransaction()

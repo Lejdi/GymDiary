@@ -5,8 +5,6 @@
         <item>Hypertrophy</item>
         <item>Endurance</item>
     </string-array>
-    <string name="KEY_TRAINING_ID">TrainingID</string>
-    <string name="KEY_EXERCISE_NAME">exerciseName</string>
     <string name="Fill_all_fiels">
         Please, fill all the required fields
     </string>

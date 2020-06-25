@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.FragmentAddSetBinding
+import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.viewmodel.AddSetViewModel
 
 
@@ -42,7 +43,7 @@ class AddSetFragment : Fragment() {
 
         if(arguments != null)
         {
-            trainingID = arguments?.getInt(getString(R.string.KEY_TRAINING_ID))!!
+            trainingID = arguments?.getInt(Constants.KEY_TRAINING_ID)!!
         }
 
         setFabClickListener()
@@ -174,7 +175,7 @@ class AddSetFragment : Fragment() {
                     trainingDetailsFragment.enterTransition= Slide(Gravity.START)
 
                     val bundle = Bundle()
-                    bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingID)
+                    bundle.putInt(Constants.KEY_TRAINING_ID, trainingID)
                     trainingDetailsFragment.arguments=bundle
 
                     activity?.supportFragmentManager!!.popBackStack()
