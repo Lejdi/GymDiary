@@ -1,12 +1,21 @@
 package pl.lejdi.gymdiary.ui
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -25,9 +34,29 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
     private lateinit var binding: FragmentExerciseListBinding
     private lateinit var adapter : ExerciseListAdapter
 
+    inner class MotionProgressListener(private val progressListener: (Float) -> Unit) :
+        MotionLayout.TransitionListener {
+        override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}
+        override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {}
+        override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+            progressListener.invoke(progress)
+        }
+        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {}
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentExerciseListBinding.inflate(inflater, container, false)
+        binding.motionAddexerciseFab.setTransitionListener(MotionProgressListener { progress: Float ->
+            if(progress == 1f){
+                val editExerciseFragment = EditExerciseFragment()
+
+                activity?.supportFragmentManager!!.beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out)
+                    .addToBackStack(null)
+                    .replace(R.id.container, editExerciseFragment)
+                    .commit()
+            }
+        })
         return binding.root
     }
 
@@ -43,16 +72,48 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         initRecyclerView()
     }
 
+    private fun animateFABColorChange(startColor : Int, endColor : Int){
+        val colorFrom = ContextCompat.getColor(
+            requireContext(),
+            startColor
+        )
+        val colorTo = ContextCompat.getColor(
+            requireContext(),
+            endColor
+        )
+        val colorAnimation =
+            ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+        colorAnimation.duration = 500 // milliseconds
+        colorAnimation.addUpdateListener {
+                animator ->
+            binding.btnExerciselistAdd.backgroundTintList= ColorStateList.valueOf(
+                animator.animatedValue as Int)
+        }
+        colorAnimation.start()
+    }
+
     private fun setFabClickListener()
     {
+        binding.btnExerciselistAdd.backgroundTintList= ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.colorPrimaryDark
+            )
+        )
         binding.btnExerciselistAdd.setOnClickListener {
-            val editExerciseFragment = EditExerciseFragment()
-            editExerciseFragment.enterTransition= Slide(Gravity.START)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                binding.btnExerciselistAdd.drawable.colorFilter =
+                    BlendModeColorFilter(
+                        ContextCompat.getColor(requireContext(), R.color.invisible),
+                        BlendMode.CLEAR)
+            } else {
+                binding.btnExerciselistAdd.drawable.setColorFilter(
+                    ContextCompat.getColor(requireContext(), R.color.invisible),
+                    PorterDuff.Mode.CLEAR)
+            }
 
-            activity?.supportFragmentManager!!.beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.container, editExerciseFragment)
-                .commit()
+            animateFABColorChange( R.color.colorPrimaryDark, R.color.fragmentsBackground)
+            binding.motionAddexerciseFab.transitionToEnd()
         }
     }
 

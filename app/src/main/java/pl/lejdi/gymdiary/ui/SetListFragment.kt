@@ -52,24 +52,19 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSetListBinding.inflate(inflater, container, false)
 
-        var transactionSemaphore = false
-
         binding.motionAddsetFab.setTransitionListener(MotionProgressListener { progress: Float ->
-            if(!transactionSemaphore){
-                if(progress == 1f){
-                    transactionSemaphore = true
-                    val addSetFragment = AddSetFragment()
+            if(progress == 1f){
+                val addSetFragment = AddSetFragment()
 
-                    val bundle = Bundle()
-                    bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingId)
-                    addSetFragment.arguments=bundle
+                val bundle = Bundle()
+                bundle.putInt(getString(R.string.KEY_TRAINING_ID), trainingId)
+                addSetFragment.arguments=bundle
 
-                    activity?.supportFragmentManager!!.beginTransaction()
-                        .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out)
-                        .addToBackStack(null)
-                        .replace(R.id.container, addSetFragment)
-                        .commit()
-                }
+                activity?.supportFragmentManager!!.beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out)
+                    .addToBackStack(null)
+                    .replace(R.id.container, addSetFragment)
+                    .commit()
             }
         })
         return binding.root
