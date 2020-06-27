@@ -37,8 +37,11 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     private lateinit var binding: FragmentTrainingsListBinding
     private lateinit var adapter : TrainingListAdapter
 
+    private var isAddViewShown = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTrainingsListBinding.inflate(inflater, container, false)
+        isAddViewShown = false
         binding.motionAddtrainingContainer.setTransitionListener(MotionProgressListener { progress: Float ->
             binding.txtAddtrainingDate.isVisible = (progress >= 0.4f)
             binding.txtAddtrainingDescription.isVisible = (progress >= 0.8f)
@@ -80,8 +83,6 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
             }
         })
     }
-
-    private var isAddViewShown = false
 
     private fun setFabClickListener() {
         binding.btnTraininglistAddDiscard.backgroundTintList= ColorStateList.valueOf(
