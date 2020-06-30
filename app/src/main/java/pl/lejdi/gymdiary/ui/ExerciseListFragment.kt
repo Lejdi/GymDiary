@@ -28,7 +28,9 @@ import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.databinding.FragmentExerciseListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
+import pl.lejdi.gymdiary.util.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
+import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
 
 class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInteractionListener {
@@ -55,6 +57,7 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        AnimationHelper.previousFragment = Fragments.EXERCISE_LIST
         viewModel = ViewModelProvider(this).get(ExerciseListViewModel::class.java)
     }
 

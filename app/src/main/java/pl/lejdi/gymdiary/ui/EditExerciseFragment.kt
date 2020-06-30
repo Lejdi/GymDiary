@@ -11,7 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.FragmentExerciseEditBinding
+import pl.lejdi.gymdiary.util.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
+import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
 
 class EditExerciseFragment : Fragment() {
@@ -28,6 +30,7 @@ class EditExerciseFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this).get(EditExerciseViewModel::class.java)
+        AnimationHelper.previousFragment = Fragments.EXERCISE_EDIT
     }
 
     override fun onStart() {

@@ -27,7 +27,9 @@ import pl.lejdi.gymdiary.database.model.Training
 import pl.lejdi.gymdiary.databinding.FragmentTrainingsListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
+import pl.lejdi.gymdiary.util.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
+import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
 
 
@@ -51,6 +53,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        AnimationHelper.previousFragment = Fragments.TRAINING_LIST
         viewModel = ViewModelProvider(this).get(TrainingListViewModel::class.java)
     }
 

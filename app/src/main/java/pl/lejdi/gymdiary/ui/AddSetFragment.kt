@@ -17,7 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.FragmentAddSetBinding
+import pl.lejdi.gymdiary.util.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
+import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.AddSetViewModel
 
 
@@ -35,6 +37,7 @@ class AddSetFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        AnimationHelper.previousFragment = Fragments.SET_ADD
         viewModel = ViewModelProvider(this).get(AddSetViewModel::class.java)
     }
 

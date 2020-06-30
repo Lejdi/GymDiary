@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.ActivityMainBinding
+import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
