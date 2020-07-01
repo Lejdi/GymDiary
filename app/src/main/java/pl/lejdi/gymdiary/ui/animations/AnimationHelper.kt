@@ -1,8 +1,6 @@
-package pl.lejdi.gymdiary.util
+package pl.lejdi.gymdiary.ui.animations
 
-import androidx.fragment.app.Fragment
-import pl.lejdi.gymdiary.ui.TrainingListFragment
-import kotlin.reflect.KClass
+import pl.lejdi.gymdiary.util.Fragments
 
 class AnimationHelper {
     companion object{
@@ -10,5 +8,8 @@ class AnimationHelper {
         var chosenTrainingPosition = 0
         var chosenSetPosition = 0
         var chosenExercisePosition = 0
+        var setSaved = false
+        var exerciseSaved = false
+        var exDetailsFromExList_isNew = false
     }
 }

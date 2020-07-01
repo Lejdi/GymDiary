@@ -1,7 +1,5 @@
 package pl.lejdi.gymdiary.ui
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -11,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -20,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Explode
 import androidx.transition.Slide
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
@@ -27,7 +25,7 @@ import pl.lejdi.gymdiary.database.model.Training
 import pl.lejdi.gymdiary.databinding.FragmentTrainingsListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
-import pl.lejdi.gymdiary.util.AnimationHelper
+import pl.lejdi.gymdiary.ui.animations.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.TrainingListViewModel
@@ -170,7 +168,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
         val trainingDetailsFragment = SetListFragment()
-        trainingDetailsFragment.enterTransition= Slide(Gravity.START)
+        trainingDetailsFragment.enterTransition = Slide(Gravity.START)
 
         val bundle = Bundle()
         bundle.putInt(Constants.KEY_TRAINING_ID, training.id)

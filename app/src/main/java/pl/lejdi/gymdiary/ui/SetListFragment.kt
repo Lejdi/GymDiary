@@ -7,27 +7,24 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.SetListAdapter
 import pl.lejdi.gymdiary.database.model.Set
 import pl.lejdi.gymdiary.databinding.FragmentSetListBinding
 import pl.lejdi.gymdiary.ui.animations.MotionProgressListener
 import pl.lejdi.gymdiary.ui.animations.animateFABColorChange
-import pl.lejdi.gymdiary.util.AnimationHelper
+import pl.lejdi.gymdiary.ui.animations.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.SetListViewModel
@@ -140,7 +137,6 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
             .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
-                        val layoutManager = binding.recyclerviewSetlist.layoutManager as LinearLayoutManager
                         val selectedView = binding.recyclerviewSetlist.getChildAt(AnimationHelper.chosenSetPosition)
                         binding.motionSetlistItem.progress = 0f
                         if(selectedView != null){

@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.databinding.FragmentExerciseEditBinding
-import pl.lejdi.gymdiary.util.AnimationHelper
+import pl.lejdi.gymdiary.ui.animations.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.EditExerciseViewModel
@@ -108,6 +108,7 @@ class EditExerciseFragment : Fragment() {
                         binding.checkboxExercisedetailsRm.isChecked,
                         binding.txtExercisedetailsRm.text.toString() ))
                 {
+                    AnimationHelper.exerciseSaved = true
                     activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
