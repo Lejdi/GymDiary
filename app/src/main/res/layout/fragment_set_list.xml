@@ -28,10 +28,10 @@
         app:applyMotionScene="true"
         app:currentState="@id/start"
         app:motionProgress="0"
-        app:layoutDescription="@xml/scene_addset_button">
+        app:layoutDescription="@xml/scene_add_button">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_setlist_add"
+            android:id="@+id/btn_list_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"
@@ -50,7 +50,7 @@
         app:applyMotionScene="true"
         app:currentState="@id/start"
         app:motionProgress="0"
-        app:layoutDescription="@xml/scene_setlist_itemclick">
+        app:layoutDescription="@xml/scene_listitemclick">
 
         <TextView
             android:id="@+id/view_fake_listitem"

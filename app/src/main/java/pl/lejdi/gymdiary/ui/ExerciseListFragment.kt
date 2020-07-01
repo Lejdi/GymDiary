@@ -86,29 +86,29 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     private fun setFabClickListener()
     {
-        binding.btnExerciselistAdd.backgroundTintList= ColorStateList.valueOf(
+        binding.btnListAdd.backgroundTintList= ColorStateList.valueOf(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.colorPrimaryDark
             )
         )
-        binding.btnExerciselistAdd.setOnClickListener {
+        binding.btnListAdd.setOnClickListener {
             AnimationHelper.exDetailsFromExList_isNew = true
             AnimationHelper.exerciseSaved = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                binding.btnExerciselistAdd.drawable.colorFilter =
+                binding.btnListAdd.drawable.colorFilter =
                     BlendModeColorFilter(
                         ContextCompat.getColor(requireContext(), R.color.invisible),
                         BlendMode.CLEAR)
             } else {
-                binding.btnExerciselistAdd.drawable.setColorFilter(
+                binding.btnListAdd.drawable.setColorFilter(
                     ContextCompat.getColor(requireContext(), R.color.invisible),
                     PorterDuff.Mode.CLEAR)
             }
 
             animateFABColorChange(
                 requireContext(),
-                binding.btnExerciselistAdd,
+                binding.btnListAdd,
                 R.color.colorPrimaryDark,
                 R.color.fragmentsBackground,
             500L)

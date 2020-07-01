@@ -100,27 +100,27 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
     }
 
     private fun setFabClickListener() {
-        binding.btnSetlistAdd.backgroundTintList= ColorStateList.valueOf(
+        binding.btnListAdd.backgroundTintList= ColorStateList.valueOf(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.colorPrimaryDark
             )
         )
-        binding.btnSetlistAdd.setOnClickListener {
+        binding.btnListAdd.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                binding.btnSetlistAdd.drawable.colorFilter =
+                binding.btnListAdd.drawable.colorFilter =
                     BlendModeColorFilter(
                         ContextCompat.getColor(requireContext(), R.color.invisible),
                         BlendMode.CLEAR)
             } else {
-                binding.btnSetlistAdd.drawable.setColorFilter(
+                binding.btnListAdd.drawable.setColorFilter(
                     ContextCompat.getColor(requireContext(), R.color.invisible),
                     PorterDuff.Mode.CLEAR)
             }
 
             animateFABColorChange(
                 requireContext(),
-                binding.btnSetlistAdd,
+                binding.btnListAdd,
                 R.color.colorPrimaryDark,
                 R.color.fragmentsBackground,
                 500L)

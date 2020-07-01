@@ -122,4 +122,23 @@
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_traininglist_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:applyMotionScene="true"
+        app:currentState="@id/start"
+        app:motionProgress="0"
+        app:layoutDescription="@xml/scene_listitemclick">
+
+        <TextView
+            android:id="@+id/view_fake_listitem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_listitem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
