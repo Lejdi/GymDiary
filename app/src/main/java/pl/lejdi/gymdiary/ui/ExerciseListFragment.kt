@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.ExerciseListAdapter
 import pl.lejdi.gymdiary.database.model.Exercise
@@ -25,6 +26,7 @@ import pl.lejdi.gymdiary.ui.animations.AnimationHelper
 import pl.lejdi.gymdiary.util.Constants
 import pl.lejdi.gymdiary.util.Fragments
 import pl.lejdi.gymdiary.viewmodel.ExerciseListViewModel
+import kotlin.coroutines.CoroutineContext
 
 class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInteractionListener {
     private lateinit var viewModel : ExerciseListViewModel
@@ -116,46 +118,52 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     private fun initRecyclerView()
     {
-        adapter = ExerciseListAdapter( viewModel, this)
-        binding.recyclerviewExerciselist.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewExerciselist)
-        val layoutManager = LinearLayoutManager(activity)
-        binding.recyclerviewExerciselist.layoutManager = layoutManager
-        binding.recyclerviewExerciselist.viewTreeObserver
-            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
-                        if(AnimationHelper.exDetailsFromExList_isNew && !AnimationHelper.exerciseSaved){
-                            binding.motionAddexerciseFab.progress = 0.99f
-                            binding.motionAddexerciseFab.transitionToStart()
-                        }
-                        else{
-                            if(AnimationHelper.exDetailsFromExList_isNew){
-                                AnimationHelper.chosenExercisePosition = viewModel.exercises.value?.size!! -1
-                            }
-                            val selectedView = binding.recyclerviewExerciselist.getChildAt(AnimationHelper.chosenExercisePosition)
-                            binding.motionExerciselistItem.progress = 0f
-                            if(selectedView != null){
-                                binding.viewFakeListitem.width = selectedView.width
-                                binding.viewFakeListitem.height = selectedView.height
-                                binding.viewFakeListitem.x = selectedView.x
-                                binding.viewFakeListitem.y = selectedView.y
-                            }
-                            else{
-                                binding.viewFakeListitem.width = binding.recyclerviewExerciselist.width
-                                binding.viewFakeListitem.height = 0
-                                binding.viewFakeListitem.x = 0f
-                                binding.viewFakeListitem.y = binding.recyclerviewExerciselist.bottom.toFloat()
-                            }
-
-                            binding.motionExerciselistItem.progress = 0.99f
-                            binding.motionExerciselistItem.transitionToStart()
-                        }
-                    }
-                    binding.recyclerviewExerciselist.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        GlobalScope.launch {
+            withContext(Dispatchers.Main){
+                if(AnimationHelper.previousFragment != Fragments.EXERCISE_EDIT){
+                    delay(500)
                 }
-            })
+                adapter = ExerciseListAdapter( viewModel, this@ExerciseListFragment)
+                binding.recyclerviewExerciselist.adapter = adapter
+                ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewExerciselist)
+                val layoutManager = LinearLayoutManager(activity)
+                binding.recyclerviewExerciselist.layoutManager = layoutManager
+                binding.recyclerviewExerciselist.viewTreeObserver
+                    .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                        override fun onGlobalLayout() {
+                            if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
+                                if(AnimationHelper.exDetailsFromExList_isNew && !AnimationHelper.exerciseSaved){
+                                    binding.motionAddexerciseFab.progress = 0.99f
+                                    binding.motionAddexerciseFab.transitionToStart()
+                                }
+                                else{
+                                    if(AnimationHelper.exDetailsFromExList_isNew){
+                                        AnimationHelper.chosenExercisePosition = viewModel.exercises.value?.size!! -1
+                                    }
+                                    val selectedView = binding.recyclerviewExerciselist.getChildAt(AnimationHelper.chosenExercisePosition)
+                                    binding.motionExerciselistItem.progress = 0f
+                                    if(selectedView != null){
+                                        binding.viewFakeListitem.width = selectedView.width
+                                        binding.viewFakeListitem.height = selectedView.height
+                                        binding.viewFakeListitem.x = selectedView.x
+                                        binding.viewFakeListitem.y = selectedView.y
+                                    }
+                                    else{
+                                        binding.viewFakeListitem.width = binding.recyclerviewExerciselist.width
+                                        binding.viewFakeListitem.height = 0
+                                        binding.viewFakeListitem.x = 0f
+                                        binding.viewFakeListitem.y = binding.recyclerviewExerciselist.bottom.toFloat()
+                                    }
 
+                                    binding.motionExerciselistItem.progress = 0.99f
+                                    binding.motionExerciselistItem.transitionToStart()
+                                }
+                            }
+                            binding.recyclerviewExerciselist.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        }
+                    })
+            }
+        }
     }
 
     override fun onListFragmentClickInteraction(exercise: Exercise, position: Int) {

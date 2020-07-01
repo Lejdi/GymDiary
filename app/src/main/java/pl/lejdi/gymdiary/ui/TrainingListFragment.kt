@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
+import kotlinx.coroutines.*
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
 import pl.lejdi.gymdiary.database.model.Training
@@ -157,13 +158,20 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     }
 
     private fun initRecyclerView() {
-        adapter = TrainingListAdapter( viewModel, this)
-        binding.recyclerviewTraininglist.adapter = adapter
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewTraininglist)
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.reverseLayout = true
-        layoutManager.stackFromEnd = true
-        binding.recyclerviewTraininglist.layoutManager = layoutManager
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                if(AnimationHelper.previousFragment == Fragments.EXERCISE_LIST){
+                    delay(500)
+                }
+                adapter = TrainingListAdapter( viewModel, this@TrainingListFragment)
+                binding.recyclerviewTraininglist.adapter = adapter
+                ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewTraininglist)
+                val layoutManager = LinearLayoutManager(activity)
+                layoutManager.reverseLayout = true
+                layoutManager.stackFromEnd = true
+                binding.recyclerviewTraininglist.layoutManager = layoutManager
+            }
+        }
     }
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
