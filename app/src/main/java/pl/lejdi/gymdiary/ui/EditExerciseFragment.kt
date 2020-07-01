@@ -2,6 +2,7 @@ package pl.lejdi.gymdiary.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +31,11 @@ class EditExerciseFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this).get(EditExerciseViewModel::class.java)
-        AnimationHelper.previousFragment = Fragments.EXERCISE_EDIT
     }
 
     override fun onStart() {
         super.onStart()
-
+        AnimationHelper.previousFragment = Fragments.EXERCISE_EDIT
         if(arguments != null)
         {
             val exerciseName : String = arguments?.getString(Constants.KEY_EXERCISE_NAME)!!

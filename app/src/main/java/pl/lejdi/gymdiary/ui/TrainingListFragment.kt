@@ -3,10 +3,8 @@ package pl.lejdi.gymdiary.ui
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -17,8 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Explode
-import androidx.transition.Slide
 import kotlinx.coroutines.*
 import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.adapter.TrainingListAdapter
@@ -40,19 +36,40 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
 
     private var isAddViewShown = false
 
+    private var training : Training? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         binding = FragmentTrainingsListBinding.inflate(inflater, container, false)
         isAddViewShown = false
         binding.motionAddtrainingContainer.setTransitionListener(MotionProgressListener { progress: Float ->
             binding.txtAddtrainingDate.isVisible = (progress >= 0.4f)
             binding.txtAddtrainingDescription.isVisible = (progress >= 0.8f)
         })
+        binding.motionTraininglistItem.setTransitionListener(MotionProgressListener { progress: Float ->
+            if(progress == 0f){
+                binding.viewFakeListitem.width=0
+                binding.viewFakeListitem.height=0
+            }
+            if(progress == 1f){
+                val setListFragment = SetListFragment()
+
+                val bundle = Bundle()
+                bundle.putInt(Constants.KEY_TRAINING_ID, training?.id!!)
+                setListFragment.arguments=bundle
+
+                activity?.supportFragmentManager!!.beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out)
+                    .addToBackStack(null)
+                    .replace(R.id.container, setListFragment)
+                    .commit()
+            }
+        })
         return binding.root
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        AnimationHelper.previousFragment = Fragments.TRAINING_LIST
         viewModel = ViewModelProvider(this).get(TrainingListViewModel::class.java)
     }
 
@@ -158,34 +175,54 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
     }
 
     private fun initRecyclerView() {
-        GlobalScope.launch {
-            withContext(Dispatchers.Main) {
-                if(AnimationHelper.previousFragment == Fragments.EXERCISE_LIST){
-                    delay(500)
+        adapter = TrainingListAdapter( viewModel, this@TrainingListFragment)
+        binding.recyclerviewTraininglist.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewTraininglist)
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+        binding.recyclerviewTraininglist.layoutManager = layoutManager
+        binding.recyclerviewTraininglist.viewTreeObserver
+            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if(AnimationHelper.previousFragment == Fragments.SET_LIST){
+                        val mLayoutManager = binding.recyclerviewTraininglist.layoutManager as LinearLayoutManager
+                        val selectedView = binding.recyclerviewTraininglist
+                            .getChildAt(AnimationHelper.chosenTrainingPosition - mLayoutManager.findFirstVisibleItemPosition())
+                        binding.motionTraininglistItem.progress = 0f
+                        if(selectedView != null){
+                            binding.viewFakeListitem.width = selectedView.width
+                            binding.viewFakeListitem.height = selectedView.height
+                            binding.viewFakeListitem.x = selectedView.x
+                            binding.viewFakeListitem.y = selectedView.y
+                        }
+                        else{
+                            binding.viewFakeListitem.width = binding.recyclerviewTraininglist.width
+                            binding.viewFakeListitem.height = 0
+                            binding.viewFakeListitem.x = 0f
+                            binding.viewFakeListitem.y = binding.recyclerviewTraininglist.bottom.toFloat()
+                        }
+
+                        binding.motionTraininglistItem.progress = 0.99f
+                        binding.motionTraininglistItem.transitionToStart()
+                    }
+                    AnimationHelper.previousFragment = Fragments.TRAINING_LIST
+                    binding.recyclerviewTraininglist.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
-                adapter = TrainingListAdapter( viewModel, this@TrainingListFragment)
-                binding.recyclerviewTraininglist.adapter = adapter
-                ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewTraininglist)
-                val layoutManager = LinearLayoutManager(activity)
-                layoutManager.reverseLayout = true
-                layoutManager.stackFromEnd = true
-                binding.recyclerviewTraininglist.layoutManager = layoutManager
-            }
-        }
+            })
     }
 
     override fun onListFragmentClickInteraction(training: Training, position: Int) {
-        val trainingDetailsFragment = SetListFragment()
-        trainingDetailsFragment.enterTransition = Slide(Gravity.START)
+        this.training = training
 
-        val bundle = Bundle()
-        bundle.putInt(Constants.KEY_TRAINING_ID, training.id)
-        trainingDetailsFragment.arguments=bundle
-
-        activity?.supportFragmentManager!!.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container, trainingDetailsFragment)
-            .commit()
+        AnimationHelper.chosenTrainingPosition = position
+        val layoutManager = binding.recyclerviewTraininglist.layoutManager as LinearLayoutManager
+        val selectedView = binding.recyclerviewTraininglist.getChildAt(position - layoutManager.findFirstVisibleItemPosition())
+        binding.viewFakeListitem.width = selectedView.width
+        binding.viewFakeListitem.height = selectedView.height
+        binding.viewFakeListitem.x = selectedView.x
+        binding.viewFakeListitem.y = selectedView.y
+        binding.motionTraininglistItem.transitionToEnd()
     }
 
     private val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){

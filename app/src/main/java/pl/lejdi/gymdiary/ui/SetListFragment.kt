@@ -7,6 +7,7 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +84,6 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        AnimationHelper.previousFragment = Fragments.SET_LIST
         viewModel = ViewModelProvider(this).get(SetListViewModel::class.java)
     }
 
@@ -130,43 +130,36 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
 
 
     private fun initRecyclerView() {
-        GlobalScope.launch {
-            withContext(Dispatchers.Main) {
-                if(AnimationHelper.previousFragment == Fragments.EXERCISE_LIST){
-                    delay(500)
-                }
-                adapter = SetListAdapter( viewModel, this@SetListFragment)
-                binding.recyclerviewSetlist.adapter = adapter
-                ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewSetlist)
-                binding.recyclerviewSetlist.layoutManager = LinearLayoutManager(activity)
-                binding.recyclerviewSetlist.viewTreeObserver
-                    .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                        override fun onGlobalLayout() {
-                            if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
-                                val selectedView = binding.recyclerviewSetlist.getChildAt(AnimationHelper.chosenSetPosition)
-                                binding.motionSetlistItem.progress = 0f
-                                if(selectedView != null){
-                                    binding.viewFakeListitem.width = selectedView.width
-                                    binding.viewFakeListitem.height = selectedView.height
-                                    binding.viewFakeListitem.x = selectedView.x
-                                    binding.viewFakeListitem.y = selectedView.y
-                                }
-                                else{
-                                    binding.viewFakeListitem.width = binding.recyclerviewSetlist.width
-                                    binding.viewFakeListitem.height = 0
-                                    binding.viewFakeListitem.x = 0f
-                                    binding.viewFakeListitem.y = binding.recyclerviewSetlist.bottom.toFloat()
-                                }
-
-                                binding.motionSetlistItem.progress = 0.99f
-                                binding.motionSetlistItem.transitionToStart()
-                            }
-                            binding.recyclerviewSetlist.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        adapter = SetListAdapter( viewModel, this@SetListFragment)
+        binding.recyclerviewSetlist.adapter = adapter
+        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewSetlist)
+        binding.recyclerviewSetlist.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerviewSetlist.viewTreeObserver
+            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
+                        val selectedView = binding.recyclerviewSetlist.getChildAt(AnimationHelper.chosenSetPosition)
+                        binding.motionSetlistItem.progress = 0f
+                        if(selectedView != null){
+                            binding.viewFakeListitem.width = selectedView.width
+                            binding.viewFakeListitem.height = selectedView.height
+                            binding.viewFakeListitem.x = selectedView.x
+                            binding.viewFakeListitem.y = selectedView.y
                         }
-                    })
-            }
-        }
+                        else{
+                            binding.viewFakeListitem.width = binding.recyclerviewSetlist.width
+                            binding.viewFakeListitem.height = 0
+                            binding.viewFakeListitem.x = 0f
+                            binding.viewFakeListitem.y = binding.recyclerviewSetlist.bottom.toFloat()
+                        }
 
+                        binding.motionSetlistItem.progress = 0.99f
+                        binding.motionSetlistItem.transitionToStart()
+                    }
+                    AnimationHelper.previousFragment = Fragments.SET_LIST
+                    binding.recyclerviewSetlist.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
     }
 
     override fun onListFragmentClickInteraction(set: Set, position: Int) {

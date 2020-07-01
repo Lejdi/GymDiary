@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -37,13 +38,12 @@ class AddSetFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        AnimationHelper.previousFragment = Fragments.SET_ADD
         viewModel = ViewModelProvider(this).get(AddSetViewModel::class.java)
     }
 
     override fun onStart() {
         super.onStart()
-
+        AnimationHelper.previousFragment = Fragments.SET_ADD
         if(arguments != null)
         {
             trainingID = arguments?.getInt(Constants.KEY_TRAINING_ID)!!
