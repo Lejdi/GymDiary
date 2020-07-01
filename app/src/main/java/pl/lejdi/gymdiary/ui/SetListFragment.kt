@@ -156,6 +156,10 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
                         binding.motionSetlistItem.progress = 0.99f
                         binding.motionSetlistItem.transitionToStart()
                     }
+                    if(AnimationHelper.previousFragment == Fragments.SET_ADD){
+                        binding.motionAddsetFab.progress = 0.99f
+                        binding.motionAddsetFab.transitionToStart()
+                    }
                     AnimationHelper.previousFragment = Fragments.SET_LIST
                     binding.recyclerviewSetlist.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }

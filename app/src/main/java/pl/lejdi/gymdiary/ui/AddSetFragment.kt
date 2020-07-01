@@ -174,13 +174,6 @@ class AddSetFragment : Fragment() {
                         binding.txtAddsetReps.text.toString(),
                         binding.spinnerAddsetExercisetype.selectedItem.toString()))
                 {
-                    val trainingDetailsFragment = SetListFragment()
-                    trainingDetailsFragment.enterTransition= Slide(Gravity.START)
-
-                    val bundle = Bundle()
-                    bundle.putInt(Constants.KEY_TRAINING_ID, trainingID)
-                    trainingDetailsFragment.arguments=bundle
-
                     activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{

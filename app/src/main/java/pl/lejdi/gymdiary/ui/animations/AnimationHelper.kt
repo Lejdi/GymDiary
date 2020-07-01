@@ -8,8 +8,6 @@ class AnimationHelper {
         var chosenTrainingPosition = 0
         var chosenSetPosition = 0
         var chosenExercisePosition = 0
-        var setSaved = false
-        var exerciseSaved = false
         var exDetailsFromExList_isNew = false
     }
 }

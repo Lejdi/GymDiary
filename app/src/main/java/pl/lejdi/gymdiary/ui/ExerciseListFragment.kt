@@ -94,7 +94,6 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         )
         binding.btnListAdd.setOnClickListener {
             AnimationHelper.exDetailsFromExList_isNew = true
-            AnimationHelper.exerciseSaved = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 binding.btnListAdd.drawable.colorFilter =
                     BlendModeColorFilter(
@@ -127,14 +126,11 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
             .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
-                        if(AnimationHelper.exDetailsFromExList_isNew && !AnimationHelper.exerciseSaved){
+                        if(AnimationHelper.exDetailsFromExList_isNew){
                             binding.motionAddexerciseFab.progress = 0.99f
                             binding.motionAddexerciseFab.transitionToStart()
                         }
                         else{
-                            if(AnimationHelper.exDetailsFromExList_isNew){
-                                AnimationHelper.chosenExercisePosition = viewModel.exercises.value?.size!! -1
-                            }
                             val selectedView = binding.recyclerviewExerciselist.getChildAt(AnimationHelper.chosenExercisePosition)
                             binding.motionExerciselistItem.progress = 0f
                             if(selectedView != null){
@@ -162,7 +158,6 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     override fun onListFragmentClickInteraction(exercise: Exercise, position: Int) {
         AnimationHelper.exDetailsFromExList_isNew = false
-        AnimationHelper.exerciseSaved = false
         this.exercise = exercise
         AnimationHelper.chosenExercisePosition = position
         val layoutManager = binding.recyclerviewExerciselist.layoutManager as LinearLayoutManager

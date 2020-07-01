@@ -108,7 +108,6 @@ class EditExerciseFragment : Fragment() {
                         binding.checkboxExercisedetailsRm.isChecked,
                         binding.txtExercisedetailsRm.text.toString() ))
                 {
-                    AnimationHelper.exerciseSaved = true
                     activity?.supportFragmentManager!!.popBackStack()
                 }
                 else{
