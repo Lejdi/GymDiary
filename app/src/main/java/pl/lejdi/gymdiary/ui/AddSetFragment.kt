@@ -39,6 +39,7 @@ class AddSetFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this).get(AddSetViewModel::class.java)
+        viewModel.init(context)
     }
 
     override fun onStart() {

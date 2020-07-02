@@ -1,11 +1,13 @@
 package pl.lejdi.gymdiary.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pl.lejdi.gymdiary.R
 import pl.lejdi.gymdiary.database.model.Exercise
 import pl.lejdi.gymdiary.database.model.Set
 import kotlin.math.floor
@@ -16,10 +18,17 @@ class AddSetViewModel : MainViewModel() {
     val description = MutableLiveData<String>()
     val suggestedWeight = MutableLiveData<Float>()
     val suggestedReps = MutableLiveData<Int>()
+    lateinit var context : Context
+    lateinit var types : Array<String>
 
     val exerciseNameIsEmpty = MutableLiveData<Boolean>(false)
     val weightIsEmpty = MutableLiveData<Boolean>(false)
     val repsIsEmpty = MutableLiveData<Boolean>(false)
+
+    fun init(context: Context){
+        this.context = context
+        types = context.resources.getStringArray(R.array.types)
+    }
 
     fun retrieveExercises(){
         exercises.value = mutableListOf()
@@ -60,13 +69,13 @@ class AddSetViewModel : MainViewModel() {
             try{
                 RM = response.RM
                 suggestedWeight.value = when(type) {
-                    "Strength" -> {
+                    types[0] -> {
                         roundWeight(0.85f*RM)
                     }
-                    "Hypertrophy" -> {
+                    types[1] -> {
                         roundWeight(0.7f*RM)
                     }
-                    "Endurance" -> {
+                    types[2] -> {
                         roundWeight(0.35f*RM)
                     }
                     else -> {
@@ -116,13 +125,13 @@ class AddSetViewModel : MainViewModel() {
 
     fun suggestedReps(type : String) {
         suggestedReps.value = when(type) {
-            "Strength" -> {
+            types[0] -> {
                 5
             }
-            "Hypertrophy" -> {
+            types[1] -> {
                 12
             }
-            "Endurance" -> {
+            types[2] -> {
                 18
             }
             else -> {
@@ -139,9 +148,9 @@ class AddSetViewModel : MainViewModel() {
             return false
 
         val typeInt = when(type) {
-            "Strength" -> 1
-            "Hypertrophy" -> 2
-            "Endurance" -> 3
+            types[0] -> 1
+            types[1] -> 2
+            types[2] -> 3
             else -> 0
         }
 
