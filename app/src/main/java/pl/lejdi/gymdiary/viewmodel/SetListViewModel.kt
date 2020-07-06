@@ -40,7 +40,7 @@ class SetListViewModel : MainViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 sets.value?.forEach {
-                    repo.updateSet(Set(it.id, it.trainingID, it.exerciseName, it.repetitions, it.weight, it.type, rvIdx++))
+                    repo.updateSet(Set(it.id, it.trainingID, it.exerciseName, it.repetitions, it.weight, rvIdx++))
                 }
             }
         }

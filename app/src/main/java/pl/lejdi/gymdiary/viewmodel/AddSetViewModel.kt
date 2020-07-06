@@ -140,19 +140,12 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
-    fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String, type : String) : Boolean {
+    fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String) : Boolean {
         exerciseNameIsEmpty.value = exerciseName.isEmpty()
         weightIsEmpty.value = weight.isEmpty()
         repsIsEmpty.value = reps.isEmpty()
         if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
             return false
-
-        val typeInt = when(type) {
-            types[0] -> 1
-            types[1] -> 2
-            types[2] -> 3
-            else -> 0
-        }
 
         val newSetRM = calculateRM(weight.toFloat(), reps.toInt())
         updateRM(newSetRM, exerciseName)
@@ -160,7 +153,7 @@ class AddSetViewModel : MainViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val setsCount = repo.getSetsByTrainingCount(trainingID)
-                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), typeInt, setsCount))
+                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), setsCount))
             }
         }
         return true

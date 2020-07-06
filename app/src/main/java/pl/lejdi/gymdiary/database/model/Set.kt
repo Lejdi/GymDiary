@@ -30,6 +30,5 @@ data class Set(
     @ColumnInfo(name = "exercisename") val exerciseName : String,
     @ColumnInfo(name = "repetitions") val repetitions : Int,
     @ColumnInfo(name = "weight") val weight : Float,
-    @ColumnInfo(name = "type") val type : Int,
     @ColumnInfo(name = "rv_position") val rvPosition : Int
 ) : Parcelable
