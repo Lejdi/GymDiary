@@ -33,9 +33,6 @@ class TrainingListViewModel : MainViewModel() {
         }
 
         val newTraining = Training(0, date, description)
-        val tmpMutableList = trainings.value?.toMutableList()
-        tmpMutableList?.add(newTraining)
-        trainings.value = tmpMutableList?.toList()
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

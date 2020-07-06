@@ -153,6 +153,7 @@ class TrainingListFragment : Fragment(), TrainingListAdapter.OnListFragmentInter
                 Toast.makeText(activity,getString(R.string.Fill_all_fiels), Toast.LENGTH_SHORT).show()
             }
             else{
+                viewModel.retrieveTrainings()
                 if(viewModel.trainings.value != null){
                     binding.recyclerviewTraininglist.layoutManager?.scrollToPosition(viewModel.trainings.value?.size!! - 1)
                     animateFABColorChange(
