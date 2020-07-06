@@ -17,6 +17,7 @@ class TrainingListViewModel : MainViewModel() {
     val dateIsEmpty = MutableLiveData<Boolean>(false)
     val descriptionIsEmpty = MutableLiveData<Boolean>(false)
 
+    //providing automatic current date when adding training
     fun getCurrentDate() : LiveData<String> {
         val currentDate = SimpleDateFormat("dd/MM/yyyy hh:mm").format(Date())
         val result = MutableLiveData<String>()
@@ -24,24 +25,25 @@ class TrainingListViewModel : MainViewModel() {
         return result
     }
 
-    fun saveNewTraining(date : String, description : String) : Boolean
-    {
+    //saving new training
+    fun saveNewTraining(date : String, description : String) : Boolean {
+        //check if all fields are filled
         dateIsEmpty.value = date.isEmpty()
         descriptionIsEmpty.value = description.isEmpty()
         if(dateIsEmpty.value!! || descriptionIsEmpty.value!!){
             return false
         }
 
-        val newTraining = Training(0, date, description)
-
+        //save training
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                repo.insertTraining(newTraining)
+                repo.insertTraining(Training(0, date, description))
             }
         }
         return true
     }
 
+    //get all trainings
     fun retrieveTrainings(){
         trainings.value = mutableListOf()
         viewModelScope.launch {
@@ -53,8 +55,8 @@ class TrainingListViewModel : MainViewModel() {
         }
     }
 
-    fun deleteTraining(training: Training)
-    {
+    //delete specific training
+    fun deleteTraining(training: Training) {
         viewModelScope.launch {
             withContext(Dispatchers.IO)
             {

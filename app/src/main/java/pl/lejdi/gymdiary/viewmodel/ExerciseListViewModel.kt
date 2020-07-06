@@ -10,6 +10,7 @@ import pl.lejdi.gymdiary.database.model.Exercise
 class ExerciseListViewModel : MainViewModel() {
     val exercises = MutableLiveData<List<Exercise>>()
 
+    //get all exercises
     fun retrieveExercises(){
         exercises.value = mutableListOf()
         viewModelScope.launch {
@@ -21,8 +22,8 @@ class ExerciseListViewModel : MainViewModel() {
         }
     }
 
-    fun deleteExercise(exercise: Exercise)
-    {
+    //remove exercise
+    fun deleteExercise(exercise: Exercise) {
         viewModelScope.launch {
             withContext(Dispatchers.IO)
             {

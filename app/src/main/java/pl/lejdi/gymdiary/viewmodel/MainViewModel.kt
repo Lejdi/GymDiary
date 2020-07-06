@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 open class MainViewModel : ViewModel() {
     @Inject
-    lateinit var repo : GymRepository
+    lateinit var repo : GymRepository //MainViewModel's only purpose is providing repo to it's children
     init {
         GymDiaryApplication.component.viewModelComponent(ViewModelModule()).inject(this)
     }

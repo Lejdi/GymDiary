@@ -9,7 +9,7 @@ import pl.lejdi.gymdiary.dependency.annotation.ApplicationScope
 class ViewModelModule {
     @ApplicationScope
     @Provides
-    fun provideRepository() : GymRepository
+    fun provideRepository() : GymRepository //inject repository to MainViewModel
     {
         return GymRepository()
     }

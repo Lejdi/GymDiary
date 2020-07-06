@@ -2,6 +2,7 @@ package pl.lejdi.gymdiary.ui.animations
 
 import androidx.constraintlayout.motion.widget.MotionLayout
 
+//listening to motionlayout progress
 class MotionProgressListener(private val progressListener: (Float) -> Unit) :
     MotionLayout.TransitionListener {
     override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {}

@@ -16,10 +16,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //bind view
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
+        //initialize with trainings list
         val trainingListFragment = TrainingListFragment()
 
         supportFragmentManager.beginTransaction()
@@ -28,13 +30,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        //inflate menu
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
+    //handle clicking exercises list button in menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.exercise_list_menu_button -> {
+                //you cannot enter here using this button from edit exercise fragment - it would be really rarely used but may cause animation bugs
                 if(AnimationHelper.previousFragment != Fragments.EXERCISE_EDIT){
                     val exerciseListFragment = ExerciseListFragment()
                     val slide = Slide(Gravity.TOP)

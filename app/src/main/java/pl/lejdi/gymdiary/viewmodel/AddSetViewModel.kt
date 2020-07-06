@@ -19,17 +19,20 @@ class AddSetViewModel : MainViewModel() {
     val suggestedWeight = MutableLiveData<Float>()
     val suggestedReps = MutableLiveData<Int>()
     lateinit var context : Context
-    lateinit var types : Array<String>
+    private lateinit var types : Array<String>
 
+    //objects used to display proper warnings
     val exerciseNameIsEmpty = MutableLiveData<Boolean>(false)
     val weightIsEmpty = MutableLiveData<Boolean>(false)
     val repsIsEmpty = MutableLiveData<Boolean>(false)
 
+    //retrieve types from resources
     fun init(context: Context){
         this.context = context
         types = context.resources.getStringArray(R.array.types)
     }
 
+    //get all exercises to populate dropdown list
     fun retrieveExercises(){
         exercises.value = mutableListOf()
         viewModelScope.launch {
@@ -41,6 +44,7 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
+    //extract names from Exercises objects
     fun getExercisesNames() : List<String> {
         val names = mutableListOf<String>()
         exercises.value?.forEach { exerciseObject ->
@@ -49,6 +53,7 @@ class AddSetViewModel : MainViewModel() {
         return names
     }
 
+    //get description of chosen exercise
     fun getExerciseDescription(name : String){
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO)
@@ -59,6 +64,7 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
+    //suggesting weights
     fun calculateSuggestedWeight(type : String, exerciseName: String) {
         var RM : Float
         viewModelScope.launch {
@@ -90,6 +96,7 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
+    //rounding weight to 0.5
     private fun roundWeight(input : Float) : Float{
         val tmp = round(input*10)
         val decimal = if(tmp%10 < 5){
@@ -105,6 +112,7 @@ class AddSetViewModel : MainViewModel() {
         return floor(input)+decimal
     }
 
+    //update exercise's RM when saving new set
     private fun updateRM(newRM : Float, exerciseName: String){
         viewModelScope.launch {
             withContext(Dispatchers.IO)
@@ -123,6 +131,7 @@ class AddSetViewModel : MainViewModel() {
         return weight * (1+ (reps/30.0f))
     }
 
+    //suggesting repetitions
     fun suggestedReps(type : String) {
         suggestedReps.value = when(type) {
             types[0] -> {
@@ -140,16 +149,20 @@ class AddSetViewModel : MainViewModel() {
         }
     }
 
+    //saving a set
     fun saveSet(trainingID : Int, exerciseName : String, weight : String, reps : String) : Boolean {
+        //check if all data fields are filled
         exerciseNameIsEmpty.value = exerciseName.isEmpty()
         weightIsEmpty.value = weight.isEmpty()
         repsIsEmpty.value = reps.isEmpty()
         if(exerciseName.isEmpty() || weight.isEmpty() || reps.isEmpty())
             return false
 
+        //updating RM
         val newSetRM = calculateRM(weight.toFloat(), reps.toInt())
         updateRM(newSetRM, exerciseName)
 
+        //actual saving
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val setsCount = repo.getSetsByTrainingCount(trainingID)

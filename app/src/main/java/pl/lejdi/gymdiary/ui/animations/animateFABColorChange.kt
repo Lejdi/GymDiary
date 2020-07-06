@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+//motionlayout doesn't support animating FAB background - need to use ValueAnimator
 fun animateFABColorChange(
     context : Context,
     fab : FloatingActionButton,

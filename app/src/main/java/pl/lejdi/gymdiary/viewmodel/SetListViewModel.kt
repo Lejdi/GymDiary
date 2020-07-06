@@ -11,6 +11,7 @@ class SetListViewModel : MainViewModel() {
 
     val sets = MutableLiveData<MutableList<Set>>()
 
+    //get all sets of specific training
     fun retrieveSets(trainingId : Int){
         sets.value = mutableListOf()
         viewModelScope.launch {
@@ -25,6 +26,7 @@ class SetListViewModel : MainViewModel() {
         }
     }
 
+    //delete set
     fun deleteSet(set: Set) {
         viewModelScope.launch {
             withContext(Dispatchers.IO)
@@ -35,6 +37,7 @@ class SetListViewModel : MainViewModel() {
         retrieveSets(set.trainingID)
     }
 
+    //handling reorganizing items - every change update very set on the list
     fun notifyOrderChanged(){
         var rvIdx = 0
         viewModelScope.launch {

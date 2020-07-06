@@ -39,7 +39,9 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentExerciseListBinding.inflate(inflater, container, false)
+        //handling progress of FAB animation
         binding.motionAddexerciseFab.setTransitionListener(MotionProgressListener { progress: Float ->
+            //on the end of animation replace fragment
             if(progress == 1f){
                 val editExerciseFragment = EditExerciseFragment()
 
@@ -50,14 +52,18 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
                     .commit()
             }
         })
+        //handling click list item animation
         binding.motionExerciselistItem.setTransitionListener(MotionProgressListener { progress: Float ->
+            //on start fake list item should be hidden
             if(progress == 0f){
                 binding.viewFakeListitem.width=0
                 binding.viewFakeListitem.height=0
             }
+            //at the end of animation change fragment
             if(progress == 1f){
                 val editExerciseFragment = EditExerciseFragment()
 
+                //exercise name is needed by the next fragment - if it's not null it means exercise should be edited (prefilling data)
                 val bundle = Bundle()
                 bundle.putString(Constants.KEY_EXERCISE_NAME, exercise?.name)
                 editExerciseFragment.arguments=bundle
@@ -72,6 +78,7 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         return binding.root
     }
 
+    //init viewmodel
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this).get(ExerciseListViewModel::class.java)
@@ -84,16 +91,18 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         initRecyclerView()
     }
 
-    private fun setFabClickListener()
-    {
+    private fun setFabClickListener() {
+        //initial background color
         binding.btnListAdd.backgroundTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.colorPrimaryDark
             )
         )
+        //on FAB click
         binding.btnListAdd.setOnClickListener {
-            AnimationHelper.exDetailsFromExList_isNew = true
+            AnimationHelper.exDetailsFromExList_isNew = true //application state for animation purposes - going back animation depends on it
+            //depending on Android version do it different ways, but what this code do is hiding '+' drawable so it doesn't look strange during animation
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 binding.btnListAdd.drawable.colorFilter =
                     BlendModeColorFilter(
@@ -105,6 +114,7 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
                     PorterDuff.Mode.CLEAR)
             }
 
+            //animate changing color
             animateFABColorChange(
                 requireContext(),
                 binding.btnListAdd,
@@ -115,30 +125,37 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
         }
     }
 
-    private fun initRecyclerView()
-    {
-        adapter = ExerciseListAdapter( viewModel, this@ExerciseListFragment)
+    private fun initRecyclerView() {
+        //adapter
+        adapter = ExerciseListAdapter( viewModel, this)
         binding.recyclerviewExerciselist.adapter = adapter
+        //handling swiping items
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView( binding.recyclerviewExerciselist)
         val layoutManager = LinearLayoutManager(activity)
         binding.recyclerviewExerciselist.layoutManager = layoutManager
+        //when the recyclerview is ready
         binding.recyclerviewExerciselist.viewTreeObserver
             .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
+                    //if it's displaying after going back from editing exercise
                     if(AnimationHelper.previousFragment == Fragments.EXERCISE_EDIT){
+                        //if edit exercise was reached by add button - reverse FAB animation
                         if(AnimationHelper.exDetailsFromExList_isNew){
                             binding.motionAddexerciseFab.progress = 0.99f
                             binding.motionAddexerciseFab.transitionToStart()
                         }
+                        //else - reverse fakelistitem animation
                         else{
                             val selectedView = binding.recyclerviewExerciselist.getChildAt(AnimationHelper.chosenExercisePosition)
                             binding.motionExerciselistItem.progress = 0f
+                            //get previously chosen item properties
                             if(selectedView != null){
                                 binding.viewFakeListitem.width = selectedView.width
                                 binding.viewFakeListitem.height = selectedView.height
                                 binding.viewFakeListitem.x = selectedView.x
                                 binding.viewFakeListitem.y = selectedView.y
                             }
+                            //if its not visible animate as if this item was below list
                             else{
                                 binding.viewFakeListitem.width = binding.recyclerviewExerciselist.width
                                 binding.viewFakeListitem.height = 0
@@ -150,16 +167,19 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
                             binding.motionExerciselistItem.transitionToStart()
                         }
                     }
+                    //update app state
                     AnimationHelper.previousFragment = Fragments.EXERCISE_LIST
+                    //cleanup
                     binding.recyclerviewExerciselist.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })
     }
 
     override fun onListFragmentClickInteraction(exercise: Exercise, position: Int) {
-        AnimationHelper.exDetailsFromExList_isNew = false
+        AnimationHelper.exDetailsFromExList_isNew = false //properly update state
         this.exercise = exercise
         AnimationHelper.chosenExercisePosition = position
+        //get item properties and animate its growing
         val layoutManager = binding.recyclerviewExerciselist.layoutManager as LinearLayoutManager
         val selectedView = binding.recyclerviewExerciselist.getChildAt(position - layoutManager.findFirstVisibleItemPosition())
         binding.viewFakeListitem.width = selectedView.width
@@ -178,15 +198,19 @@ class ExerciseListFragment : Fragment(), ExerciseListAdapter.OnListFragmentInter
             return false
         }
 
+        //delete item on swipe
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            //dialog R U SURE
             val builder = AlertDialog.Builder(activity!!)
             builder.setTitle(getString(R.string.R_U_sure))
             builder.setMessage(getString(R.string.U_will_lose_data))
 
+            //delete on yes
             builder.setPositiveButton(getString(R.string.Yes)) { _, _ ->
                 viewModel.deleteExercise(viewModel.exercises.value?.get(viewHolder.adapterPosition)!!)
             }
 
+            //item is back when no
             builder.setNegativeButton(getString(R.string.No)) { _, _ -> adapter.notifyItemChanged(viewHolder.adapterPosition)}
 
             builder.show()
