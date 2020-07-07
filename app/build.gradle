@@ -48,6 +48,11 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -58,8 +63,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
 
     //Junit
-    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'org.robolectric:robolectric:4.3'
 
     //Fragments
     implementation 'androidx.fragment:fragment:1.2.5'
