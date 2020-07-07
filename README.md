@@ -21,8 +21,9 @@ The following technologies were used in the development:
 - MVVM architecture
 - View Binding
 - Recyclerview
-- Junit
+- Junit4
 - Espresso
+- Robolectric
 - Fragments
 - Room Persistance
 - Dagger
