@@ -26,9 +26,13 @@ class NavigationTest {
         //training list visible
         onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
 
-        //go to add new exercise
+        //go to exercise list
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(withText("Add exercise")).perform(click()).also { Thread.sleep(500) }
+        onView(withText("Exercises")).perform(click()).also { Thread.sleep(1000) }
+        onView(withId(R.id.exercise_list_layout)).check(matches(isDisplayed()))
+
+        //go to add exercise
+        onView(withId(R.id.btn_list_add)).perform(click()).also { Thread.sleep(1000) }
         onView(withId(R.id.exercise_details_layout)).check(matches(isDisplayed()))
 
         //fill exercise with data
@@ -41,7 +45,7 @@ class NavigationTest {
 
         //save exercise
         onView(withId(R.id.btn_exercisedetails_save)).perform(click())
-        onView(withId(R.id.training_list_layout)).check(matches(isDisplayed()))
+        onView(withId(R.id.exercise_list_layout)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -54,7 +58,7 @@ class NavigationTest {
 
         //set list view visible
         onView(withId(R.id.set_list_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.btn_setlist_add)).perform(click()).also { Thread.sleep(500) }
+        onView(withId(R.id.btn_list_add)).perform(click()).also { Thread.sleep(1000) }
 
         onView(withId(R.id.add_set_layout)).check(matches(isDisplayed()))
 
