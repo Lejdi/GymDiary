@@ -2,10 +2,13 @@ package pl.lejdi.gymdiaryserverversion.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -125,7 +128,35 @@ class EditExerciseFragment : Fragment() {
     //clicking info buttons explains what RM is
     private fun setInfoButtonListener() {
         binding.btnExercisedetailsRm.setOnClickListener {
-            Toast.makeText(activity,getString(R.string.RM_explanation), Toast.LENGTH_SHORT).show()
+            //display popup window
+            val inflater =
+                requireActivity().baseContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+
+            val popupView: View = inflater!!.inflate(R.layout.popup_rm_info, null)
+
+            val popupWindow = PopupWindow(popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+            )
+
+            popupWindow.enterTransition = Slide(Gravity.START)
+
+            binding.btnExercisedetailsRm.setImageResource(R.drawable.vector_info_grey_background)
+            popupWindow.showAsDropDown(
+                binding.btnExercisedetailsRm,
+                binding.btnExercisedetailsRm.width,
+                (-resources.getDimension(R.dimen.popup_vertical_offset)).toInt()
+            )
+
+
+            popupView.setOnClickListener {
+                popupWindow.dismiss()
+            }
+
+            popupWindow.setOnDismissListener {
+                binding.btnExercisedetailsRm.setImageResource(R.drawable.vector_info)
+            }
         }
     }
 }
