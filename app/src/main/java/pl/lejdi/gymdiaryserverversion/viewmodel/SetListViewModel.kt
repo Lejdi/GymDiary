@@ -1,10 +1,13 @@
 package pl.lejdi.gymdiaryserverversion.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pl.lejdi.gymdiaryserverversion.adapter.SetListAdapter
 import pl.lejdi.gymdiaryserverversion.database.model.Set
 
 class SetListViewModel : MainViewModel() {
@@ -20,9 +23,6 @@ class SetListViewModel : MainViewModel() {
                 repo.getAllSetsByTraining(trainingId)
             }
             sets.value = response.toMutableList()
-            sets.value?.sortBy {
-                it.rvPosition
-            }
         }
     }
 
@@ -38,13 +38,15 @@ class SetListViewModel : MainViewModel() {
     }
 
     //handling reorganizing items - every change update very set on the list
-    fun notifyOrderChanged(){
-        var rvIdx = 0
+    fun notifyOrderChanged(viewholder1 : SetListAdapter.ViewHolder, viewholder2 : SetListAdapter.ViewHolder){
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                sets.value?.forEach {
-                    repo.updateSet(Set(it.id, it.trainingID, it.exerciseName, it.repetitions, it.weight, rvIdx++))
-                }
+                val updateTime = System.currentTimeMillis()
+                repo.updateSet(Set(viewholder1.mItem!!.id, viewholder2.mItem!!.trainingID, viewholder2.mItem!!.exerciseName, viewholder2.mItem!!.repetitions, viewholder2.mItem!!.weight, updateTime))
+                repo.updateSet(Set(viewholder2.mItem!!.id, viewholder1.mItem!!.trainingID, viewholder1.mItem!!.exerciseName, viewholder1.mItem!!.repetitions, viewholder1.mItem!!.weight, updateTime))
+                val tmp = viewholder1.mItem!!.id
+                viewholder1.mItem!!.id = viewholder2.mItem!!.id
+                viewholder2.mItem!!.id = tmp
             }
         }
     }

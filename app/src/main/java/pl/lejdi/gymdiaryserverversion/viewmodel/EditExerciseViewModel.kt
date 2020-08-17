@@ -29,7 +29,8 @@ class EditExerciseViewModel : MainViewModel() {
                 var isAuto=0
                 if(isRMauto)
                     isAuto=1
-                repo.insertExercise(Exercise(name, description, RM.toFloat(), isAuto))
+                val updateTime = System.currentTimeMillis()
+                repo.insertExercise(Exercise(name, description, RM.toFloat(), isAuto, updateTime))
             }
         }
         return true
@@ -45,7 +46,8 @@ class EditExerciseViewModel : MainViewModel() {
                 var isAuto=0
                 if(isRMauto)
                     isAuto=1
-                repo.updateExercise(Exercise(name, description, RM.toFloat(), isAuto))
+                val updateTime = System.currentTimeMillis()
+                repo.updateExercise(Exercise(name, description, RM.toFloat(), isAuto, updateTime))
             }
         }
         return true

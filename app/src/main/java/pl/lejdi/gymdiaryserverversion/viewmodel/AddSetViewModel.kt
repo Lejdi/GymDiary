@@ -117,9 +117,10 @@ class AddSetViewModel : MainViewModel() {
             withContext(Dispatchers.IO)
             {
                 val exercise = repo.getExerciseByName(exerciseName)
+                val updateTime = System.currentTimeMillis()
                 if (exercise.isRMAuto==1 && newRM > exercise.RM) {
                     val updatedExercise =
-                        Exercise(exercise.name, exercise.description, newRM, exercise.isRMAuto)
+                        Exercise(exercise.name, exercise.description, newRM, exercise.isRMAuto, updateTime)
                     repo.updateExercise(updatedExercise)
                 }
             }
@@ -164,8 +165,8 @@ class AddSetViewModel : MainViewModel() {
         //actual saving
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val setsCount = repo.getSetsByTrainingCount(trainingID)
-                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), setsCount))
+                val updateTime = System.currentTimeMillis()
+                repo.insertSet(Set(0, trainingID, exerciseName, reps.toInt(), weight.toFloat(), updateTime))
             }
         }
         return true

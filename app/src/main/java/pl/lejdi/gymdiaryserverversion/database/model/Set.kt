@@ -25,11 +25,10 @@ import kotlinx.android.parcel.Parcelize
     ])
 data class Set(
     @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true) val id : Int,
-    @ColumnInfo(name = "trainingid") val trainingID : Int,
-    @ColumnInfo(name = "exercisename") val exerciseName : String,
-    @ColumnInfo(name = "repetitions") val repetitions : Int,
-    @ColumnInfo(name = "weight") val weight : Float,
-    @ColumnInfo(name = "rv_position") val rvPosition : Int,
-    @ColumnInfo(name = "updated")val updated : Long
+    @PrimaryKey(autoGenerate = true) var id : Int,
+    @ColumnInfo(name = "trainingid") var trainingID : Int,
+    @ColumnInfo(name = "exercisename") var exerciseName : String,
+    @ColumnInfo(name = "repetitions") var repetitions : Int,
+    @ColumnInfo(name = "weight") var weight : Float,
+    @ColumnInfo(name = "updated")var updated : Long
 ) : Parcelable

@@ -7,6 +7,7 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -207,7 +208,7 @@ class SetListFragment : Fragment(), SetListAdapter.OnListFragmentInteractionList
             adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             //swap items on the list
             Collections.swap(viewModel.sets.value, viewHolder.adapterPosition, target.adapterPosition)
-            viewModel.notifyOrderChanged()
+            viewModel.notifyOrderChanged(viewHolder as SetListAdapter.ViewHolder, target as SetListAdapter.ViewHolder)
             return true
         }
 

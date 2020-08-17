@@ -37,7 +37,8 @@ class TrainingListViewModel : MainViewModel() {
         //save training
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                repo.insertTraining(Training(0, date, description))
+                val updateTime = System.currentTimeMillis()
+                repo.insertTraining(Training(0, date, description, updateTime))
             }
         }
         return true
